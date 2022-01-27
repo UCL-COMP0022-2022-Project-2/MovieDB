@@ -16,7 +16,7 @@ public class Report {
         this.userId = userId;
     }
 
-    public double getRatings() {
+    public double getRating() {
         return rating;
     }
 
