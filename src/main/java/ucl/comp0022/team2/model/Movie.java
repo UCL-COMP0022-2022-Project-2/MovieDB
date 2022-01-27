@@ -5,53 +5,58 @@ import java.util.Arrays;
 public class Movie {
     private int movieId;
     private String title;
-    private double ratings;
-    private String[] genresList;
+    private double rating;
+    private String[] genres;
     private int year;
-
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
-    }
 
     public int getMovieId() {
         return movieId;
     }
 
-    public void setRatings(double ratings) {
-
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setGenres(String genres) {
-        genresList = genres.split("\\|");
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public String[] getGenres() {
-        return genresList;
+        return genres;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setGenres(String genres) {
+        this.genres = genres.split("\\|");
     }
 
     public int getYear() {
         return year;
     }
 
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
                 "movieId=" + movieId +
-                ", title=" + title +
-                ", genres=" + Arrays.toString(genresList) +
+                ", title='" + title + '\'' +
+                ", rating=" + rating +
+                ", genres=" + Arrays.toString(genres) +
                 ", year=" + year +
-                "}";
+                '}';
     }
 }

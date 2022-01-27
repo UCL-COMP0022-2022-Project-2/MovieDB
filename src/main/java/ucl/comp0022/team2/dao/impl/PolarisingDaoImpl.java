@@ -14,16 +14,16 @@ public class PolarisingDaoImpl implements PolarisingDao {
 
         List<HashMap.Entry<String, Integer>> differenceRank = null;
         try {
-            // Connection to the MySQL database
+            // Connection to the MySQL database...
             Connection conn = MySQLHelper.getConnection();
 
-            // Writing sql and parameters
+            // Writing sql and parameters...
             String sql = "SELECT m.genres, r.rating FROM movies AS m INNER JOIN ratings AS r WHERE m.movieId = r.movieId;";
 
-            // Executing queries
+            // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
 
-            // Reading, analysing and saving the results
+            // Reading, analysing and saving the results...
             HashMap<String, int[]> mapHighestAndLowest = new HashMap<>();
             HashMap<String, Integer> mapDifference = new HashMap<>();
             while(rs.next()) {
@@ -51,7 +51,7 @@ public class PolarisingDaoImpl implements PolarisingDao {
             differenceRank = new ArrayList<>(mapDifference.entrySet());
             // differenceRank.sort(Map.Entry.comparingByValue());
 
-            // Close the connection to release resources
+            // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();

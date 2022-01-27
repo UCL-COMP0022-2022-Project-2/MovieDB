@@ -1,10 +1,12 @@
 package ucl.comp0022.team2.model;
 
+import java.util.Date;
+
 public class Report {
     private int userId;
     private double rating;
     private String tags;
-    private String timestamp;
+    private Date timestamp;
 
     public int getUserId() {
         return userId;
@@ -30,11 +32,11 @@ public class Report {
         this.tags = tags;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -44,7 +46,7 @@ public class Report {
                 "userId=" + userId +
                 ", rating=" + rating +
                 ", tags='" + tags + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

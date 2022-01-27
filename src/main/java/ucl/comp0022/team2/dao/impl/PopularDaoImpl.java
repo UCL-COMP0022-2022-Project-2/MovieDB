@@ -14,16 +14,16 @@ public class PopularDaoImpl implements PopularDao {
 
         List<HashMap.Entry<String, Double>> scoreRank = null;
         try {
-            // Connection to the MySQL database
+            // Connection to the MySQL database...
             Connection conn = MySQLHelper.getConnection();
 
-            // Writing sql and parameters
+            // Writing sql and parameters...
             String sql = "SELECT m.genres, r.rating FROM movies AS m INNER JOIN ratings AS r WHERE m.movieId = r.movieId;";
 
-            // Executing queries
+            // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
 
-            // Reading, analysing and saving the results
+            // Reading, analysing and saving the results...
             HashMap<String, int[]> mapTotalScoreAndTimes = new HashMap<>();
             HashMap<String, Double> mapAverageScore = new HashMap<>();
             while(rs.next()) {
@@ -51,7 +51,7 @@ public class PopularDaoImpl implements PopularDao {
             // scoreRank.sort(Map.Entry.comparingByValue());
             // Collections.reverse(scoreRank);
 
-            // Close the connection to release resources
+            // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
