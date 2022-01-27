@@ -49,6 +49,38 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
         return movie;
     }
 
+    @Override
+    public Movie getMovieInfoByTitle(String title) {
+        /**
+         * TODO: Adding your code to implement the method here.
+         */
+        return null;
+    }
+
+    @Override
+    public Movie getMovieInfoByRating(double rating) {
+        /**
+         * TODO: Adding your code to implement the method here.
+         */
+        return null;
+    }
+
+    @Override
+    public Movie getMovieInfoByGenre(String genre) {
+        /**
+         * TODO: Adding your code to implement the method here.
+         */
+        return null;
+    }
+
+    @Override
+    public Movie getMovieInfoByYear(int year) {
+        /**
+         * TODO: Adding your code to implement the method here.
+         */
+        return null;
+    }
+
     public static void main(String[] args) {
         System.out.println(new MovieInfoDaoImpl().getMovieInfoByMovieId(1));
     }

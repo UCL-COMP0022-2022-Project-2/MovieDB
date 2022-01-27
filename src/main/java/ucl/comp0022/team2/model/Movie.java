@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Movie {
     private int movieId;
     private String title;
+    private double ratings;
     private String[] genresList;
     private int year;
 
@@ -14,6 +15,10 @@ public class Movie {
 
     public int getMovieId() {
         return movieId;
+    }
+
+    public void setRatings(double ratings) {
+
     }
 
     public void setTitle(String title) {
