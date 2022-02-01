@@ -23,7 +23,7 @@ public class MovieSelectedDaoImpl implements MovieSelectedDao {
     public List<Movie> getSelectedMovieListByRating(List<Movie> movieList, int rating1, int rating2) {
         List<Movie> movieList1 = new ArrayList<>();
         for (Movie movie : movieList) {
-            if (movie.getRatings() >= rating1 && movie.getRatings() <= rating2) {
+            if (movie.getRating() >= rating1 && movie.getRating() <= rating2) {
                 movieList1.add(movie);
             }
         }
@@ -60,7 +60,7 @@ public class MovieSelectedDaoImpl implements MovieSelectedDao {
         movie1.setMovieId(1);
         movie1.setTitle("Toy Story");
         movie1.setGenres("Adventure|Animation|Children|Comedy|Fantasy");
-        movie1.setRatings(5.0);
+        movie1.setRating(5.0);
         movie1.setYear(1995);
         movieList.add(movie1);
 
@@ -68,7 +68,7 @@ public class MovieSelectedDaoImpl implements MovieSelectedDao {
         movie2.setMovieId(2);
         movie2.setTitle("Jumanji");
         movie2.setGenres("Adventure|Children|Fantasy");
-        movie2.setRatings(2.0);
+        movie2.setRating(2.0);
         movie2.setYear(1991);
         movieList.add(movie2);
 

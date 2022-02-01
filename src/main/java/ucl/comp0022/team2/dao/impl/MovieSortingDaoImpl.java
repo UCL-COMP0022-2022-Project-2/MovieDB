@@ -11,34 +11,19 @@ import java.util.List;
 public class MovieSortingDaoImpl implements MovieSortingDao {
     @Override
     public List<Movie> getSortedMovieListByTitle(List<Movie> movieList) {
-        Collections.sort(movieList, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                return o2.getTitle().compareTo(o1.getTitle());
-            }
-        });
+        movieList.sort((o1, o2) -> o2.getTitle().compareTo(o1.getTitle()));
         return movieList;
     }
 
     @Override
     public List<Movie> getSortedMovieListByRatings(List<Movie> movieList) {
-        Collections.sort(movieList, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                return (int) (o2.getRatings() - o1.getRatings());
-            }
-        });
+        movieList.sort((o1, o2) -> (int) (o2.getRating() - o1.getRating()));
         return movieList;
     }
 
     @Override
     public List<Movie> getSortedMovieListByYear(List<Movie> movieList) {
-        Collections.sort(movieList, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                return o2.getYear() - o1.getYear();
-            }
-        });
+        movieList.sort((o1, o2) -> o2.getYear() - o1.getYear());
         return movieList;
     }
 
@@ -48,7 +33,7 @@ public class MovieSortingDaoImpl implements MovieSortingDao {
         movie1.setMovieId(1);
         movie1.setTitle("Toy Story");
         movie1.setGenres("Adventure|Animation|Children|Comedy|Fantasy");
-        movie1.setRatings(5.0);
+        movie1.setRating(5.0);
         movie1.setYear(1995);
         movieList.add(movie1);
 
@@ -56,7 +41,7 @@ public class MovieSortingDaoImpl implements MovieSortingDao {
         movie2.setMovieId(2);
         movie2.setTitle("Jumanji");
         movie2.setGenres("Adventure|Children|Fantasy");
-        movie2.setRatings(2.0);
+        movie2.setRating(2.0);
         movie2.setYear(1991);
         movieList.add(movie2);
 
