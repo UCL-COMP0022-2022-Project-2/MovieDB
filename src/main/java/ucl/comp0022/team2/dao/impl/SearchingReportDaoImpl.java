@@ -13,33 +13,10 @@ import java.util.List;
 public class SearchingReportDaoImpl implements SearchingReportDao {
 
     public double getAverageScore(int movieId) {
-        double ave_Score = 0;
-
-        try {
-            // Connection to the MySQL database...
-            Connection conn = MySQLHelper.getConnection();
-
-            // Writing sql and parameters...
-            String sql = "SELECT AVG(rating) AS CountAverage FROM ratings WHERE movieId = ?;";
-            List<Integer> param = new ArrayList<>();
-            param.add(movieId);
-            // Executing queries...
-            ResultSet rs = MySQLHelper.executingQuery(conn, sql, param);
-
-            while(rs.next()){
-                ave_Score = rs.getDouble("CountAverage");
-            }
-
-            // Close the connection to release resources...
-            MySQLHelper.closeConnection(conn);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ave_Score;
+        return MovieInfoDaoImpl.getMovieRatingByMovieId(movieId);
     }
 
-    public List<Report> getReport(int movieId){
+    public List<Report> getReport(int movieId) {
         List<Report> movie_report = new ArrayList<>();
         try {
             // Connection to the database...
@@ -99,7 +76,7 @@ public class SearchingReportDaoImpl implements SearchingReportDao {
 
 
     public static void main(String[] args) {
-        System.out.println(String.format("%.1f", new SearchingReportDaoImpl().getAverageScore(1)));
+        System.out.println(new SearchingReportDaoImpl().getAverageScore(1));
         System.out.println(new SearchingReportDaoImpl().getReport(1));
     }
 }

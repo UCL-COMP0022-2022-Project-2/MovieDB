@@ -55,27 +55,12 @@ public class MovieSelectedDaoImpl implements MovieSelectedDao {
     }
 
     public static void main(String[] args) {
-        List<Movie> movieList = new ArrayList<>();
-        Movie movie1 = new Movie();
-        movie1.setMovieId(1);
-        movie1.setTitle("Toy Story");
-        movie1.setGenres("Adventure|Animation|Children|Comedy|Fantasy");
-        movie1.setRating(5.0);
-        movie1.setYear(1995);
-        movieList.add(movie1);
+        List<Movie> movieList = new MovieInfoDaoImpl().getMovieInfoByGenre("Film-Noir");
 
-        Movie movie2 = new Movie();
-        movie2.setMovieId(2);
-        movie2.setTitle("Jumanji");
-        movie2.setGenres("Adventure|Children|Fantasy");
-        movie2.setRating(2.0);
-        movie2.setYear(1991);
-        movieList.add(movie2);
-
-        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByTitle(movieList, "Toy Story"));
-        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByRating(movieList, 0, 2));
-        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByGenre(movieList, "Animation"));
-        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByYear(movieList, 1900, 1992));
+        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByTitle(movieList, "You Only Live Once"));
+        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByRating(movieList, 4, 5));
+        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByGenre(movieList, "Crime"));
+        System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByYear(movieList, 1930, 1940));
 
     }
 }
