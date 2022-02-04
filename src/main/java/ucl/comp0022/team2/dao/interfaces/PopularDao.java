@@ -1,8 +1,9 @@
 package ucl.comp0022.team2.dao.interfaces;
 
-import java.util.HashMap;
+import ucl.comp0022.team2.model.Movie;
+
 import java.util.List;
 
 public interface PopularDao {
-    List<HashMap.Entry<String, Double>> getRanking();
+    List<Movie> getPopularMovieList();
 }

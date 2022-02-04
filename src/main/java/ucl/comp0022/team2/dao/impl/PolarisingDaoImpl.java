@@ -2,64 +2,53 @@ package ucl.comp0022.team2.dao.impl;
 
 import ucl.comp0022.team2.dao.interfaces.PolarisingDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
+import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PolarisingDaoImpl implements PolarisingDao {
 
     @Override
-    public List<HashMap.Entry<String, Integer>> getRanking() {
-
-        List<HashMap.Entry<String, Integer>> differenceRank = null;
+    public List<Movie> getPolarisingMovieList() {
+        List<Movie> list = new ArrayList<>();
         try {
-            // Connection to the MySQL database...
+            // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
 
             // Writing sql and parameters...
-            String sql = "SELECT m.genres, r.rating FROM movies AS m INNER JOIN ratings AS r WHERE m.movieId = r.movieId;";
+            String sql = "select (count(if (r.rating > 4, r.movieId, null)) + count(if (r.rating < 2, r.movieId, null))) " +
+                    "/count(r.movieId) rating,m.* from ratings r\n" +
+                    "left join movies m on m.movieId = r.movieId\n" +
+                    "GROUP BY r.movieId order by rating desc;";
 
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
-
             // Reading, analysing and saving the results...
-            HashMap<String, int[]> mapHighestAndLowest = new HashMap<>();
-            HashMap<String, Integer> mapDifference = new HashMap<>();
             while(rs.next()) {
+                Movie movie = new Movie();
+                movie.setMovieId(rs.getInt("movieId"));
+                movie.setYear(rs.getInt("year"));
+                movie.setTitle(rs.getString("title"));
+                movie.setRating(rs.getDouble("rating"));
+
                 String genres = rs.getString("genres");
-                int rating = rs.getInt("rating");
-                if(!genres.equals("NULL")) {
-                    String[] splitGenres = genres.split("\\|");
-                    int[] tmp = new int[2];
-                    for (String genre : splitGenres) {
-                        if (mapHighestAndLowest.containsKey(genre)) {
-                            tmp[0] = rating > 3 ? mapHighestAndLowest.get(genre)[0] + 1 : mapHighestAndLowest.get(genre)[0]; // counter for score >= 4
-                            tmp[1] = rating < 3 ? mapHighestAndLowest.get(genre)[1] - 1 : mapHighestAndLowest.get(genre)[1]; // counter for score <= 2
-                        } else {
-                            tmp = new int[]{0, 0};
-                        }
-                        mapHighestAndLowest.put(genre, tmp);
-                    }
+                if(!genres.equals("NULL")){
+                    movie.setGenres(genres);
                 }
+                list.add(movie);
             }
-            for(String key : mapHighestAndLowest.keySet()) {
-                int difference = mapHighestAndLowest.get(key)[0] - mapHighestAndLowest.get(key)[1];
-                mapDifference.put(key, difference);
-            }
-
-            differenceRank = new ArrayList<>(mapDifference.entrySet());
-            // differenceRank.sort(Map.Entry.comparingByValue());
-
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return differenceRank;
-    }
 
+        return list;
+    }
     public static void main(String[] args) {
-        System.out.println(new PolarisingDaoImpl().getRanking());
+        System.out.println(new PolarisingDaoImpl().getPolarisingMovieList());
     }
 }

@@ -1,65 +1,56 @@
 package ucl.comp0022.team2.dao.impl;
 
+import ucl.comp0022.team2.dao.interfaces.PolarisingDao;
 import ucl.comp0022.team2.dao.interfaces.PopularDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
+import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PopularDaoImpl implements PopularDao {
 
     @Override
-    public List<HashMap.Entry<String, Double>> getRanking() {
-
-        List<HashMap.Entry<String, Double>> scoreRank = null;
+    public List<Movie> getPopularMovieList() {
+        List<Movie> list = new ArrayList<>();
         try {
-            // Connection to the MySQL database...
+            // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
 
             // Writing sql and parameters...
-            String sql = "SELECT m.genres, r.rating FROM movies AS m INNER JOIN ratings AS r WHERE m.movieId = r.movieId;";
+            String sql = "select m.*, (IFNULL(b.avg,0) * 0.3 + IFNULL(a.count,0) * 0.4 + IFNULL(b.count,0) * 0.3) rating\n" +
+                    "from movies m \n" +
+                    "left join (select movieId,IFNULL(count(*),0) count from tags GROUP BY movieId) a on m.movieId = a.movieId\n" +
+                    "left join (select movieId,IFNULL(count(*),0) count,avg(rating) avg from ratings GROUP BY movieId) b on m.movieId = b.movieId\n" +
+                    "order by rating desc;";
 
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
-
             // Reading, analysing and saving the results...
-            HashMap<String, int[]> mapTotalScoreAndTimes = new HashMap<>();
-            HashMap<String, Double> mapAverageScore = new HashMap<>();
             while(rs.next()) {
-                String genres = rs.getString("genres");
-                int rating = rs.getInt("rating");
-                if(!genres.equals("NULL")) {
-                    String[] splitGenres = genres.split("\\|");
-                    int[] tmp = new int[2];
-                    for (String genre : splitGenres) {
-                        if (mapTotalScoreAndTimes.containsKey(genre)) {
-                            tmp[0] = mapTotalScoreAndTimes.get(genre)[0] + rating; // total score
-                            tmp[1] = mapTotalScoreAndTimes.get(genre)[1] + 1; // counting times
-                        } else {
-                            tmp = new int[]{0, 0};
-                        }
-                        mapTotalScoreAndTimes.put(genre, tmp);
-                    }
-                }
-            }
-            for(String key : mapTotalScoreAndTimes.keySet()) {
-                double averageScore = (double) mapTotalScoreAndTimes.get(key)[0] / mapTotalScoreAndTimes.get(key)[1];
-                mapAverageScore.put(key, averageScore);
-            }
-            scoreRank = new ArrayList<>(mapAverageScore.entrySet());
-            // scoreRank.sort(Map.Entry.comparingByValue());
-            // Collections.reverse(scoreRank);
+                Movie movie = new Movie();
+                movie.setMovieId(rs.getInt("movieId"));
+                movie.setYear(rs.getInt("year"));
+                movie.setTitle(rs.getString("title"));
+                movie.setRating(rs.getDouble("rating"));
 
+                String genres = rs.getString("genres");
+                if(!genres.equals("NULL")){
+                    movie.setGenres(genres);
+                }
+                list.add(movie);
+            }
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return scoreRank;
-    }
 
+        return list;
+    }
     public static void main(String[] args) {
-        System.out.println(new PopularDaoImpl().getRanking());
+        System.out.println(new PopularDaoImpl().getPopularMovieList());
     }
 }
