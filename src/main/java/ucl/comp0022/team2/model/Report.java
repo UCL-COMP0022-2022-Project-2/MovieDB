@@ -6,7 +6,8 @@ public class Report {
     private int userId;
     private double rating;
     private String tags;
-    private Date timestamp;
+    private Date ratingTimestamp;
+    private Date tagTimestamp;
 
     public int getUserId() {
         return userId;
@@ -32,12 +33,20 @@ public class Report {
         this.tags = tags;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getRatingTimestamp() {
+        return ratingTimestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setRatingTimestamp(Date timestamp) {
+        this.ratingTimestamp = timestamp;
+    }
+
+    public Date getTagTimestamp() {
+        return tagTimestamp;
+    }
+
+    public void setTagTimestamp(Date timestamp) {
+        this.tagTimestamp = timestamp;
     }
 
     @Override
@@ -45,8 +54,9 @@ public class Report {
         return "Report{" +
                 "userId=" + userId +
                 ", rating=" + rating +
+                ", ratingTimestamp=" + ratingTimestamp +
                 ", tags='" + tags + '\'' +
-                ", timestamp=" + timestamp +
+                ", tagTimestamp=" + tagTimestamp +
                 '}';
     }
 }

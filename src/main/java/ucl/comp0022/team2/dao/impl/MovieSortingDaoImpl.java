@@ -1,5 +1,6 @@
 package ucl.comp0022.team2.dao.impl;
 
+import ucl.comp0022.team2.dao.interfaces.MovieInfoDao;
 import ucl.comp0022.team2.dao.interfaces.MovieSortingDao;
 import ucl.comp0022.team2.model.Movie;
 
@@ -17,7 +18,7 @@ public class MovieSortingDaoImpl implements MovieSortingDao {
 
     @Override
     public List<Movie> getSortedMovieListByRatings(List<Movie> movieList) {
-        movieList.sort((o1, o2) -> (int) (o2.getRating() - o1.getRating()));
+        movieList.sort((o1, o2) -> Double.compare(o2.getRating(), o1.getRating()));
         return movieList;
     }
 
@@ -28,26 +29,10 @@ public class MovieSortingDaoImpl implements MovieSortingDao {
     }
 
     public static void main(String[] args) {
-        List<Movie> movieList = new ArrayList<>();
-        Movie movie1 = new Movie();
-        movie1.setMovieId(1);
-        movie1.setTitle("Toy Story");
-        movie1.setGenres("Adventure|Animation|Children|Comedy|Fantasy");
-        movie1.setRating(5.0);
-        movie1.setYear(1995);
-        movieList.add(movie1);
-
-        Movie movie2 = new Movie();
-        movie2.setMovieId(2);
-        movie2.setTitle("Jumanji");
-        movie2.setGenres("Adventure|Children|Fantasy");
-        movie2.setRating(2.0);
-        movie2.setYear(1991);
-        movieList.add(movie2);
+        List<Movie> movieList = new MovieInfoDaoImpl().getMovieInfoByGenre("Film-Noir");
 
         System.out.println(new MovieSortingDaoImpl().getSortedMovieListByTitle(movieList));
         System.out.println(new MovieSortingDaoImpl().getSortedMovieListByRatings(movieList));
         System.out.println(new MovieSortingDaoImpl().getSortedMovieListByYear(movieList));
-
     }
 }
