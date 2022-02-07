@@ -1,12 +1,8 @@
 package ucl.comp0022.team2.dao.impl;
 
-import ucl.comp0022.team2.dao.interfaces.MovieInfoDao;
 import ucl.comp0022.team2.dao.interfaces.MovieSortingDao;
 import ucl.comp0022.team2.model.Movie;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MovieSortingDaoImpl implements MovieSortingDao {
@@ -18,7 +14,8 @@ public class MovieSortingDaoImpl implements MovieSortingDao {
 
     @Override
     public List<Movie> getSortedMovieListByRatings(List<Movie> movieList) {
-        movieList.sort((o1, o2) -> Double.compare(o2.getRating(), o1.getRating()));
+        movieList.sort((o1, o2) -> Double.compare(SearchingReportDaoImpl.getAverageScore(o2.getMovieId()),
+                SearchingReportDaoImpl.getAverageScore(o1.getMovieId())));
         return movieList;
     }
 

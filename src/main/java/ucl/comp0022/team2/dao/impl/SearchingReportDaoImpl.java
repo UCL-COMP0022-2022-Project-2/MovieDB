@@ -6,16 +6,42 @@ import ucl.comp0022.team2.model.Report;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class SearchingReportDaoImpl implements SearchingReportDao {
 
-    public double getAverageScore(int movieId) {
-        return MovieInfoDaoImpl.getMovieRatingByMovieId(movieId);
+    public static double getAverageScore(int movieId) {
+        double rating = 0.0;
+        try {
+            // Connection to the database...
+            Connection conn = MySQLHelper.getConnection();
+
+            // Writing sql and parameters...
+            String sql = "SELECT AVG(rating) AS rating FROM ratings WHERE movieId = ?;";
+            List<Integer> param = new ArrayList<>();
+            param.add(movieId);
+
+            // Executing queries...
+            ResultSet rs = MySQLHelper.executingQuery(conn, sql, param);
+
+            // Reading, analysing and saving the results...
+            while(rs.next()) {
+                rating = rs.getDouble("rating");
+            }
+
+            // Close the connection to release resources...
+            MySQLHelper.closeConnection(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return Double.parseDouble(new DecimalFormat("######0.0").format(rating));
     }
 
+    @Override
     public List<Report> getReport(int movieId) {
         List<Report> movie_report = new ArrayList<>();
         try {
@@ -73,10 +99,8 @@ public class SearchingReportDaoImpl implements SearchingReportDao {
         return movie_report;
     }
 
-
-
     public static void main(String[] args) {
-        System.out.println(new SearchingReportDaoImpl().getAverageScore(1));
+        System.out.println(SearchingReportDaoImpl.getAverageScore(1));
         System.out.println(new SearchingReportDaoImpl().getReport(1));
     }
 }

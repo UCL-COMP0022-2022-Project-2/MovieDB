@@ -1,6 +1,5 @@
 package ucl.comp0022.team2.dao.impl;
 
-import ucl.comp0022.team2.dao.interfaces.MovieInfoDao;
 import ucl.comp0022.team2.dao.interfaces.MovieSelectedDao;
 import ucl.comp0022.team2.model.Movie;
 
@@ -23,7 +22,8 @@ public class MovieSelectedDaoImpl implements MovieSelectedDao {
     public List<Movie> getSelectedMovieListByRating(List<Movie> movieList, int rating1, int rating2) {
         List<Movie> movieList1 = new ArrayList<>();
         for (Movie movie : movieList) {
-            if (movie.getRating() >= rating1 && movie.getRating() <= rating2) {
+            if (SearchingReportDaoImpl.getAverageScore(movie.getMovieId()) >= rating1
+                    && SearchingReportDaoImpl.getAverageScore(movie.getMovieId()) <= rating2) {
                 movieList1.add(movie);
             }
         }
@@ -61,6 +61,5 @@ public class MovieSelectedDaoImpl implements MovieSelectedDao {
         System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByRating(movieList, 4, 5));
         System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByGenre(movieList, "Crime"));
         System.out.println(new MovieSelectedDaoImpl().getSelectedMovieListByYear(movieList, 1930, 1940));
-
     }
 }

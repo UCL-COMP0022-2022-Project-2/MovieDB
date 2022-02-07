@@ -1,12 +1,11 @@
 package ucl.comp0022.team2.dao.impl;
 
-import ucl.comp0022.team2.dao.interfaces.PolarisingDao;
 import ucl.comp0022.team2.dao.interfaces.PopularDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
-import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,16 +19,16 @@ public class PopularDaoImpl implements PopularDao {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
             // Writing sql and parameters...
-            String sql = "SELECT ifnull(avg(r.rating),0) score,m.movieId FROM movies m\n" +
-                    "                    LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
-                    "                    GROUP BY m.movieId ORDER BY score desc;";
+            String sql = "SELECT IFNULL(avg(r.rating), 0) score, m.movieId FROM movies m\n" +
+                    "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+                    "GROUP BY m.movieId ORDER BY score DESC;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
             while(rs.next()) {
                 HashMap<Integer, Double> map = new HashMap<>();
                 Integer movieId = rs.getInt("movieId");
-                Double score = rs.getDouble("score");
+                Double score = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("score")));
                 map.put(movieId,score);
                 list.add(map);
             }
@@ -45,9 +44,9 @@ public class PopularDaoImpl implements PopularDao {
         List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            String sql = "SELECT count(t.movieId) score,m.movieId FROM movies m\n" +
+            String sql = "SELECT COUNT(t.movieId) score, m.movieId FROM movies m\n" +
                     "LEFT JOIN tags t ON m.movieId = t.movieId\n" +
-                    "GROUP BY m.movieId ORDER BY score desc;";
+                    "GROUP BY m.movieId ORDER BY score DESC;";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 HashMap<Integer, Double> map = new HashMap<>();
@@ -69,7 +68,7 @@ public class PopularDaoImpl implements PopularDao {
         List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            String sql = "SELECT count(r.movieId) score,m.movieId FROM movies m\n" +
+            String sql = "SELECT COUNT(r.movieId) score, m.movieId FROM movies m\n" +
                     "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
                     "GROUP BY m.movieId ORDER BY score DESC;";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
@@ -87,6 +86,6 @@ public class PopularDaoImpl implements PopularDao {
         return list;
     }
     public static void main(String[] args) {
-        System.out.println(new PopularDaoImpl().getPopularMovieRatingsList());
+        System.out.println(new PopularDaoImpl().getPopularMovieAvgList());
     }
 }
