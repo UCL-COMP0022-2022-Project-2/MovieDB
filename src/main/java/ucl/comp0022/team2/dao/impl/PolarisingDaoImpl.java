@@ -7,38 +7,32 @@ import ucl.comp0022.team2.model.Movie;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PolarisingDaoImpl implements PolarisingDao {
 
     @Override
-    public List<Movie> getPolarisingMovieList() {
-        List<Movie> list = new ArrayList<>();
+    public List<HashMap<Integer, Double>> getPolarisingMovieList() {
+        List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
 
             // Writing sql and parameters...
-            String sql = "select (count(if (r.rating > 4, r.movieId, null)) + count(if (r.rating < 2, r.movieId, null))) " +
-                    "/count(r.movieId) rating,m.* from ratings r\n" +
-                    "left join movies m on m.movieId = r.movieId\n" +
-                    "GROUP BY r.movieId order by rating desc;";
-
+            String sql = "SELECT (COUNT(if (r.rating > 4, r.movieId, null)) + COUNT(if (r.rating < 2, r.movieId, null))) " +
+                    "/COUNT(r.movieId) score,m.movieId FROM movies m\n" +
+                    "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+                    "GROUP BY m.movieId ORDER BY score desc;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
             while(rs.next()) {
-                Movie movie = new Movie();
-                movie.setMovieId(rs.getInt("movieId"));
-                movie.setYear(rs.getInt("year"));
-                movie.setTitle(rs.getString("title"));
-                movie.setRating(rs.getDouble("rating"));
-
-                String genres = rs.getString("genres");
-                if(!genres.equals("NULL")){
-                    movie.setGenres(genres);
-                }
-                list.add(movie);
+                HashMap<Integer, Double> map = new HashMap<>();
+                Integer movieId = rs.getInt("movieId");
+                Double score = rs.getDouble("score");
+                map.put(movieId,score);
+                list.add(map);
             }
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
@@ -48,6 +42,7 @@ public class PolarisingDaoImpl implements PolarisingDao {
 
         return list;
     }
+
     public static void main(String[] args) {
         System.out.println(new PolarisingDaoImpl().getPolarisingMovieList());
     }

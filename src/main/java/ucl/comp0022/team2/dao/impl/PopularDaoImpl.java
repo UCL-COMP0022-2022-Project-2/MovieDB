@@ -8,41 +8,54 @@ import ucl.comp0022.team2.model.Movie;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PopularDaoImpl implements PopularDao {
 
     @Override
-    public List<Movie> getPopularMovieList() {
-        List<Movie> list = new ArrayList<>();
+    public List<HashMap<Integer, Double>> getPopularMovieAvgList() {
+        List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
-
             // Writing sql and parameters...
-            String sql = "select m.*, (IFNULL(b.avg,0) * 0.3 + IFNULL(a.count,0) * 0.4 + IFNULL(b.count,0) * 0.3) rating\n" +
-                    "from movies m \n" +
-                    "left join (select movieId,IFNULL(count(*),0) count from tags GROUP BY movieId) a on m.movieId = a.movieId\n" +
-                    "left join (select movieId,IFNULL(count(*),0) count,avg(rating) avg from ratings GROUP BY movieId) b on m.movieId = b.movieId\n" +
-                    "order by rating desc;";
-
+            String sql = "SELECT ifnull(avg(r.rating),0) score,m.movieId FROM movies m\n" +
+                    "                    LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+                    "                    GROUP BY m.movieId ORDER BY score desc;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
             while(rs.next()) {
-                Movie movie = new Movie();
-                movie.setMovieId(rs.getInt("movieId"));
-                movie.setYear(rs.getInt("year"));
-                movie.setTitle(rs.getString("title"));
-                movie.setRating(rs.getDouble("rating"));
-
-                String genres = rs.getString("genres");
-                if(!genres.equals("NULL")){
-                    movie.setGenres(genres);
-                }
-                list.add(movie);
+                HashMap<Integer, Double> map = new HashMap<>();
+                Integer movieId = rs.getInt("movieId");
+                Double score = rs.getDouble("score");
+                map.put(movieId,score);
+                list.add(map);
             }
             // Close the connection to release resources...
+            MySQLHelper.closeConnection(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    @Override
+    public List<HashMap<Integer, Double>> getPopularMovieTagsList() {
+        List<HashMap<Integer, Double>> list = new ArrayList<>();
+        try {
+            Connection conn = MySQLHelper.getConnection();
+            String sql = "SELECT count(t.movieId) score,m.movieId FROM movies m\n" +
+                    "LEFT JOIN tags t ON m.movieId = t.movieId\n" +
+                    "GROUP BY m.movieId ORDER BY score desc;";
+            ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
+            while(rs.next()) {
+                HashMap<Integer, Double> map = new HashMap<>();
+                Integer movieId = rs.getInt("movieId");
+                Double score = rs.getDouble("score");
+                map.put(movieId,score);
+                list.add(map);
+            }
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,7 +63,30 @@ public class PopularDaoImpl implements PopularDao {
 
         return list;
     }
+
+    @Override
+    public List<HashMap<Integer, Double>> getPopularMovieRatingsList() {
+        List<HashMap<Integer, Double>> list = new ArrayList<>();
+        try {
+            Connection conn = MySQLHelper.getConnection();
+            String sql = "SELECT count(r.movieId) score,m.movieId FROM movies m\n" +
+                    "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+                    "GROUP BY m.movieId ORDER BY score DESC;";
+            ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
+            while(rs.next()) {
+                HashMap<Integer, Double> map = new HashMap<>();
+                Integer movieId = rs.getInt("movieId");
+                Double score = rs.getDouble("score");
+                map.put(movieId,score);
+                list.add(map);
+            }
+            MySQLHelper.closeConnection(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public static void main(String[] args) {
-        System.out.println(new PopularDaoImpl().getPopularMovieList());
+        System.out.println(new PopularDaoImpl().getPopularMovieRatingsList());
     }
 }
