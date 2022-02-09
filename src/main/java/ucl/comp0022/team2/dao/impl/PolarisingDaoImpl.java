@@ -1,5 +1,6 @@
 package ucl.comp0022.team2.dao.impl;
 
+import org.springframework.stereotype.Repository;
 import ucl.comp0022.team2.dao.interfaces.PolarisingDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
 import ucl.comp0022.team2.model.Movie;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Repository
 public class PolarisingDaoImpl implements PolarisingDao {
 
     @Override

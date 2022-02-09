@@ -1,5 +1,6 @@
 package ucl.comp0022.team2.dao.impl;
 
+import org.springframework.stereotype.Repository;
 import ucl.comp0022.team2.dao.interfaces.SearchingReportDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
 import ucl.comp0022.team2.model.Report;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class SearchingReportDaoImpl implements SearchingReportDao {
 
     @Override

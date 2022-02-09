@@ -1,5 +1,6 @@
 package ucl.comp0022.team2.dao.impl;
 
+import org.springframework.stereotype.Repository;
 import ucl.comp0022.team2.helper.MySQLHelper;
 import ucl.comp0022.team2.dao.interfaces.MovieInfoDao;
 import ucl.comp0022.team2.model.Movie;
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class MovieInfoDaoImpl implements MovieInfoDao {
 
     @Override
