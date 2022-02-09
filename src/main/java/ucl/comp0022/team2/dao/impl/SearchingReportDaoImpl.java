@@ -13,7 +13,8 @@ import java.util.List;
 
 public class SearchingReportDaoImpl implements SearchingReportDao {
 
-    public static double getAverageScore(int movieId) {
+    @Override
+    public double getAverageScore(int movieId) {
         double rating = 0.0;
         try {
             // Connection to the database...
@@ -100,7 +101,7 @@ public class SearchingReportDaoImpl implements SearchingReportDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(SearchingReportDaoImpl.getAverageScore(1));
+        System.out.println(new SearchingReportDaoImpl().getAverageScore(1));
         System.out.println(new SearchingReportDaoImpl().getReport(1));
     }
 }

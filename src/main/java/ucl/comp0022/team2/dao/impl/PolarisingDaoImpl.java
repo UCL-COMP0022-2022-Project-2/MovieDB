@@ -21,8 +21,8 @@ public class PolarisingDaoImpl implements PolarisingDao {
 
             // Writing sql and parameters...
             String sql = "SELECT (COUNT(IF (r.rating > 4, r.movieId, null)) + COUNT(IF (r.rating < 2, r.movieId, null))) " +
-                    "/ COUNT(r.movieId) score, m.movieId FROM movies m\n" +
-                    "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+                    "/ COUNT(r.movieId) AS score, m.movieId FROM movies AS m\n" +
+                    "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
                     "GROUP BY m.movieId ORDER BY score DESC;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);

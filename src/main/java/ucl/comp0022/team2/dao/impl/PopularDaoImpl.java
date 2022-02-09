@@ -19,8 +19,8 @@ public class PopularDaoImpl implements PopularDao {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
             // Writing sql and parameters...
-            String sql = "SELECT IFNULL(avg(r.rating), 0) score, m.movieId FROM movies m\n" +
-                    "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+            String sql = "SELECT IFNULL(AVG(r.rating), 0) AS score, m.movieId FROM movies m\n" +
+                    "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
                     "GROUP BY m.movieId ORDER BY score DESC;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
@@ -44,8 +44,8 @@ public class PopularDaoImpl implements PopularDao {
         List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            String sql = "SELECT COUNT(t.movieId) score, m.movieId FROM movies m\n" +
-                    "LEFT JOIN tags t ON m.movieId = t.movieId\n" +
+            String sql = "SELECT COUNT(t.movieId) AS score, m.movieId FROM movies m\n" +
+                    "LEFT JOIN tags AS t ON m.movieId = t.movieId\n" +
                     "GROUP BY m.movieId ORDER BY score DESC;";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
@@ -68,8 +68,8 @@ public class PopularDaoImpl implements PopularDao {
         List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            String sql = "SELECT COUNT(r.movieId) score, m.movieId FROM movies m\n" +
-                    "LEFT JOIN ratings r ON m.movieId = r.movieId\n" +
+            String sql = "SELECT COUNT(r.movieId) AS score, m.movieId FROM movies m\n" +
+                    "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
                     "GROUP BY m.movieId ORDER BY score DESC;";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {

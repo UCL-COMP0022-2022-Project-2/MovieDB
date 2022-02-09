@@ -6,7 +6,5 @@ import java.util.List;
 
 public interface MovieInfoDao {
     Movie getMovieInfoByMovieId(int movieId);
-    List<Movie> getMovieInfoByTitle(String title);
-    List<Movie> getMovieInfoByGenre(String genre);
-    List<Movie> getMovieInfoByYear(int year);
+    List<Movie> getSelectedAndSortedMovieList(int selectEnum, String selectValue, int sortEnum, boolean sortBoolean);
 }

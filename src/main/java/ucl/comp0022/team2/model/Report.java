@@ -57,6 +57,6 @@ public class Report {
                 ", ratingTimestamp=" + ratingTimestamp +
                 ", tags='" + tags + '\'' +
                 ", tagTimestamp=" + tagTimestamp +
-                '}';
+                "}\n";
     }
 }

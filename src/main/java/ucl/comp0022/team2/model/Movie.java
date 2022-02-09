@@ -47,6 +47,6 @@ public class Movie {
                 ", title='" + title + '\'' +
                 ", genres=" + Arrays.toString(genres) +
                 ", year=" + year +
-                '}';
+                "}\n";
     }
 }
