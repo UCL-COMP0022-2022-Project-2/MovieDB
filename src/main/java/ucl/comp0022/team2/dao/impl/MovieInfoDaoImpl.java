@@ -7,6 +7,7 @@ import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,13 +56,13 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
      * An integrated method to select and sort movies.
      * @param selectEnum 0: no selection
      *                   1: selecting by {@code Title}
-     *                   2: selecting by {@code Rating}
+     *                   2: selecting by {@code Avg Rating}
      *                   3: selecting by {@code Genre}
      *                   4: selecting by {@code Year}
      * @param selectValue Selection parameter in terms of String
      * @param sortEnum 0: no sorting
      *                 1: sorting by {@code Title}
-     *                 2: sorting by {@code Rating}
+     *                 2: sorting by {@code Avg Rating}
      *                 3: sorting by {@code Year}
      * @param sortBoolean TRUE: sorting from the SMALLEST to the LARGEST
      *                    FALSE: sorting from the LARGEST to the SMALLEST
@@ -73,53 +74,53 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
         try {
             Connection conn = MySQLHelper.getConnection();
 
-            String sql = "SELECT * FROM movies";
+            String sql = "SELECT m.*, AVG(r.rating) AS avg FROM movies AS m INNER JOIN ratings AS r ON m.movieId = r.movieId" +
+                    " GROUP BY movieId, title, genres, year";
             List<String> param = new ArrayList<>();
 
             if(selectEnum != 0 || sortEnum != 0) {
                 if(selectEnum == 1) {
-                    sql += " WHERE title LIKE ?";
+                    sql += " HAVING title LIKE ?";
                     param.add("%" + selectValue + "%");
                 } else if(selectEnum == 2) {
                     if(selectValue.contains("-")) {
                         String[] ratings = selectValue.split("-");
                         if(ratings.length == 1) {
                             if(selectValue.startsWith("-")) {
-                                sql += " WHERE (SELECT AVG(rating) FROM ratings WHERE moviedb.ratings.movieId = moviedb.movies.movieId) <= ?";
+                                sql += " HAVING avg <= ?";
                             } else {
-                                sql += " WHERE (SELECT AVG(rating) FROM ratings WHERE moviedb.ratings.movieId = moviedb.movies.movieId) >= ?";
+                                sql += " HAVING avg >= ?";
                             }
                             param.add(ratings[0]);
                         } else if(ratings.length == 2) {
-                            sql += " WHERE (SELECT AVG(rating) FROM ratings WHERE moviedb.ratings.movieId = moviedb.movies.movieId) >= ? " +
-                                    "AND (SELECT AVG(rating) FROM ratings WHERE moviedb.ratings.movieId = moviedb.movies.movieId) <= ?";
+                            sql += " HAVING avg >= ? AND avg <= ?";
                             param.add(ratings[0]);
                             param.add(ratings[1]);
                         }
                     } else {
-                        sql += " WHERE (SELECT AVG(rating) FROM ratings WHERE moviedb.ratings.movieId = moviedb.movies.movieId) = ?";
+                        sql += " HAVING avg = ?";
                         param.add(selectValue);
                     }
                 } else if(selectEnum == 3) {
-                    sql += " WHERE genres LIKE ?";
+                    sql += " HAVING genres LIKE ?";
                     param.add("%" + selectValue + "%");
                 } else if(selectEnum == 4) {
                     if(selectValue.contains("-")) {
                         String[] years = selectValue.split("-");
                         if(years.length == 1) {
                             if(selectValue.startsWith("-")) {
-                                sql += " WHERE year != 0 AND year <= ?";
+                                sql += " HAVING year != 0 AND year <= ?";
                             } else {
-                                sql += " WHERE year != 0 AND year >= ?";
+                                sql += " HAVING year != 0 AND year >= ?";
                             }
                             param.add(years[0]);
                         } else if(years.length == 2) {
-                            sql += " WHERE year != 0 AND year >= ? AND year <= ?";
+                            sql += " HAVING year != 0 AND year >= ? AND year <= ?";
                             param.add(years[0]);
                             param.add(years[1]);
                         }
                     } else {
-                        sql += " WHERE year != 0 AND year = ?";
+                        sql += " HAVING year != 0 AND year = ?";
                         param.add(selectValue);
                     }
                 }
@@ -129,7 +130,7 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                         sql += " DESC";
                     }
                 } else if(sortEnum == 2) {
-                    sql += " ORDER BY (SELECT AVG(rating) FROM ratings WHERE moviedb.ratings.movieId = moviedb.movies.movieId)";
+                    sql += " ORDER BY avg";
                     if(!sortBoolean) {
                         sql += " DESC";
                     }
@@ -139,7 +140,6 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                         sql += " DESC";
                     }
                 }
-
             }
 
             ResultSet rs = MySQLHelper.executingQuery(conn, sql + ";", param);
@@ -148,11 +148,13 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                 Movie movie = new Movie();
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
+                double avg = rs.getDouble("avg");
                 String genres = rs.getString("genres");
                 int year = rs.getInt("year");
 
                 movie.setMovieId(movieId);
                 movie.setTitle(title);
+                movie.setRating(Double.parseDouble(new DecimalFormat("######0.0").format(avg)));
                 if(!genres.equals("NULL")) movie.setGenres(genres);
                 movie.setYear(year);
                 movieList.add(movie);
@@ -171,6 +173,6 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
         // System.out.println(new MovieInfoDaoImpl().getMovieInfoByTitle("Sabrina"));
         // System.out.println(new MovieInfoDaoImpl().getMovieInfoByGenre("Film-Noir"));
         // System.out.println(new MovieInfoDaoImpl().getMovieInfoByYear(1920));
-        System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(2, "5-", 1, false));
+        System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(2, "5", 2, false));
     }
 }
