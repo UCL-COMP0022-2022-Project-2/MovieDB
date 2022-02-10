@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -59,90 +60,161 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
      *                   2: selecting by {@code Avg Rating}
      *                   3: selecting by {@code Genre}
      *                   4: selecting by {@code Year}
-     * @param selectValue Selection parameter in terms of String
+     *                   N.B. 0 is only permitted to emerge at head of the list
+     * @param selectValue Selection parameters in terms of a list of String
      * @param sortEnum 0: no sorting
      *                 1: sorting by {@code Title}
      *                 2: sorting by {@code Avg Rating}
      *                 3: sorting by {@code Year}
-     * @param sortBoolean TRUE: sorting from the SMALLEST to the LARGEST
+     *                 N.B. 0 is only permitted to emerge at head of the list
+     * @param sortBoolean Sorting parameters in terms of a list of Boolean
+     *                    TRUE: sorting from the SMALLEST to the LARGEST
      *                    FALSE: sorting from the LARGEST to the SMALLEST
      * @return movieList
      */
     @Override
-    public List<Movie> getSelectedAndSortedMovieList(int selectEnum, String selectValue, int sortEnum, boolean sortBoolean) {
+    public List<Movie> getSelectedAndSortedMovieList(List<Integer> selectEnum, List<String> selectValue, List<Integer> sortEnum, List<Boolean> sortBoolean) {
         List<Movie> movieList = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
 
-            String sql = "SELECT m.*, AVG(r.rating) AS avg FROM movies AS m INNER JOIN ratings AS r ON m.movieId = r.movieId" +
-                    " GROUP BY movieId, title, genres, year";
+            StringBuilder sql = new StringBuilder(
+                    "SELECT m.*, AVG(r.rating) AS avg FROM movies AS m INNER JOIN ratings AS r ON m.movieId = r.movieId" +
+                    " GROUP BY movieId, title, genres, year");
             List<String> param = new ArrayList<>();
 
-            if(selectEnum != 0 || sortEnum != 0) {
-                if(selectEnum == 1) {
-                    sql += " HAVING title LIKE ?";
-                    param.add("%" + selectValue + "%");
-                } else if(selectEnum == 2) {
-                    if(selectValue.contains("-")) {
-                        String[] ratings = selectValue.split("-");
-                        if(ratings.length == 1) {
-                            if(selectValue.startsWith("-")) {
-                                sql += " HAVING avg <= ?";
-                            } else {
-                                sql += " HAVING avg >= ?";
+            if(selectEnum.get(0) != 0 || sortEnum.get(0) != 0) {
+                for(int i = 0; i < selectEnum.size(); i++) {
+                    if(i == 0) {
+                        if(selectEnum.get(0) == 0) {
+                            break;
+                        } else {
+                            if(selectEnum.get(0) == 1) {
+                                sql.append(" HAVING title LIKE ?");
+                                param.add("%" + selectValue.get(0) + "%");
+                            } else if(selectEnum.get(0) == 2) {
+                                if(selectValue.get(0).contains("-")) {
+                                    String[] ratings = selectValue.get(0).split("-");
+                                    if(ratings.length == 1) {
+                                        if(selectValue.get(0).startsWith("-")) {
+                                            sql.append(" HAVING avg <= ?");
+                                        } else {
+                                            sql.append(" HAVING avg >= ?");
+                                        }
+                                        param.add(ratings[0]);
+                                    } else if(ratings.length == 2) {
+                                        sql.append(" HAVING avg >= ? AND avg <= ?");
+                                        param.add(ratings[0]);
+                                        param.add(ratings[1]);
+                                    }
+                                } else {
+                                    sql.append(" HAVING avg = ?");
+                                    param.add(selectValue.get(0));
+                                }
+                            } else if(selectEnum.get(0) == 3) {
+                                sql.append(" HAVING genres LIKE ?");
+                                param.add("%" + selectValue.get(0) + "%");
+                            } else if(selectEnum.get(0) == 4) {
+                                if(selectValue.get(0).contains("-")) {
+                                    String[] years = selectValue.get(0).split("-");
+                                    if(years.length == 1) {
+                                        if(selectValue.get(0).startsWith("-")) {
+                                            sql.append(" HAVING year != 0 AND year <= ?");
+                                        } else {
+                                            sql.append(" HAVING year != 0 AND year >= ?");
+                                        }
+                                        param.add(years[0]);
+                                    } else if(years.length == 2) {
+                                        sql.append(" HAVING year != 0 AND year >= ? AND year <= ?");
+                                        param.add(years[0]);
+                                        param.add(years[1]);
+                                    }
+                                } else {
+                                    sql.append(" HAVING year != 0 AND year = ?");
+                                    param.add(selectValue.get(0));
+                                }
                             }
-                            param.add(ratings[0]);
-                        } else if(ratings.length == 2) {
-                            sql += " HAVING avg >= ? AND avg <= ?";
-                            param.add(ratings[0]);
-                            param.add(ratings[1]);
                         }
                     } else {
-                        sql += " HAVING avg = ?";
-                        param.add(selectValue);
-                    }
-                } else if(selectEnum == 3) {
-                    sql += " HAVING genres LIKE ?";
-                    param.add("%" + selectValue + "%");
-                } else if(selectEnum == 4) {
-                    if(selectValue.contains("-")) {
-                        String[] years = selectValue.split("-");
-                        if(years.length == 1) {
-                            if(selectValue.startsWith("-")) {
-                                sql += " HAVING year != 0 AND year <= ?";
+                        if(selectEnum.get(i) == 1) {
+                            sql.append(" AND title LIKE ?");
+                            param.add("%" + selectValue.get(i) + "%");
+                        } else if(selectEnum.get(i) == 2) {
+                            if(selectValue.get(i).contains("-")) {
+                                String[] ratings = selectValue.get(i).split("-");
+                                if(ratings.length == 1) {
+                                    if(selectValue.get(i).startsWith("-")) {
+                                        sql.append(" AND avg <= ?");
+                                    } else {
+                                        sql.append(" AND avg >= ?");
+                                    }
+                                    param.add(ratings[0]);
+                                } else if(ratings.length == 2) {
+                                    sql.append(" AND avg >= ? AND avg <= ?");
+                                    param.add(ratings[0]);
+                                    param.add(ratings[1]);
+                                }
                             } else {
-                                sql += " HAVING year != 0 AND year >= ?";
+                                sql.append(" AND avg = ?");
+                                param.add(selectValue.get(i));
                             }
-                            param.add(years[0]);
-                        } else if(years.length == 2) {
-                            sql += " HAVING year != 0 AND year >= ? AND year <= ?";
-                            param.add(years[0]);
-                            param.add(years[1]);
+                        } else if(selectEnum.get(i) == 3) {
+                            sql.append(" AND genres LIKE ?");
+                            param.add("%" + selectValue.get(i) + "%");
+                        } else if(selectEnum.get(i) == 4) {
+                            if(selectValue.get(i).contains("-")) {
+                                String[] years = selectValue.get(i).split("-");
+                                if(years.length == 1) {
+                                    if(selectValue.get(i).startsWith("-")) {
+                                        sql.append(" AND year != 0 AND year <= ?");
+                                    } else {
+                                        sql.append(" AND year != 0 AND year >= ?");
+                                    }
+                                    param.add(years[0]);
+                                } else if(years.length == 2) {
+                                    sql.append(" AND year != 0 AND year >= ? AND year <= ?");
+                                    param.add(years[0]);
+                                    param.add(years[1]);
+                                }
+                            } else {
+                                sql.append(" AND year != 0 AND year = ?");
+                                param.add(selectValue.get(i));
+                            }
                         }
-                    } else {
-                        sql += " HAVING year != 0 AND year = ?";
-                        param.add(selectValue);
                     }
                 }
-                if(sortEnum == 1) {
-                    sql += " ORDER BY title";
-                    if(!sortBoolean) {
-                        sql += " DESC";
-                    }
-                } else if(sortEnum == 2) {
-                    sql += " ORDER BY avg";
-                    if(!sortBoolean) {
-                        sql += " DESC";
-                    }
-                } else if(sortEnum == 3) {
-                    sql += " ORDER BY year";
-                    if(!sortBoolean) {
-                        sql += " DESC";
+                for(int i = 0; i < sortEnum.size(); i++) {
+                    if(i == 0) {
+                        if(sortEnum.get(0) == 0) {
+                            break;
+                        } else {
+                            if(sortEnum.get(0) == 1) {
+                                sql.append(" ORDER BY title");
+                            } else if(sortEnum.get(0) == 2) {
+                                sql.append(" ORDER BY avg");
+                            } else if(sortEnum.get(0) == 3) {
+                                sql.append(" ORDER BY year");
+                            }
+                            if(!sortBoolean.get(0)) {
+                                sql.append(" DESC");
+                            }
+                        }
+                    } else {
+                        if(sortEnum.get(i) == 1) {
+                            sql.append(", title");
+                        } else if(sortEnum.get(i) == 2) {
+                            sql.append(", avg");
+                        } else if(sortEnum.get(i) == 3) {
+                            sql.append(", year");
+                        }
+                        if(!sortBoolean.get(i)) {
+                            sql.append(" DESC");
+                        }
                     }
                 }
             }
 
-            ResultSet rs = MySQLHelper.executingQuery(conn, sql + ";", param);
+            ResultSet rs = MySQLHelper.executingQuery(conn, sql.append(";").toString(), param);
 
             while(rs.next()) {
                 Movie movie = new Movie();
@@ -173,6 +245,10 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
         // System.out.println(new MovieInfoDaoImpl().getMovieInfoByTitle("Sabrina"));
         // System.out.println(new MovieInfoDaoImpl().getMovieInfoByGenre("Film-Noir"));
         // System.out.println(new MovieInfoDaoImpl().getMovieInfoByYear(1920));
-        System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(2, "5", 2, false));
+        System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(
+                new ArrayList<>(Arrays.asList(1, 2)),
+                new ArrayList<>(Arrays.asList("toy", "3-5")),
+                new ArrayList<>(Arrays.asList(2, 1)),
+                new ArrayList<>(Arrays.asList(false, true))));
     }
 }

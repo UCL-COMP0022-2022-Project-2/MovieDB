@@ -6,6 +6,8 @@ import ucl.comp0022.team2.dao.interfaces.MovieInfoDao;
 import ucl.comp0022.team2.model.Movie;
 import ucl.comp0022.team2.service.interfaces.Case1Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -18,7 +20,8 @@ public class Case1ServiceImpl implements Case1Service {
      */
     @Override
     public List<Movie> getAllMovies() {
-        return movieInfoDao.getSelectedAndSortedMovieList(0, "", 0, true);
+        return null;
+        // return movieInfoDao.getSelectedAndSortedMovieList(0, "", 0, true);
     }
 
     /**
@@ -51,7 +54,8 @@ public class Case1ServiceImpl implements Case1Service {
         if(sortParams[1].equals("desc")){
             sortBoolean = false;
         }
-        return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
+        return null;
+        // return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
     }
 
     @Autowired
