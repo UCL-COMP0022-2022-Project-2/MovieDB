@@ -212,6 +212,8 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                         }
                     }
                 }
+            } else {
+                sql.append(" ORDER BY movieId");
             }
 
             ResultSet rs = MySQLHelper.executingQuery(conn, sql.append(";").toString(), param);
