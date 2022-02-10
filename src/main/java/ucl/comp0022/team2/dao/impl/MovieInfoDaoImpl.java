@@ -244,14 +244,10 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
     }
 
     public static void main(String[] args) {
-        // System.out.println(new MovieInfoDaoImpl().getMovieInfoByMovieId(1));
-        // System.out.println(new MovieInfoDaoImpl().getMovieInfoByTitle("Sabrina"));
-        // System.out.println(new MovieInfoDaoImpl().getMovieInfoByGenre("Film-Noir"));
-        // System.out.println(new MovieInfoDaoImpl().getMovieInfoByYear(1920));
         System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(
                 new ArrayList<>(Arrays.asList(1, 2)),
                 new ArrayList<>(Arrays.asList("toy", "3-5")),
-                new ArrayList<>(Arrays.asList(0)),
+                new ArrayList<>(Arrays.asList(2, 1)),
                 new ArrayList<>(Arrays.asList(false, true))));
     }
 }
