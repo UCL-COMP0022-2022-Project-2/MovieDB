@@ -186,6 +186,7 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                 for(int i = 0; i < sortEnum.size(); i++) {
                     if(i == 0) {
                         if(sortEnum.get(0) == 0) {
+                            sql.append(" ORDER BY movieId");
                             break;
                         } else {
                             if(sortEnum.get(0) == 1) {
@@ -250,7 +251,7 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
         System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(
                 new ArrayList<>(Arrays.asList(1, 2)),
                 new ArrayList<>(Arrays.asList("toy", "3-5")),
-                new ArrayList<>(Arrays.asList(2, 1)),
+                new ArrayList<>(Arrays.asList(0)),
                 new ArrayList<>(Arrays.asList(false, true))));
     }
 }
