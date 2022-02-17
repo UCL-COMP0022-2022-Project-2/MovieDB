@@ -51,10 +51,13 @@ public class Case1ServiceImpl implements Case1Service {
             switch (sortParams[0]){
                 case "title":
                     sortEnum.add(1);
+                    break;
                 case "rating":
                     sortEnum.add(2);
+                    break;
                 case "year":
                     sortEnum.add(3);
+                    break;
             }
         } else {
             sortEnum.add(0);
