@@ -6,6 +6,8 @@ import ucl.comp0022.team2.dao.interfaces.MovieInfoDao;
 import ucl.comp0022.team2.model.Movie;
 import ucl.comp0022.team2.service.interfaces.Case1Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -18,40 +20,51 @@ public class Case1ServiceImpl implements Case1Service {
      */
     @Override
     public List<Movie> getAllMovies() {
-        return movieInfoDao.getSelectedAndSortedMovieList(0, "", 0, true);
+        ArrayList<Integer> selectEnum = new ArrayList<>();
+        ArrayList<Integer> sortEnum = new ArrayList<>();
+        selectEnum.add(0);
+        sortEnum.add(0);
+        return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, null, sortEnum, null);
     }
 
     /**
      * @inheritDoc
-     * TODO: accomplish multiple selectors. Currently only enabled single selector
      */
     @Override
     public List<Movie> getMovies(String[] selectParams, String[] sortParams) {
-        int selectEnum = 0;
-        String selectValue = "";
-        int sortEnum = 0;
-        boolean sortBoolean = true;
-        for(int i = 0; i < selectParams.length; i++){
-            if(!selectParams[i].equals("")){
-                selectEnum = i+1;
-                selectValue = selectParams[i];
-                break;
+        ArrayList<Integer> selectEnum = new ArrayList<>();
+        ArrayList<String> selectValue = new ArrayList<>();
+        ArrayList<Integer> sortEnum = new ArrayList<>();
+        ArrayList<Boolean> sortBoolean = new ArrayList<>();
+
+        if(selectParams[0].equals("") && selectParams[1].equals("") && selectParams[2].equals("") && selectParams[3].equals("")){
+            selectEnum.add(0);
+        } else {
+            for(int i = 0; i < selectParams.length; i++) {
+                if(!selectParams[i].equals("")){
+                    selectEnum.add(i+1);
+                    selectValue.add(selectParams[i]);
+                }
             }
         }
         if(!sortParams[0].equals("")){
             switch (sortParams[0]){
                 case "title":
-                    sortEnum = 1;
+                    sortEnum.add(1);
                 case "rating":
-                    sortEnum = 2;
+                    sortEnum.add(2);
                 case "year":
-                    sortEnum = 3;
+                    sortEnum.add(3);
             }
+        } else {
+            sortEnum.add(0);
         }
         if(sortParams[1].equals("desc")){
-            sortBoolean = false;
+            sortBoolean.add(false);
+        } else {
+            sortBoolean.add(true);
         }
-        return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
+         return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
     }
 
     @Autowired

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MovieInfoDao {
     Movie getMovieInfoByMovieId(int movieId);
-    List<Movie> getSelectedAndSortedMovieList(int selectEnum, String selectValue, int sortEnum, boolean sortBoolean);
+    List<Movie> getSelectedAndSortedMovieList(List<Integer> selectEnum, List<String> selectValue, List<Integer> sortEnum, List<Boolean> sortBoolean);
 }
