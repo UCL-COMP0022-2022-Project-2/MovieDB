@@ -16,122 +16,164 @@
 </head>
 <body>
 <input id="contextPath" type="hidden" value=${pageContext.request.contextPath}/>
+
+
 <div class="container">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div id = "header">
+        <div class = "row" id = "caption">
+            <h1 class = "display-1 text-center">Movie DB</h1>
+        </div>
+    </div>
+    <div class = "searchBox bg-light p-3">
+        <h5>Select By</h5>
+
+        <div class = "row py-2">
+            <div class=" input-group">
+                <span class="input-group-text">Title</span>
+                <input class="form-control"
+                       type="text"
+                       placeholder="Please Enter the Full or Incomplete Title Name"
+                       id = "searchBar">
+            </div>
+        </div>
+        <div class="row pb-2">
+            <div class = "col-4 mt-2">
+                <div class="input-group">
+                    <span class="input-group-text">Rating (0-5)</span>
+                    <select class="form-select" id = "ratingStart">
+                        <option value = "none" selected disabled hidden>From</option>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option class = "bg-light">None</option>
+                    </select>
+                    <select class="form-select" id = "ratingEnd">
+                        <option value = "none" selected disabled hidden>To</option>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option class = "bg-light">None</option>
+                    </select>
+                </div>
+            </div>
+            <div class = "col-3 mt-2">
+                <div class="input-group">
+                    <span class="input-group-text">Published Year</span>
+                    <input class="form-control" type = "number" placeholder="YYYY" min = "1902" max = "2018" id = "yearNum">
+                </div>
+            </div>
+            <div class = "col-3 mt-2">
+                <div class="input-group">
+                    <span class="input-group-text">Genres</span>
+                    <select class="form-select" id = "genreType">
+                        <option value = "none" selected disabled hidden>Select From</option>
+                        <option>Action</option>
+                        <option>Adventure</option>
+                        <option>Animation</option>
+                        <option>Biography</option>
+                        <option>Children</option>
+                        <option>Comedy</option>
+                        <option>Drama</option>
+                        <option>Documentary</option>
+                        <option>Family</option>
+                        <option>Fantasy</option>
+                        <option>Film-Noir</option>
+                        <option>History</option>
+                        <option>Horror</option>
+                        <option>IMAX</option>
+                        <option>Music</option>
+                        <option>Musical</option>
+                        <option>Mystery</option>
+                        <option>Romance</option>
+                        <option>Sci-Fi</option>
+                        <option>Sport</option>
+                        <option>Thriller</option>
+                        <option>War</option>
+                        <option>Western</option>
+                        <option class = "bg-light">None</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-secondary float-end mt-2" id="searchByName">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sort By</a>
+            <a class="navbar-brand ps-2" href="javascript:void(0)">Sort By</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role = "button" data-bs-toggle = "dropdown">Title</a>
+                    <li class="nav-item dropdown" id = "titleNav">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role = "button" data-bs-toggle = "dropdown">Title</a>
                         <ul class = "dropdown-menu">
-                            <a class="dropdown-item" id ="titleAsc" href = "#">from A to Z</a>
+                            <a class="dropdown-item" id ="titleAsc" href = "javascript:void(0)">from A to Z</a>
 
-                            <a class="dropdown-item" id="titleDesc" href = "#">from Z to A</a>
+                            <a class="dropdown-item" id="titleDesc" href = "javascript:void(0)">from Z to A</a>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role = "button" data-bs-toggle = "dropdown">Rating</a>
+                    <li class="nav-item dropdown" id = "ratingNav">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role = "button" data-bs-toggle = "dropdown">Rating</a>
                         <ul class = "dropdown-menu">
-                            <a class="dropdown-item" id ="ratingAsc" href = "#">from low to high</a>
+                            <a class="dropdown-item" id ="ratingAsc" href = "javascript:void(0)">from low to high</a>
 
-                            <a class="dropdown-item" id="ratingDesc" href = "#">from high to low</a>
+                            <a class="dropdown-item" id="ratingDesc" href = "javascript:void(0)">from high to low</a>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role = "button" data-bs-toggle = "dropdown">Year</a>
+                    <li class="nav-item dropdown" id = "yearNav">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role = "button" data-bs-toggle = "dropdown">Year</a>
 
                         <ul class = "dropdown-menu">
-                            <a class="dropdown-item" id ="YearAsc" href = "#">from past to present</a>
+                            <a class="dropdown-item" id ="yearAsc" href = "javascript:void(0)">from past to present</a>
 
-                            <a class="dropdown-item" id="YearDesc" href = "#">from present to past</a>
+                            <a class="dropdown-item" id="yearDesc" href = "javascript:void(0)">from present to past</a>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Genres</a>
-                        <ul class="dropdown-menu">
-                            <a class="dropdown-item" id ="action" href = "#">Action</a>
 
-                            <a class="dropdown-item" id="adventure" href = "#">Adventure</a>
-
-                            <a class="dropdown-item" id="animation" href = "#">Animation</a>
-
-                            <a class="dropdown-item" id="biography" href = "#">Biography</a>
-
-                            <a class="dropdown-item" id ="children" href = "#">Children</a>
-
-                            <a class="dropdown-item" id ="comedy" href = "#">Comedy</a>
-
-                            <a class="dropdown-item" id="drama" href = "#">Drama</a>
-
-                            <a class="dropdown-item" id="family" href = "#">Family</a>
-
-                            <a class="dropdown-item" id="fantasy" href = "#">Fantasy</a>
-
-                            <a class="dropdown-item" id="film-noir" href = "#">Film-Noir</a>
-
-                            <a class="dropdown-item" id="history" href = "#">History</a>
-
-                            <a class="dropdown-item" id ="horror" href = "#">Horror</a>
-
-                            <a class="dropdown-item" id="music" href = "#">Music</a>
-
-                            <a class="dropdown-item" id="musical" href = "#">Musical</a>
-
-                            <a class="dropdown-item" id="mystery" href = "#">Mystery</a>
-
-                            <a class="dropdown-item" id ="romance" href = "#">Romance</a>
-
-                            <a class="dropdown-item" id="Sci-fi" href = "#">Sci-Fi</a>
-
-                            <a class="dropdown-item" id="sport" href = "#">Sport</a>
-
-                            <a class="dropdown-item" id="thriller" href = "#">Thriller</a>
-
-                            <a class="dropdown-item" id="war" href = "#">War</a>
-
-                            <a class="dropdown-item" id="western" href = "#">Western</a>
-                        </ul>
-                    </li>
                 </ul>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="text" placeholder="Enter movie topic" id = "searchBar">
-                    <button class="btn btn-primary" type="button" id="searchByName">Search</button>
+                    <button class="btn btn-secondary mt-2" type="button" id="getAllPosts">Get All Movies</button>
                 </form>
+
             </div>
         </div>
     </nav>
-    <div>
-        <br>
-        <div>
-            <button class="btn btn-dark" id="getAllPosts">
-                Get all movies!
-            </button>
-            <br>
-            <br>
-        </div>
+    <br>
 
-    </div>
-    <div id = "content">
-        <div class = "row">
-            <div class = "col-md-3">
+    <!--<button id = "check">Check</button>-->
+
+    <div id = "content" class = "ps-3">
+        <div class = "row p-3" id = "tableHead">
+            <div class = "col-md-4">
                 <h3>Title</h3>
             </div>
             <div class = "col-md-2">
                 <h3>Rating</h3>
             </div>
-            <div class = "col-md-1">
+            <div class = "col-md-2">
                 <h3>Year</h3>
             </div>
-            <div class = "col-md-6">
+            <div class = "col-md-4">
                 <h3>Genre</h3>
             </div>
         </div>
-
     </div>
+    <div id = "noContent" class="alert alert-primary">
+        <strong>The movie you are looking for does not exist, please check again!</strong>
+    </div>
+
 </div>
 
 
