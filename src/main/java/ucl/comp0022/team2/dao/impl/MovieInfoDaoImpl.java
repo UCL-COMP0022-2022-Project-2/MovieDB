@@ -70,10 +70,14 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
      * @param sortBoolean Sorting parameters in terms of a list of Boolean
      *                    TRUE: sorting from the SMALLEST to the LARGEST
      *                    FALSE: sorting from the LARGEST to the SMALLEST
+     * @param limitValue limitation parameters in terms of a String
+     *                   -1: no limitation
+     *                   single integer (e.g., 10): read 10 lines from the first line (incl. the first line)
+     *                   double integers (e.g., 10, 10): read 10 lines from the 11th line (incl. the 11th line)
      * @return movieList
      */
     @Override
-    public List<Movie> getSelectedAndSortedMovieList(List<Integer> selectEnum, List<String> selectValue, List<Integer> sortEnum, List<Boolean> sortBoolean) {
+    public List<Movie> getSelectedAndSortedMovieList(List<Integer> selectEnum, List<String> selectValue, List<Integer> sortEnum, List<Boolean> sortBoolean, String limitValue) {
         List<Movie> movieList = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
@@ -101,11 +105,11 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                                         } else {
                                             sql.append(" HAVING avg >= ?");
                                         }
-                                        param.add(ratings[0]);
+                                        param.add(ratings[0].trim());
                                     } else if(ratings.length == 2) {
                                         sql.append(" HAVING avg >= ? AND avg <= ?");
-                                        param.add(ratings[0]);
-                                        param.add(ratings[1]);
+                                        param.add(ratings[0].trim());
+                                        param.add(ratings[1].trim());
                                     }
                                 } else {
                                     sql.append(" HAVING avg = ?");
@@ -123,11 +127,11 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                                         } else {
                                             sql.append(" HAVING year != 0 AND year >= ?");
                                         }
-                                        param.add(years[0]);
+                                        param.add(years[0].trim());
                                     } else if(years.length == 2) {
                                         sql.append(" HAVING year != 0 AND year >= ? AND year <= ?");
-                                        param.add(years[0]);
-                                        param.add(years[1]);
+                                        param.add(years[0].trim());
+                                        param.add(years[1].trim());
                                     }
                                 } else {
                                     sql.append(" HAVING year != 0 AND year = ?");
@@ -148,11 +152,11 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                                     } else {
                                         sql.append(" AND avg >= ?");
                                     }
-                                    param.add(ratings[0]);
+                                    param.add(ratings[0].trim());
                                 } else if(ratings.length == 2) {
                                     sql.append(" AND avg >= ? AND avg <= ?");
-                                    param.add(ratings[0]);
-                                    param.add(ratings[1]);
+                                    param.add(ratings[0].trim());
+                                    param.add(ratings[1].trim());
                                 }
                             } else {
                                 sql.append(" AND avg = ?");
@@ -170,11 +174,11 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                                     } else {
                                         sql.append(" AND year != 0 AND year >= ?");
                                     }
-                                    param.add(years[0]);
+                                    param.add(years[0].trim());
                                 } else if(years.length == 2) {
                                     sql.append(" AND year != 0 AND year >= ? AND year <= ?");
-                                    param.add(years[0]);
-                                    param.add(years[1]);
+                                    param.add(years[0].trim());
+                                    param.add(years[1].trim());
                                 }
                             } else {
                                 sql.append(" AND year != 0 AND year = ?");
@@ -212,9 +216,22 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                             sql.append(" DESC");
                         }
                     }
+                    if(i == sortEnum.size() - 1) {
+                        sql.append(", movieId");
+                    }
                 }
             } else {
                 sql.append(" ORDER BY movieId");
+            }
+
+            if(!limitValue.equals("-1")) {
+                String[] limitations = limitValue.split(",");
+                if(limitations.length == 1) {
+                    sql.append(" LIMIT ").append(limitations[0].trim());
+                } else if(limitations.length == 2) {
+                    sql.append(" LIMIT ").append(limitations[0].trim()).
+                            append(", ").append(limitations[1].trim());
+                }
             }
 
             ResultSet rs = MySQLHelper.executingQuery(conn, sql.append(";").toString(), param);
@@ -245,9 +262,10 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
 
     public static void main(String[] args) {
         System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(
-                new ArrayList<>(Arrays.asList(1, 2)),
-                new ArrayList<>(Arrays.asList("toy", "3-5")),
+                new ArrayList<>(Arrays.asList(2, 4)),
+                new ArrayList<>(Arrays.asList("3-5", "1995")),
                 new ArrayList<>(Arrays.asList(2, 1)),
-                new ArrayList<>(Arrays.asList(false, true))));
+                new ArrayList<>(Arrays.asList(false, true)),
+                "10, 10"));
     }
 }

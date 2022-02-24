@@ -24,7 +24,8 @@ public class Case1ServiceImpl implements Case1Service {
         ArrayList<Integer> sortEnum = new ArrayList<>();
         selectEnum.add(0);
         sortEnum.add(0);
-        return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, null, sortEnum, null);
+        // return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, null, sortEnum, null);
+        return null;
     }
 
     /**
@@ -67,7 +68,8 @@ public class Case1ServiceImpl implements Case1Service {
         } else {
             sortBoolean.add(true);
         }
-         return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
+        // return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
+        return null;
     }
 
     @Autowired
