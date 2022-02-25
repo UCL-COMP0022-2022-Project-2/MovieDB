@@ -59,3 +59,30 @@ $("#getReport").on("click", function () {
         }
     })
 });
+
+$("#getFirst50Movies").on("click", function () {
+    alert("please wait, it takes long time to load");
+    $.ajax({
+        url: contextPath + "/getRequiredMovies.do",
+        traditional: true,
+        data:{
+            selectParams: ["", "", "", ""],
+            sortParams: ["", "", "0,50"]
+        },
+        success(resp){
+            for(var i = 0; i < resp.length; i++){
+                console.log(resp[i])
+            }
+        }
+    })
+});
+$("#getMovieCount").on("click", function () {
+    alert("please wait, it takes long time to load");
+    $.ajax({
+        url: contextPath + "/getMoviesCount.do",
+        success(resp){
+            console.log(resp)
+        }
+    })
+
+});

@@ -68,8 +68,13 @@ public class Case1ServiceImpl implements Case1Service {
         } else {
             sortBoolean.add(true);
         }
-        // return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean);
-        return null;
+         return movieInfoDao.getSelectedAndSortedMovieList(selectEnum, selectValue, sortEnum, sortBoolean, sortParams[2]);
+
+    }
+
+    @Override
+    public Integer getMoviesCount() {
+        return movieInfoDao.getMovieCount();
     }
 
     @Autowired

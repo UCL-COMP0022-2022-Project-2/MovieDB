@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 public class Case2Controller {
-    Case2Service case2Service;
+    private Case2Service case2Service;
 
     @RequestMapping("/getReportsById/{movieId}.do")
     @ResponseBody

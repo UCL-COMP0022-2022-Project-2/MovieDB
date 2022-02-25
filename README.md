@@ -36,7 +36,7 @@ Please fill "" (empty string) if the user has not specified that parameter.
                     yearParam:       the year string selected by the user
                     
                     
-@param sortParams [sortParam, order]
+@param sortParams [sortParam, order, limit]
 
                      sortParam:      the sort method required by the user
                                      "title" for order by title
@@ -44,4 +44,9 @@ Please fill "" (empty string) if the user has not specified that parameter.
                                      "year" for order by time
                      order:          "asc" for ascending order
                                      "desc" for descending order
+                     limit:          "[startIndex],[range]"
+                                     For example
+                                     "0,10": read items 1-10
+                                     "10,10": read items 11 - 20
+                                     "10,30": read items 11 - 40
 

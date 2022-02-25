@@ -52,6 +52,20 @@
         </button>
         <hr>
     </div>
+    <div>
+        <p>Example 5: get the first 50 movies </p>
+        <button class="btn btn-dark" id="getFirst50Movies">
+            getFirst50
+        </button>
+        <hr>
+    </div>
+    <div>
+        <p>Example 6: get the movies count </p>
+        <button class="btn btn-dark" id="getMovieCount">
+            getMovieCount
+        </button>
+        <hr>
+    </div>
 
 
 

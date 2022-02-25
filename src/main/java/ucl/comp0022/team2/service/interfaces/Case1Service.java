@@ -25,15 +25,26 @@ public interface Case1Service {
      *                     genreParam:      the genre string selected by the user
      *                                      see database for all genres
      *                     yearParam:       the year string selected by the user
-     * @param sortParams [sortParam, order]
+     * @param sortParams [sortParam, order, limit]
      *                      sortParam:      the sort method required by the user
      *                                      "title" for order by title
      *                                      "rating" for order by rating
      *                                      "year" for order by time
      *                      order:          "asc" for ascending order
      *                                      "desc" for descending order
+     *                      limit:          "[startIndex],[range]"
+     *                                      For example
+     *                                      "0,10": read items 1-10
+     *                                      "10,10": read items 11 - 20
+     *                                      "10,30": read items 11 - 40
      * @return the movies required by users
      */
     List<Movie> getMovies(String[] selectParams, String[] sortParams);
+
+    /**
+     * The method that gets the total numebr of movies
+     * @return the number of movies
+     */
+    Integer getMoviesCount();
 
 }

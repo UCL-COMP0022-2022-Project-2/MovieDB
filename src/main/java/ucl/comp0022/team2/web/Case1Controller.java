@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 public class Case1Controller {
 
-    Case1Service case1Service;
+    private Case1Service case1Service;
 
 
 
@@ -28,6 +28,12 @@ public class Case1Controller {
     @ResponseBody
     public List<Movie> getRequiredMovies(String[] selectParams, String[] sortParams) {
         return case1Service.getMovies(selectParams, sortParams);
+    }
+
+    @RequestMapping("/getMoviesCount.do")
+    @ResponseBody
+    public Integer getMoviesCount() {
+        return case1Service.getMoviesCount();
     }
 
     @Autowired

@@ -260,6 +260,34 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
         return movieList;
     }
 
+    @Override
+    public Integer getMovieCount() {
+        int count = 0;
+
+        try {
+            // Connection to the database...
+            Connection conn = MySQLHelper.getConnection();
+
+            // Writing sql and parameters...
+            String sql = "select count(*) as count from movies";
+
+            // Executing queries...
+            ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
+
+            // Reading, analysing and saving the results...
+            if(rs.next()){
+                count = rs.getInt("count");
+            }
+
+            // Close the connection to release resources...
+            MySQLHelper.closeConnection(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
     public static void main(String[] args) {
         System.out.println(new MovieInfoDaoImpl().getSelectedAndSortedMovieList(
                 new ArrayList<>(Arrays.asList(2, 4)),
@@ -267,5 +295,6 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                 new ArrayList<>(Arrays.asList(2, 1)),
                 new ArrayList<>(Arrays.asList(false, true)),
                 "10, 10"));
+        System.out.println(new MovieInfoDaoImpl().getMovieCount());
     }
 }
