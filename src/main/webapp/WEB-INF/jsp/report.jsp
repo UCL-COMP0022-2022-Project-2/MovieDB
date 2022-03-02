@@ -11,6 +11,13 @@
     <title>Title</title>
 </head>
 <body>
+<input id="reports" value = "${reports}" type = "hidden">
 
+
+
+
+<script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
+<script>
+</script>
 </body>
 </html>

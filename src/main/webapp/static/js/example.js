@@ -86,3 +86,6 @@ $("#getMovieCount").on("click", function () {
     })
 
 });
+$("#newGetReport").on("click", function () {
+    alert("please wait, it takes long time to load");
+});
