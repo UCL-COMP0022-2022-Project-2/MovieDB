@@ -66,6 +66,17 @@
         </button>
         <hr>
     </div>
+    <div>
+        <p>Example 7:get the user report with movid id 5 </p>
+        <a href="${pageContext.request.contextPath}/getReportsById/5.do">
+            <button class="btn btn-dark" id="newGetReport">
+                getReport
+            </button>
+        </a>
+
+        <hr>
+    </div>
+
 
 
 

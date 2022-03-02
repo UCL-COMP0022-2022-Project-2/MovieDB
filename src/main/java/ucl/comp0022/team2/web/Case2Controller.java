@@ -2,6 +2,7 @@ package ucl.comp0022.team2.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,9 +17,10 @@ public class Case2Controller {
     private Case2Service case2Service;
 
     @RequestMapping("/getReportsById/{movieId}.do")
-    @ResponseBody
-    public List<Report> getReportsById(@PathVariable String movieId){
-        return case2Service.getReports(movieId);
+    public String getReportsById(Model model, @PathVariable String movieId){
+        List<Report> reports =  case2Service.getReports(movieId);
+        model.addAttribute("reports", reports);
+        return "report";
     }
 
     @Autowired
