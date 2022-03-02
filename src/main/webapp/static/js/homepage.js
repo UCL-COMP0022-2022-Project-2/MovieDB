@@ -23,8 +23,11 @@ function printItem(resp){
     for(var i = 0; i < resp.length; i++) {
         $("#content").append("<div class = 'row itemRow'></div>");
     }
-    $(".itemRow").append("<div class = 'col-4 itemCol titleCol px-3'></div><div class = 'col-2 itemCol ratingCol px-3'></div>" +
-        "<div class = 'col-2 itemCol yearCol px-3'></div><div class = 'col-4 itemCol genresCol px-3'></div>");
+
+    $(".itemRow").append("<div class = 'col-4 itemCol titleCol px-3'></div>" +
+        "<div class = 'col-2 itemCol ratingCol px-3'></div>" +
+        "<div class = 'col-2 itemCol yearCol px-3'></div>" +
+        "<div class = 'col-4 itemCol genresCol px-3'></div>");
 
     $(".titleCol").append("<a class = 'title' href = '#'></a>");
     $(".ratingCol").append("<p class = 'rating'></p>");
@@ -37,6 +40,7 @@ function printItem(resp){
     var genres = document.querySelectorAll(".genres");
 
     for(var i = 0; i < resp.length; i++) {
+        titles[i].id = resp[i]["movieId"];
         titles[i].innerHTML = resp[i]["title"];
         ratings[i].innerHTML = resp[i]["rating"];
         years[i].innerHTML = resp[i]["year"];
@@ -110,10 +114,11 @@ $("#searchByName").on("click", function () {
         traditional: true,
         data:{
             selectParams: [title, ratingString, genreType, yearNum],
-            sortParams: [compareValue,compareOrder]
+            sortParams: [compareValue,compareOrder,"0,50"]
         },
         success(resp){
             deleteOld();
+            console.log(resp)
             printItem(resp);
         }
     })
@@ -177,18 +182,17 @@ $("#ratingAsc").on("click", function () {
 $("#ratingDesc").on("click", function () {
     alert("please wait, it takes long time to load");
     $.ajax({
-            url: contextPath + "/getRequiredMovies.do",
-            traditional: true,
-            data:{
-                selectParams: [title, ratingString, genreType, yearNum],
-                sortParams: ["rating", "desc"]
-            },
-            success(resp){
-                deleteOld();
-                printItem(resp);
-            }
+        url: contextPath + "/getRequiredMovies.do",
+        traditional: true,
+        data:{
+            selectParams: [title, ratingString, genreType, yearNum],
+            sortParams: ["rating", "desc"]
+        },
+        success(resp){
+            deleteOld();
+            printItem(resp);
         }
-    )
+    })
 })
 $("#yearAsc").on("click", function () {
     alert("please wait, it takes long time to load");
