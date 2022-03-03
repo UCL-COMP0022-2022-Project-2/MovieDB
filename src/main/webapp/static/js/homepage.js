@@ -29,7 +29,7 @@ function printItem(resp){
         "<div class = 'col-2 itemCol yearCol px-3'></div>" +
         "<div class = 'col-4 itemCol genresCol px-3'></div>");
 
-    $(".titleCol").append("<a class = 'title' href = '#'></a>");
+    $(".titleCol").append("<a class = 'title' href = 'getReportsById/5.do'></a>");
     $(".ratingCol").append("<p class = 'rating'></p>");
     $(".yearCol").append("<p class = 'year'></p>");
     $(".genresCol").append("<p class = 'genres'></p>");
@@ -46,6 +46,8 @@ function printItem(resp){
         years[i].innerHTML = resp[i]["year"];
         genres[i].innerHTML = resp[i]["genres"];
     }
+
+
 }
 
 var title = "";
@@ -227,6 +229,11 @@ $("#yearDesc").on("click", function () {
         }
     )
 })
+
+$(".title").on("click", function () {
+    alert(this.id);
+    alert("please wait, it takes long time to load");
+});
 
 
 
