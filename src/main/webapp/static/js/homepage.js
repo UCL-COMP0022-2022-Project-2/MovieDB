@@ -29,7 +29,7 @@ function printItem(resp){
         "<div class = 'col-2 itemCol yearCol px-3'></div>" +
         "<div class = 'col-4 itemCol genresCol px-3'></div>");
 
-    $(".titleCol").append("<a class = 'title' href = 'getReportsById/5.do'></a>");
+    $(".titleCol").append("<a class = 'title'></a>");
     $(".ratingCol").append("<p class = 'rating'></p>");
     $(".yearCol").append("<p class = 'year'></p>");
     $(".genresCol").append("<p class = 'genres'></p>");
@@ -39,13 +39,19 @@ function printItem(resp){
     var years = document.querySelectorAll(".year");
     var genres = document.querySelectorAll(".genres");
 
+    var titleHref;
+
     for(var i = 0; i < resp.length; i++) {
         titles[i].id = resp[i]["movieId"];
         titles[i].innerHTML = resp[i]["title"];
         ratings[i].innerHTML = resp[i]["rating"];
         years[i].innerHTML = resp[i]["year"];
         genres[i].innerHTML = resp[i]["genres"];
+
+        titleHref = "getReportsById/" + resp[i]["movieId"] + ".do"
+        titles[i].href = titleHref
     }
+
 
 
 }

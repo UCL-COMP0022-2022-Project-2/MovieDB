@@ -17,7 +17,6 @@
 <body>
 <input id="contextPath" type="hidden" value=${pageContext.request.contextPath}/>
 
-
 <div class="container">
     <div id = "header">
         <div class = "row" id = "caption">
