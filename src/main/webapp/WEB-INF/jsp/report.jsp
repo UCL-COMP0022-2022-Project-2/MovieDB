@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: zhuhaoyuan
@@ -11,14 +12,9 @@
     <title>Title</title>
 </head>
 <body>
-<input id = "reports" value = "$(reports)" type = "hidden">
+<c:forEach items="${reports}" var="report">
 
-
-<script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
-<script>
-    var reports = $("#reports").val();
-    console.log(reports);
-</script>
+</c:forEach>
 </body>
 </html>
 
