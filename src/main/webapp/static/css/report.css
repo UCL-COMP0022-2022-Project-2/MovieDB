@@ -1,4 +1,13 @@
-body{
-    text-align: center;
-    background-color: #06357a;
+#userId{
+    margin-left: 95%;
+    margin-right: 60%;
+}
+#rating{
+    margin-right: 100%;
+}
+#caption{
+    margin: 3%;
+}
+.navbar{
+    margin-bottom: 1%;
 }

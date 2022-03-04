@@ -208,7 +208,7 @@
 
 
 <script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/bootstrap/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/homepage.js"></script>
 </body>
 </html>

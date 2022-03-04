@@ -8,10 +8,10 @@
     visibility: hidden;
 }
 #titleNav{
-    padding-right: 17em;
+    margin-right: 130%;
 }
 #ratingNav{
-    padding-right: 9em;
+    margin-right: 70%;
 }
 body {
     font-family: "Open Sans", sans-serif;
