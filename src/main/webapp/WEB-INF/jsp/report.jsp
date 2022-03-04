@@ -43,7 +43,7 @@
     <div id = "reportTable">
     <c:forEach items="${reports}" var="report">
         <div class="row p-2">
-            <div class = "col-2 kong"></div>
+            <div class = "col-2"></div>
             <div class = "col-2">${report.userId}</div>
             <div class = "col-1 ratingString">${report.rating}</div>
             <div class = "col-2 text-muted small">${report.ratingTimestamp}</div>
