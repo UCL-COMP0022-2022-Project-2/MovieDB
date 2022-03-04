@@ -16,10 +16,13 @@ import java.util.List;
 public class Case2Controller {
     private Case2Service case2Service;
 
-    @RequestMapping("/getReportsById/{movieId}.do")
-    public String getReportsById(Model model, @PathVariable String movieId){
+    @RequestMapping("/getReportsById/{movieId}/{movieName}/{movieRating}.do")
+    public String getReportsById(Model model, @PathVariable String movieId, @PathVariable String movieName, @PathVariable String movieRating){
         List<Report> reports =  case2Service.getReports(movieId);
         model.addAttribute("reports", reports);
+        model.addAttribute("movieId", movieId);
+        model.addAttribute("movieName", movieName);
+        model.addAttribute("movieRating", movieRating);
         return "report";
     }
 

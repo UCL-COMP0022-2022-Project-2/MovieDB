@@ -24,6 +24,9 @@
             <h1 class = "display-3 text-center">User Rating Report</h1>
             <div class="row">
                 <div class="col-6 text-end pt-2 ps-2 pe-5 mt-3"><p id = "pMovieId">Movie Id: </p></div>
+                <div class="display-5">Movie Id: ${movieId}</div>
+                <div class="display-5">Movie Name: ${movieName}</div>
+                <div class="display-5">Movie Rating: ${movieRating}</div>
                 <div class="col-6 px-2 pt-2 mt-3"><p id = "pAverageRating">Average Rating: </p></div>
             </div>
         </div>

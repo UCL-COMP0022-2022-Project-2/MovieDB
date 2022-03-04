@@ -68,7 +68,7 @@
     </div>
     <div>
         <p>Example 7:get the user report with movid id 5 </p>
-        <a href="${pageContext.request.contextPath}/getReportsById/5.do">
+        <a href="${pageContext.request.contextPath}/getReportsById/5/anmeeeee/scorrrre.do">
             <button class="btn btn-dark" id="newGetReport">
                 getReport
             </button>
