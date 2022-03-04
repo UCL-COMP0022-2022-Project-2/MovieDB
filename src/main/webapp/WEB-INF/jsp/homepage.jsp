@@ -23,7 +23,7 @@
             <h1 class = "display-1 text-center">Movie DB</h1>
         </div>
     </div>
-    <div class = "searchBox bg-light p-3">
+    <div class = "searchBox bg-light p-3 border">
         <h5>Select By</h5>
 
         <div class = "row py-2">
@@ -107,7 +107,7 @@
         </div>
     </div>
     <br>
-    <nav class="navbar navbar-expand-sm bg-light navbar-light sticky-top">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light sticky-top border">
         <div class="container-fluid">
             <a class="navbar-brand ps-2" href="javascript:void(0)">Sort By</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -153,18 +153,18 @@
 
     <!--<button id = "check">Check</button>-->
 
-    <div id = "content" class = "ps-3">
-        <div class = "row p-3" id = "tableHead">
-            <div class = "col-md-4">
+    <div id = "content">
+        <div class = "row mx-2" id = "tableHead">
+            <div class = "col-4 ps-5">
                 <h3>Title</h3>
             </div>
-            <div class = "col-md-2">
+            <div class = "col-2 ps-4">
                 <h3>Rating</h3>
             </div>
-            <div class = "col-md-2">
+            <div class = "col-2 ps-4">
                 <h3>Year</h3>
             </div>
-            <div class = "col-md-4">
+            <div class = "col-4">
                 <h3>Genre</h3>
             </div>
         </div>

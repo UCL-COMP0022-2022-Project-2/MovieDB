@@ -1,5 +1,5 @@
 #caption{
-    margin: 30px;
+    margin: 2%;
 }
 #noContent{
     display: none;
@@ -17,15 +17,17 @@ body {
     font-family: "Open Sans", sans-serif;
     color: #444444;
 }
+.itemRow{
+    background-color: #FAFAFA;
+}
 
 a {
-    color: #06357a;
+    color: #002fa7;
     text-decoration: none;
 }
 
 a:hover {
-    color: #ffc85a;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -58,7 +60,8 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: 5px;
 }
 .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
-    color: #ffb727;
+    color: #002fa7;
+    text-decoration: none;
 }
 .navbar .dropdown ul {
     display: block;
@@ -84,7 +87,8 @@ h1, h2, h3, h4, h5, h6 {
     color: #3b434a;
 }
 .navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a {
-    color: #ffb727;
+    color: #002fa7;
+    text-decoration: none;
 }
 .navbar .dropdown:hover > ul {
     opacity: 1;

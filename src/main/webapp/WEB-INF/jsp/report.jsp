@@ -22,17 +22,19 @@
     <div id = "header">
         <div id = "caption">
             <h1 class = "display-3 text-center">User Rating Report</h1>
-            <div class="row">
-                <div class="col-6 text-end pt-2 ps-2 pe-5 mt-3"><p id = "pMovieId">Movie Id: </p></div>
+            <div class="row text-center infoLine">
+                <div class="col-6 pt-2 mt-3 ps-5"><p id = "pMovieId" class="h5">Movie: ${movieName}</p></div>
+                <!--
                 <div class="display-5">Movie Id: ${movieId}</div>
                 <div class="display-5">Movie Name: ${movieName}</div>
                 <div class="display-5">Movie Rating: ${movieRating}</div>
-                <div class="col-6 px-2 pt-2 mt-3"><p id = "pAverageRating">Average Rating: </p></div>
+                -->
+                <div class="col-6 pt-2 mt-3 pe-5"><p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p></div>
             </div>
         </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top pt-3 pb-2">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top pt-3 pb-2 border">
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav">
                     <div class = "nav-item text-dark h3" id = "userId">UserId</div>
@@ -45,15 +47,15 @@
 
     <div id = "reportTable">
     <c:forEach items="${reports}" var="report">
-        <div class="row p-2">
+        <div class="row m-2 py-3 itemRow">
             <div class = "col-2"></div>
-            <div class = "col-2">${report.userId}</div>
-            <div class = "col-1 ratingString">${report.rating}</div>
+            <div class = "col-1 text-center">${report.userId}</div>
+            <div class = "col-1"></div>
+            <div class = "col-1 ratingString text-center">${report.rating}</div>
             <div class = "col-2 text-muted small">${report.ratingTimestamp}</div>
             <div class = "col-1 text-capitalize">${report.tags}</div>
             <div class = "col-3 text-muted small">${report.tagTimestamp}</div>
         </div>
-        <hr>
     </c:forEach>
     </div>
 </div>

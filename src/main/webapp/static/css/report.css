@@ -1,13 +1,17 @@
 #userId{
-    margin-left: 95%;
+    margin-left: 105%;
     margin-right: 60%;
 }
 #rating{
-    margin-right: 100%;
+    margin-right: 90%;
 }
 #caption{
     margin: 3%;
 }
 .navbar{
     margin-bottom: 1%;
+    background-color: #F1F1F1;
+}
+.itemRow{
+    background-color: #FAFAFA;
 }

@@ -3,7 +3,12 @@ var contextPath = $("#contextPath").val();
 $("#getAllPosts").on("click", function() {
     alert("please wait, it takes long time to load");
     $.ajax({
-        url: contextPath + "/getAllMovies.do",
+        url: contextPath + "/getRequiredMovies.do",
+        traditional: true,
+        data:{
+            selectParams: ["", "", "", ""],
+            sortParams: ["","","0,10000"]
+        },
         success(resp){
         printItem(resp);
         }
@@ -21,13 +26,13 @@ function printItem(resp){
     }
 
     for(var i = 0; i < resp.length; i++) {
-        $("#content").append("<div class = 'row itemRow'></div>");
+        $("#content").append("<div class = 'row itemRow my-2 mx-2'></div>");
     }
 
-    $(".itemRow").append("<div class = 'col-4 itemCol titleCol px-3'></div>" +
-        "<div class = 'col-2 itemCol ratingCol px-3'></div>" +
-        "<div class = 'col-2 itemCol yearCol px-3'></div>" +
-        "<div class = 'col-4 itemCol genresCol px-3'></div>");
+    $(".itemRow").append("<div class = 'col-4 itemCol titleCol pe-3 ps-5 pt-3'></div>" +
+        "<div class = 'col-2 itemCol ratingCol pe-3 ps-4 pt-3'></div>" +
+        "<div class = 'col-2 itemCol yearCol pe-3 ps-4 pt-3'></div>" +
+        "<div class = 'col-4 itemCol genresCol px-3 pt-3'></div>");
 
     $(".titleCol").append("<a class = 'title'></a>");
     $(".ratingCol").append("<p class = 'rating'></p>");
@@ -42,13 +47,12 @@ function printItem(resp){
     var titleHref;
 
     for(var i = 0; i < resp.length; i++) {
-        titles[i].id = resp[i]["movieId"];
         titles[i].innerHTML = resp[i]["title"];
         ratings[i].innerHTML = resp[i]["rating"];
         years[i].innerHTML = resp[i]["year"];
         genres[i].innerHTML = resp[i]["genres"];
 
-        titleHref = "getReportsById/" + resp[i]["movieId"] + ".do"
+        titleHref = "getReportsById/" + resp[i]["movieId"] + "/" + resp[i]["title"] + "/" + resp[i]["rating"] + ".do";
         titles[i].href = titleHref
     }
 

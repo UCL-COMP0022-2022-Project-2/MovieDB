@@ -1,4 +1,4 @@
-window.onload = averageRatingCount;
+/*window.onload = averageRatingCount;
 function averageRatingCount(){
     var domain = document.location.pathname;
     var movieIdStart = domain.indexOf("ById/") + 5;
@@ -17,3 +17,4 @@ function averageRatingCount(){
     ratingResult = ratingSum / ratingCount;
     $("#pAverageRating").append(ratingResult.toFixed(1));
 };
+*/
