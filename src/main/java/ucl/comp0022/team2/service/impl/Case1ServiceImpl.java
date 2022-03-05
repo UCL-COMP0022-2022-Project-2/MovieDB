@@ -74,7 +74,8 @@ public class Case1ServiceImpl implements Case1Service {
 
     @Override
     public Integer getMoviesCount() {
-        return movieInfoDao.getMovieCount();
+        // return movieInfoDao.getMovieCount();
+        return null;
     }
 
     @Autowired

@@ -261,25 +261,161 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
     }
 
     @Override
-    public Integer getMovieCount() {
+    public Integer getMovieCount(List<Integer> selectEnum, List<String> selectValue, List<Integer> sortEnum, List<Boolean> sortBoolean) {
         int count = 0;
 
         try {
-            // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
 
-            // Writing sql and parameters...
-            String sql = "select count(*) as count from movies";
+            StringBuilder sql = new StringBuilder(
+                    "SELECT count(movieId) AS count FROM (" +
+                    "SELECT m.*, AVG(r.rating) AS avg FROM movies AS m INNER JOIN ratings AS r ON m.movieId = r.movieId" +
+                            " GROUP BY movieId, title, genres, year");
+            List<String> param = new ArrayList<>();
 
-            // Executing queries...
-            ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
+            if(selectEnum.get(0) != 0 || sortEnum.get(0) != 0) {
+                for(int i = 0; i < selectEnum.size(); i++) {
+                    if(i == 0) {
+                        if(selectEnum.get(0) == 0) {
+                            break;
+                        } else {
+                            if(selectEnum.get(0) == 1) {
+                                sql.append(" HAVING title LIKE ?");
+                                param.add("%" + selectValue.get(0) + "%");
+                            } else if(selectEnum.get(0) == 2) {
+                                if(selectValue.get(0).contains("-")) {
+                                    String[] ratings = selectValue.get(0).split("-");
+                                    if(ratings.length == 1) {
+                                        if(selectValue.get(0).startsWith("-")) {
+                                            sql.append(" HAVING avg <= ?");
+                                        } else {
+                                            sql.append(" HAVING avg >= ?");
+                                        }
+                                        param.add(ratings[0].trim());
+                                    } else if(ratings.length == 2) {
+                                        sql.append(" HAVING avg >= ? AND avg <= ?");
+                                        param.add(ratings[0].trim());
+                                        param.add(ratings[1].trim());
+                                    }
+                                } else {
+                                    sql.append(" HAVING avg = ?");
+                                    param.add(selectValue.get(0));
+                                }
+                            } else if(selectEnum.get(0) == 3) {
+                                sql.append(" HAVING genres LIKE ?");
+                                param.add("%" + selectValue.get(0) + "%");
+                            } else if(selectEnum.get(0) == 4) {
+                                if(selectValue.get(0).contains("-")) {
+                                    String[] years = selectValue.get(0).split("-");
+                                    if(years.length == 1) {
+                                        if(selectValue.get(0).startsWith("-")) {
+                                            sql.append(" HAVING year != 0 AND year <= ?");
+                                        } else {
+                                            sql.append(" HAVING year != 0 AND year >= ?");
+                                        }
+                                        param.add(years[0].trim());
+                                    } else if(years.length == 2) {
+                                        sql.append(" HAVING year != 0 AND year >= ? AND year <= ?");
+                                        param.add(years[0].trim());
+                                        param.add(years[1].trim());
+                                    }
+                                } else {
+                                    sql.append(" HAVING year != 0 AND year = ?");
+                                    param.add(selectValue.get(0));
+                                }
+                            }
+                        }
+                    } else {
+                        if(selectEnum.get(i) == 1) {
+                            sql.append(" AND title LIKE ?");
+                            param.add("%" + selectValue.get(i) + "%");
+                        } else if(selectEnum.get(i) == 2) {
+                            if(selectValue.get(i).contains("-")) {
+                                String[] ratings = selectValue.get(i).split("-");
+                                if(ratings.length == 1) {
+                                    if(selectValue.get(i).startsWith("-")) {
+                                        sql.append(" AND avg <= ?");
+                                    } else {
+                                        sql.append(" AND avg >= ?");
+                                    }
+                                    param.add(ratings[0].trim());
+                                } else if(ratings.length == 2) {
+                                    sql.append(" AND avg >= ? AND avg <= ?");
+                                    param.add(ratings[0].trim());
+                                    param.add(ratings[1].trim());
+                                }
+                            } else {
+                                sql.append(" AND avg = ?");
+                                param.add(selectValue.get(i));
+                            }
+                        } else if(selectEnum.get(i) == 3) {
+                            sql.append(" AND genres LIKE ?");
+                            param.add("%" + selectValue.get(i) + "%");
+                        } else if(selectEnum.get(i) == 4) {
+                            if(selectValue.get(i).contains("-")) {
+                                String[] years = selectValue.get(i).split("-");
+                                if(years.length == 1) {
+                                    if(selectValue.get(i).startsWith("-")) {
+                                        sql.append(" AND year != 0 AND year <= ?");
+                                    } else {
+                                        sql.append(" AND year != 0 AND year >= ?");
+                                    }
+                                    param.add(years[0].trim());
+                                } else if(years.length == 2) {
+                                    sql.append(" AND year != 0 AND year >= ? AND year <= ?");
+                                    param.add(years[0].trim());
+                                    param.add(years[1].trim());
+                                }
+                            } else {
+                                sql.append(" AND year != 0 AND year = ?");
+                                param.add(selectValue.get(i));
+                            }
+                        }
+                    }
+                }
+                for(int i = 0; i < sortEnum.size(); i++) {
+                    if(i == 0) {
+                        if(sortEnum.get(0) == 0) {
+                            sql.append(" ORDER BY movieId");
+                            break;
+                        } else {
+                            if(sortEnum.get(0) == 1) {
+                                sql.append(" ORDER BY title");
+                            } else if(sortEnum.get(0) == 2) {
+                                sql.append(" ORDER BY avg");
+                            } else if(sortEnum.get(0) == 3) {
+                                sql.append(" ORDER BY year");
+                            }
+                            if(!sortBoolean.get(0)) {
+                                sql.append(" DESC");
+                            }
+                        }
+                    } else {
+                        if(sortEnum.get(i) == 1) {
+                            sql.append(", title");
+                        } else if(sortEnum.get(i) == 2) {
+                            sql.append(", avg");
+                        } else if(sortEnum.get(i) == 3) {
+                            sql.append(", year");
+                        }
+                        if(!sortBoolean.get(i)) {
+                            sql.append(" DESC");
+                        }
+                    }
+                    if(i == sortEnum.size() - 1) {
+                        sql.append(", movieId");
+                    }
+                }
+            } else {
+                sql.append(" ORDER BY movieId");
+            }
 
-            // Reading, analysing and saving the results...
-            if(rs.next()){
+            ResultSet rs = MySQLHelper.executingQuery(conn, sql.append(") AS count;").toString(), param);
+
+            while(rs.next()) {
                 count = rs.getInt("count");
             }
 
-            // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
@@ -295,6 +431,10 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
                 new ArrayList<>(Arrays.asList(2, 1)),
                 new ArrayList<>(Arrays.asList(false, true)),
                 "10, 10"));
-        System.out.println(new MovieInfoDaoImpl().getMovieCount());
+        System.out.println(new MovieInfoDaoImpl().getMovieCount(
+                new ArrayList<>(Arrays.asList(2, 4)),
+                new ArrayList<>(Arrays.asList("3-5", "1995")),
+                new ArrayList<>(Arrays.asList(2, 1)),
+                new ArrayList<>(Arrays.asList(false, true))));
     }
 }
