@@ -16,14 +16,6 @@ public class Case1Controller {
     private Case1Service case1Service;
 
 
-
-
-    @RequestMapping("/getAllMovies.do")
-    @ResponseBody
-    public List<Movie> getAllMovies(){
-        return case1Service.getAllMovies();
-    }
-
     @RequestMapping("/getRequiredMovies.do")
     @ResponseBody
     public List<Movie> getRequiredMovies(String[] selectParams, String[] sortParams) {
@@ -32,8 +24,8 @@ public class Case1Controller {
 
     @RequestMapping("/getMoviesCount.do")
     @ResponseBody
-    public Integer getMoviesCount() {
-        return case1Service.getMoviesCount();
+    public Integer getMoviesCount(String[] selectParams, String[] sortParams) {
+        return case1Service.getMoviesCount(selectParams, sortParams);
     }
 
     @Autowired

@@ -7,12 +7,6 @@ import java.util.List;
 public interface Case1Service {
 
     /**
-     * The method that gets all movies
-     * @return all the movies
-     */
-    List<Movie> getAllMovies();
-
-    /**
      * The method that get movies required by users
      * Please always provide two String lists, the first one of size 4, the second one of size 2.
      * Please fill "" (empty string) if the user has not specified that parameter.
@@ -42,9 +36,12 @@ public interface Case1Service {
     List<Movie> getMovies(String[] selectParams, String[] sortParams);
 
     /**
-     * The method that gets the total numebr of movies
-     * @return the number of movies
+     *
+     * @param selectParams see above
+     * @param sortParams see above
+     * @return the count of movies that satisfies the condition
      */
-    Integer getMoviesCount();
+    Integer getMoviesCount(String[] selectParams, String[] sortParams);
+
 
 }
