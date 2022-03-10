@@ -75,7 +75,6 @@
                         <option>Action</option>
                         <option>Adventure</option>
                         <option>Animation</option>
-                        <option>Biography</option>
                         <option>Children</option>
                         <option>Comedy</option>
                         <option>Drama</option>
@@ -177,12 +176,12 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item"><a class="page-link text-dark" href="#">Return to the Beginning</a></li>
-                <li class="page-item">
+                <li class="page-item" id = "nextTenPages">
                     <a class="page-link text-dark" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
+                        <span aria-hidden="true">&laquo</span>
                     </a>
                 </li>
-
+<!--
                 <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
                 <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
                 <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
@@ -193,10 +192,10 @@
                 <li class="page-item"><a class="page-link text-dark" href="#">8</a></li>
                 <li class="page-item"><a class="page-link text-dark" href="#">9</a></li>
                 <li class="page-item"><a class="page-link text-dark" href="#">10</a></li>
-
+-->
                 <li class="page-item">
                     <a class="page-link text-dark" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
+                        <span aria-hidden="true">&raquo</span>
                     </a>
                 </li>
                 <li class="page-item"><a class="page-link text-dark" href="#">Return to the End</a></li>

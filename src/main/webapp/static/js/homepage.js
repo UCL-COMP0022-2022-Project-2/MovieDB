@@ -1,4 +1,16 @@
 var contextPath = $("#contextPath").val();
+var title = "";
+var ratingString = "";
+var yearNum = "";
+var genreType = "";
+var movieCount = "";
+var pageCount = "";
+var leftCount = "";
+var currentPage = "";
+var compareValue = "";
+var compareOrder = "";
+var limit = "";
+
 
 $("#getAllPosts").on("click", function() {
     alert("please wait, it takes long time to load");
@@ -14,6 +26,61 @@ $("#getAllPosts").on("click", function() {
         }
     })
 });
+
+function getMovieCount(cTitle, cRating, cYear, cGenre, valueCompare, valueOrder){
+    $.ajax({
+        url: contextPath + "/getMoviesCount.do",
+        traditional: true,
+        data:{
+            selectParams: [cTitle, cRating, cYear, cGenre],
+            sortParams: [valueCompare, valueOrder, ""]
+        },
+        success(resp){
+            printPageItem(resp);
+        }
+    })
+};
+
+function printPageItem(resp){
+    $("#footer").css("display", "block");
+    movieCount = resp;
+    pageCount = Math.floor(movieCount / 50) + 1;
+    leftCount = movieCount % 50;
+
+    var pageList = "";
+
+    for(var i = 1; i <= pageCount; i++){
+        pageList += '<li class="page-item pageContent"><a class="page-link text-dark" href="#">'+i+'</a></li>';
+    }
+
+    $("#nextTenPages").after(pageList);
+
+    $(".pageContent").on("click", function(){
+        var hrefContent = this.innerHTML;
+        currentPage = hrefContent.match((/\d+/g)) + "";
+
+        if(currentPage === pageCount){
+            limit = (currentPage - 1) * 50 + "," + ((currentPage - 1) * 50 + leftCount);
+        } else {
+            limit = (currentPage - 1) * 50 + "," + currentPage * 50;
+        }
+        alert(compareValue);
+        alert(compareOrder);
+
+        $.ajax({
+            url: contextPath + "/getRequiredMovies.do",
+            traditional: true,
+            data:{
+                selectParams: [title, ratingString, genreType, yearNum],
+                sortParams: [compareValue,compareOrder,limit]
+            },
+            success(resp){
+                deleteOld();
+                printItem(resp);
+            }
+        })
+    });
+};
 
 function printItem(resp){
 
@@ -56,14 +123,9 @@ function printItem(resp){
         titles[i].href = titleHref
     }
 
-
-
 }
 
-var title = "";
-var ratingString = "";
-var yearNum = "";
-var genreType = "";
+
 
 /*$("#check").on("click", function (){
     alert("title: " + title + "rating: " + ratingString + "year: " + yearNum + "genre: " + genreType);
@@ -107,9 +169,6 @@ $("#searchByName").on("click", function () {
         }
     }
 
-    var compareValue = "";
-    var compareOrder = "";
-
     if (title === "" && ratingString === null && yearNum === "" && genreType === null){
         alert("You have not entered any selection, the page will reload, please re-enter");
         location.reload();
@@ -121,6 +180,9 @@ $("#searchByName").on("click", function () {
         compareOrder = "asc";
     }
 
+    getMovieCount(title, ratingString, genreType, yearNum, compareValue, compareOrder);
+
+
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
@@ -130,7 +192,7 @@ $("#searchByName").on("click", function () {
         },
         success(resp){
             deleteOld();
-            console.log(resp)
+            deletePageItem();
             printItem(resp);
         }
     })
@@ -140,6 +202,11 @@ function deleteOld(){
     $(".itemRow").remove();
 }
 
+function deletePageItem(){
+  $(".pageContent").remove();
+};
+
+
 $("#titleAsc").on("click", function () {
     alert("please wait, it takes long time to load");
     $.ajax({
@@ -147,14 +214,16 @@ $("#titleAsc").on("click", function () {
         traditional: true,
         data:{
             selectParams: [title, ratingString, genreType, yearNum],
-            sortParams: ["title", "asc"]
+            sortParams: ["title", "asc", "0,50"]
         },
         success(resp){
             deleteOld();
+            deletePageItem();
             printItem(resp);
             }
         }
     )
+    getMovieCount(title, ratingString, genreType, yearNum, compareValue, compareOrder);
 })
 
 $("#titleDesc").on("click", function () {
@@ -164,27 +233,31 @@ $("#titleDesc").on("click", function () {
             traditional: true,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
-                sortParams: ["title", "desc"]
+                sortParams: ["title", "desc", "0,50"]
             },
             success(resp){
                 deleteOld();
+                deletePageItem();
                 printItem(resp);
             }
         }
     )
+    getMovieCount(title, ratingString, genreType, yearNum, compareValue, compareOrder);
 })
 
 $("#ratingAsc").on("click", function () {
     alert("please wait, it takes long time to load");
+    getMovieCount(title, ratingString, genreType, yearNum);
     $.ajax({
             url: contextPath + "/getRequiredMovies.do",
             traditional: true,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
-                sortParams: ["rating", "asc"]
+                sortParams: ["rating", "asc", "0,50"]
             },
             success(resp){
                 deleteOld();
+                deletePageItem();
                 printItem(resp);
             }
         }
@@ -193,12 +266,13 @@ $("#ratingAsc").on("click", function () {
 
 $("#ratingDesc").on("click", function () {
     alert("please wait, it takes long time to load");
+    getMovieCount(title, ratingString, genreType, yearNum);
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
         data:{
             selectParams: [title, ratingString, genreType, yearNum],
-            sortParams: ["rating", "desc"]
+            sortParams: ["rating", "desc", "0,50"]
         },
         success(resp){
             deleteOld();
@@ -240,10 +314,14 @@ $("#yearDesc").on("click", function () {
     )
 })
 
+/*
 $(".title").on("click", function () {
     alert(this.id);
     alert("please wait, it takes long time to load");
 });
+
+ */
+
 
 
 

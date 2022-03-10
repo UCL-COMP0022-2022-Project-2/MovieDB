@@ -76,10 +76,16 @@ $("#getFirst50Movies").on("click", function () {
         }
     })
 });
+
 $("#getMovieCount").on("click", function () {
     alert("please wait, it takes long time to load");
     $.ajax({
         url: contextPath + "/getMoviesCount.do",
+        traditional: true,
+        data:{
+            selectParams: ["", "", "", ""],
+            sortParams: ["", "", "0,10000"]
+        },
         success(resp){
             console.log(resp)
         }
