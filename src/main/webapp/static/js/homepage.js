@@ -18,31 +18,58 @@ function inform(){
     $("#information").remove();
 
     var orderString = "";
-    if(compareOrder === "asc"){
-        orderString = "Ascending";
-    }else if (compareOrder === "desc"){
-        orderString = "Descending";
-    }
-
     var sortString = "";
-    if(compareValue === "title"){
-        sortString = "Title";
-    }else if(compareValue === "rating"){
-        sortString = "Rating";
-    }else if(compareValue === "year"){
-        sortString = "Year";
+
+    if(compareOrder === "asc"){
+        if(compareValue === "title"){
+            orderString = "from A to Z";
+            sortString = "title";
+        } else if (compareValue === "rating"){
+            orderString = "from low to high"
+            sortString = "rating";
+        } else if (compareValue === "year" ){
+            orderString = "from past to present"
+            sortString = "year"
+        }
+    }else if (compareOrder === "desc"){
+        if(compareValue === "title"){
+            orderString = "from Z to A"
+            sortString = "title"
+        } else if (compareValue === "rating"){
+            orderString = "from high to low"
+            sortString = "rating"
+        } else if (compareValue === "year" ){
+            orderString = "from present to past"
+            sortString = "year"
+        }
     }
 
     var info = "<div class = 'row alert alert-primary mx-1 mb-3 pt-3'  id = 'information'><i class = 'text-body'>" +
-        "Sorted By <u>" + sortString + "</u> In <u>" + orderString +
-        "</u> Order, Page Number <u>" + currentPage +"</u></i></div>";
+        "Sorted By <u>" + sortString + "</u> <u>" + orderString +
+        "</u>, Page <u>" + currentPage +"</u></i></div>";
     $("#tableHead").before(info);
 }
 
 // Separation Pages Function Part
+function showPageSelectButton(){
+    if (currentPage == "1"){
+        $("#firstPage").hide();
+    } else{
+        $("#firstPage").show();
+    }
+
+    if (currentPage == pageCount){
+        $("#finalPage").hide();
+    } else{
+        $("#finalPage").show();
+    }
+
+}
+
 //This is a function used by separation pages to print items
+
 function printSelectPage(){
-    if (currentPage === pageCount){
+    if (currentPage == pageCount){
         limit = (currentPage - 1) * 50 + "," + 50;
     } else {
         limit = (currentPage - 1) * 50 + "," + 50;
@@ -78,6 +105,7 @@ $("#getAllPosts").on("click", function() {
         }
     })
 });
+
 //This is the function to pass variables when choosing separation pages and get the count of required movies
 function getMovieCount(cTitle, cRating, cYear, cGenre){
     $.ajax({
@@ -184,6 +212,7 @@ function printItem(resp){
 
     //use the information block
     inform();
+    showPageSelectButton();
 
     // some edit of visibility to the table
     if(resp.length === 0){
