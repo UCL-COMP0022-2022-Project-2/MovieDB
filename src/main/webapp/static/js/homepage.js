@@ -7,7 +7,7 @@ var movieCount = "";
 var pageCount = "";
 var leftCount = "";
 var currentPage = "1";
-var limit = "0,50";
+var limit = "";
 var compareValue = "";
 var compareOrder = "";
 var inWhichDecade = "";
@@ -33,7 +33,7 @@ function inform(){
 
     var info = "<div class = 'row alert alert-primary mx-1 mb-3 pt-3'  id = 'information'><i class = 'text-body'>" +
         "Sorted By <u>" + sortString + "</u> In <u>" + orderString +
-        "</u> Order, Page Number <u>" + currentPage +"</u></i></div>";
+        "</u> Order, Page Number <u>" + currentPage +"</u>  Limit: " + limit + "</i></div>";
     $("#tableHead").before(info);
 }
 function printSelectPage(){
@@ -148,7 +148,6 @@ function printPageItem(resp){
     $(".pageContent").on("click", function(){
         var hrefContent = this.innerHTML;
         currentPage = hrefContent.match((/\d+/g));
-
         printSelectPage()
     });
 }
@@ -165,7 +164,7 @@ function printItem(resp){
     }
 
     for(i = 0; i < resp.length; i++) {
-        $("#content").append("<div class = 'row itemRow my-2 mx-2'></div>");
+        $("#content").append("<div class = 'row itemRow my-2 mx-2'>"+ (i+1) + "</div>");
     }
 
     $(".itemRow").append("<div class = 'col-4 itemCol titleCol pe-3 ps-5 pt-3'></div>" +
@@ -252,14 +251,14 @@ $("#searchByName").on("click", function () {
     }
 
     getMovieCount(title, ratingString, genreType, yearNum);
-
+    limit = "0,50";
 
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
         data:{
             selectParams: [title, ratingString, genreType, yearNum],
-            sortParams: [compareValue,compareOrder,"0,50"]
+            sortParams: [compareValue,compareOrder,limit]
         },
         success(resp){
             deleteOld();
