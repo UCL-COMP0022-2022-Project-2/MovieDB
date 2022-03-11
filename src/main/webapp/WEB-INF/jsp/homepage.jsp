@@ -172,7 +172,7 @@
         <strong>The movie you are looking for does not exist, please check again!</strong>
     </div>
 
-    <div id = "footer">
+    <div id = "footer" class="mt-5">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item" id = "firstPage"><a class="page-link text-dark" href="javascript:void(0)">Return to the Beginning</a></li>
@@ -181,18 +181,7 @@
                         <span aria-hidden="true">&laquo</span>
                     </a>
                 </li>
-<!--
-                <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">4</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">5</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">6</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">7</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">8</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">9</a></li>
-                <li class="page-item"><a class="page-link text-dark" href="#">10</a></li>
--->
+
                 <li class="page-item" id = "nextTenPages">
                     <a class="page-link text-dark" href="javascript:void(0)" aria-label="Next">
                         <span aria-hidden="true">&raquo</span>

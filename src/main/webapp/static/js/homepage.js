@@ -35,7 +35,7 @@ function inform(){
 
     var info = "<div class = 'row alert alert-primary mx-1 mb-3 pt-3'  id = 'information'><i class = 'text-body'>" +
         "Sorted By <u>" + sortString + "</u> In <u>" + orderString +
-        "</u> Order, Page Number <u>" + currentPage +"</u>  Limit: " + limit + "</i></div>";
+        "</u> Order, Page Number <u>" + currentPage +"</u></i></div>";
     $("#tableHead").before(info);
 }
 
@@ -43,9 +43,9 @@ function inform(){
 //This is a function used by separation pages to print items
 function printSelectPage(){
     if (currentPage === pageCount){
-        limit = (currentPage - 1) * 50 + "," + ((currentPage - 1) * 50 + leftCount);
+        limit = (currentPage - 1) * 50 + "," + 50;
     } else {
-        limit = (currentPage - 1) * 50 + "," + currentPage * 50;
+        limit = (currentPage - 1) * 50 + "," + 50;
     }
 
     $.ajax({
@@ -63,15 +63,17 @@ function printSelectPage(){
 }
 //This is the button to get all movies
 $("#getAllPosts").on("click", function() {
-
+    getMovieCount("", "", "", "")
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
         data:{
             selectParams: ["", "", "", ""],
-            sortParams: ["","","0,10000"]
+            sortParams: ["","","0,50"]
         },
         success(resp){
+            deleteOld();
+            deletePageItem();
             printItem(resp);
         }
     })
@@ -92,6 +94,7 @@ function getMovieCount(cTitle, cRating, cYear, cGenre){
 }
 // This is the main function to separate pages
 function printPageItem(resp){
+
     $("#footer").css("display", "block");
     // receive the parameter of movie counts from the previous function
     movieCount = resp;
@@ -193,7 +196,7 @@ function printItem(resp){
 
     // add all rows to the table
     for(i = 0; i < resp.length; i++) {
-        $("#content").append("<div class = 'row itemRow my-2 mx-2'>"+ (i+1) + "</div>");
+        $("#content").append("<div class = 'row itemRow my-2 mx-2'></div>");
     }
 
     // add parameters to each row
