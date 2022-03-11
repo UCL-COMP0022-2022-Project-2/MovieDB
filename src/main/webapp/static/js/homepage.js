@@ -4,18 +4,19 @@ var ratingString = "";
 var yearNum = "";
 var genreType = "";
 var movieCount = "";
-var pageCount = "";
+var pageCount;
 var leftCount = "";
-var currentPage = "1";
+var currentPage = 1;
 var limit = "";
 var compareValue = "";
 var compareOrder = "";
-var inWhichDecade = "";
+var inWhichDecade;
 // set All global variables to blank
 
 //This is an information block which inform user the page number and the sort method
 function inform(){
     $("#information").remove();
+    $(".pageInfoFooter").remove();
 
     var orderString = "";
     var sortString = "";
@@ -46,13 +47,17 @@ function inform(){
 
     var info = "<div class = 'row alert alert-primary mx-1 mb-3 pt-3'  id = 'information'><i class = 'text-body'>" +
         "Sorted By <u>" + sortString + "</u> <u>" + orderString +
-        "</u>, Page <u>" + currentPage +"</u></i></div>";
+        "</u>, Page <u>" + currentPage + "</u></i></div>";
     $("#tableHead").before(info);
+
+
+    var pageInfo = "<div class = 'pageInfoFooter text-end row me-2 mt-2'><i>Page " + currentPage + "</i></div>";
+    $("#footer").before(pageInfo)
 }
 
 // Separation Pages Function Part
 function showPageSelectButton(){
-    if (currentPage == "1"){
+    if (currentPage == 1){
         $("#firstPage").hide();
     } else{
         $("#firstPage").show();
@@ -64,6 +69,17 @@ function showPageSelectButton(){
         $("#finalPage").show();
     }
 
+    if(Math.floor(currentPage / 10) === 0){
+        $("#previousTenPages").hide();
+    }else{
+        $("#previousTenPages").show();
+    }
+
+    if(Math.floor(currentPage / 10) === Math.floor(pageCount / 10) ){
+        $("#nextTenPages").hide();
+    }else{
+        $("#nextTenPages").show();
+    }
 }
 
 //This is a function used by separation pages to print items
@@ -102,6 +118,7 @@ $("#getAllPosts").on("click", function() {
             deleteOld();
             deletePageItem();
             printItem(resp);
+            showPageSelectButton();
         }
     })
 });
@@ -198,10 +215,23 @@ function printPageItem(resp){
         $(".pageContent:gt(9)").hide();
     }
 
+    if(pageCount <= 10){
+        $("#firstPage").hide();
+        $("#finalPage").hide();
+        $("#previousTenPages").hide();
+        $("#nextTenPages").hide();
+    } else {
+        $("#firstPage").show();
+        $("#finalPage").show();
+        $("#previousTenPages").show();
+        $("#nextTenPages").show();
+    }
+
     // the final event to obtain the current page through the separation pages button and print the relevant page
     $(".pageContent").on("click", function(){
         var hrefContent = this.innerHTML;
         currentPage = hrefContent.match((/\d+/g));
+        inWhichDecade = Math.floor(currentPage / 10) + 1;
         printSelectPage()
     });
 }
@@ -232,7 +262,7 @@ function printItem(resp){
     $(".itemRow").append("<div class = 'col-4 itemCol titleCol pe-3 ps-5 pt-3'></div>" +
         "<div class = 'col-2 itemCol ratingCol pe-3 ps-4 pt-3'></div>" +
         "<div class = 'col-2 itemCol yearCol pe-3 ps-4 pt-3'></div>" +
-        "<div class = 'col-4 itemCol genresCol px-3 pt-3'></div>");
+        "<div class = 'col-4 itemCol genresCol px-3 pt-3 pe-3'></div>");
 
     $(".titleCol").append("<a class = 'title'></a>");
     $(".ratingCol").append("<p class = 'rating'></p>");
@@ -351,7 +381,7 @@ $("#titleAsc").on("click", function () {
     getMovieCount(title, ratingString, genreType, yearNum);
 
     limit = "0,50";
-    currentPage = "1";
+    currentPage = 1;
     compareValue = "title";
     compareOrder = "asc";
 
@@ -377,7 +407,7 @@ $("#titleDesc").on("click", function () {
     getMovieCount(title, ratingString, genreType, yearNum);
 
     limit = "0,50";
-    currentPage = "1";
+    currentPage = 1;
     compareValue = "title";
     compareOrder = "desc";
 
@@ -402,7 +432,7 @@ $("#ratingAsc").on("click", function () {
     getMovieCount(title, ratingString, genreType, yearNum);
 
     limit = "0,50";
-    currentPage = "1";
+    currentPage = 1;
     compareValue = "rating";
     compareOrder = "asc";
 
@@ -427,7 +457,7 @@ $("#ratingDesc").on("click", function () {
     getMovieCount(title, ratingString, genreType, yearNum);
 
     limit = "0,50";
-    currentPage = "1";
+    currentPage = 1;
     compareValue = "rating";
     compareOrder = "desc";
 
@@ -451,7 +481,7 @@ $("#yearAsc").on("click", function () {
     getMovieCount(title, ratingString, genreType, yearNum);
 
     limit = "0,50";
-    currentPage = "1";
+    currentPage = 1;
     compareValue = "year";
     compareOrder = "asc";
 
@@ -475,7 +505,7 @@ $("#yearDesc").on("click", function () {
     getMovieCount(title, ratingString, genreType, yearNum);
 
     limit = "0,50";
-    currentPage = "1";
+    currentPage = 1;
     compareValue = "year";
     compareOrder = "desc";
 
