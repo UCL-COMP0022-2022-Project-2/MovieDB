@@ -175,7 +175,7 @@
     <div id = "footer">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link text-dark" href="javascript:void(0)">Return to the Beginning</a></li>
+                <li class="page-item" id = "firstPage"><a class="page-link text-dark" href="javascript:void(0)">Return to the Beginning</a></li>
                 <li class="page-item" id = "previousTenPages">
                     <a class="page-link text-dark" href="javascript:void(0)" aria-label="Previous">
                         <span aria-hidden="true">&laquo</span>
@@ -198,7 +198,7 @@
                         <span aria-hidden="true">&raquo</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link text-dark" href="javascript:void(0)">Return to the End</a></li>
+                <li class="page-item" id = "finalPage"><a class="page-link text-dark" href="javascript:void(0)">Return to the End</a></li>
             </ul>
         </nav>
     </div>

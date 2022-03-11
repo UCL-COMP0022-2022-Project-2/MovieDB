@@ -20,7 +20,7 @@ function inform(){
         orderString = "Ascending";
     }else if (compareOrder === "desc"){
         orderString = "Descending";
-    };
+    }
 
     var sortString = "";
     if(compareValue === "title"){
@@ -35,7 +35,27 @@ function inform(){
         "Sorted By <u>" + sortString + "</u> In <u>" + orderString +
         "</u> Order, Page Number <u>" + currentPage +"</u></i></div>";
     $("#tableHead").before(info);
-};
+}
+function printSelectPage(){
+    if (currentPage === pageCount){
+        limit = (currentPage - 1) * 50 + "," + ((currentPage - 1) * 50 + leftCount);
+    } else {
+        limit = (currentPage - 1) * 50 + "," + currentPage * 50;
+    }
+
+    $.ajax({
+        url: contextPath + "/getRequiredMovies.do",
+        traditional: true,
+        data: {
+            selectParams: [title, ratingString, genreType, yearNum],
+            sortParams: [compareValue, compareOrder, limit]
+        },
+        success(resp) {
+            deleteOld();
+            printItem(resp);
+        }
+    })
+}
 
 
 $("#getAllPosts").on("click", function() {
@@ -65,7 +85,7 @@ function getMovieCount(cTitle, cRating, cYear, cGenre){
             printPageItem(resp);
         }
     })
-};
+}
 
 function printPageItem(resp){
     $("#footer").css("display", "block");
@@ -84,25 +104,7 @@ function printPageItem(resp){
         inWhichDecade = Math.floor(currentPage / 10) + 1;
         currentPage = inWhichDecade * 10 + 1;
         if(pageCount > 10 && inWhichDecade !== (Math.floor(pageCount / 10))+1) {
-
-            if (currentPage === pageCount) {
-                limit = (currentPage - 1) * 50 + "," + ((currentPage - 1) * 50 + leftCount);
-            } else {
-                limit = (currentPage - 1) * 50 + "," + currentPage * 50;
-            }
-
-            $.ajax({
-                url: contextPath + "/getRequiredMovies.do",
-                traditional: true,
-                data: {
-                    selectParams: [title, ratingString, genreType, yearNum],
-                    sortParams: [compareValue, compareOrder, limit]
-                },
-                success(resp) {
-                    deleteOld();
-                    printItem(resp);
-                }
-            })
+            printSelectPage();
             $(".pageContent").slice((inWhichDecade - 1) * 10, inWhichDecade * 10).hide();
             if (inWhichDecade === Math.floor(pageCount) / 10 + 1) {
                 $(".pageContent").slice(inWhichDecade * 10, pageCount).show();
@@ -116,23 +118,7 @@ function printPageItem(resp){
             inWhichDecade = Math.floor(currentPage / 10) + 1;
             currentPage = (inWhichDecade-2) * 10 + 1;
 
-            if (currentPage === pageCount) {
-                limit = (currentPage - 1) * 50 + "," + ((currentPage - 1) * 50 + leftCount);
-            } else {
-                limit = (currentPage - 1) * 50 + "," + currentPage * 50;
-            }
-            $.ajax({
-                url: contextPath + "/getRequiredMovies.do",
-                traditional: true,
-                data: {
-                    selectParams: [title, ratingString, genreType, yearNum],
-                    sortParams: [compareValue, compareOrder, limit]
-                },
-                success(resp) {
-                    deleteOld();
-                    printItem(resp);
-                }
-            })
+            printSelectPage();
             if (inWhichDecade === Math.floor(pageCount) / 10 + 1) {
                 $(".pageContent").slice((inWhichDecade - 1) * 10, pageCount).hide();
             } else{
@@ -143,6 +129,19 @@ function printPageItem(resp){
 
         }
     })
+    $("#firstPage").on("click", function(){
+        currentPage = 1;
+        printSelectPage();
+        $(".pageContent:gt(10)").hide();
+        $(".pageContent:lt(10)").show();
+    })
+
+    $("#finalPage").on("click", function (){
+        currentPage = pageCount;
+        printSelectPage();
+        $(".pageContent").slice((Math.floor(pageCount/10)*10) , pageCount).show();
+        $(".pageContent").slice(0, Math.floor(pageCount/10)*10).hide();
+    })
     if(pageCount > 10){
         $(".pageContent:gt(9)").hide();
     }
@@ -150,28 +149,12 @@ function printPageItem(resp){
         var hrefContent = this.innerHTML;
         currentPage = hrefContent.match((/\d+/g));
 
-        if(currentPage === pageCount){
-            limit = (currentPage - 1) * 50 + "," + ((currentPage - 1) * 50 + leftCount);
-        } else {
-            limit = (currentPage - 1) * 50 + "," + currentPage * 50;
-        }
-
-        $.ajax({
-            url: contextPath + "/getRequiredMovies.do",
-            traditional: true,
-            data:{
-                selectParams: [title, ratingString, genreType, yearNum],
-                sortParams: [compareValue,compareOrder,limit]
-            },
-            success(resp){
-                deleteOld();
-                printItem(resp);
-            }
-        })
+        printSelectPage()
     });
-};
+}
 
 function printItem(resp){
+    let i;
     inform();
     if(resp.length === 0){
         $("#tableHead").css("visibility", "hidden");
@@ -181,7 +164,7 @@ function printItem(resp){
         $("#noContent").css("display", "none");
     }
 
-    for(var i = 0; i < resp.length; i++) {
+    for(i = 0; i < resp.length; i++) {
         $("#content").append("<div class = 'row itemRow my-2 mx-2'></div>");
     }
 
@@ -202,7 +185,7 @@ function printItem(resp){
 
     var titleHref;
 
-    for(var i = 0; i < resp.length; i++) {
+    for(i = 0; i < resp.length; i++) {
         titles[i].innerHTML = resp[i]["title"];
         ratings[i].innerHTML = resp[i]["rating"];
         years[i].innerHTML = resp[i]["year"];
@@ -292,7 +275,7 @@ function deleteOld(){
 
 function deletePageItem(){
     $(".pageContent").remove();
-};
+}
 
 $("#titleAsc").on("click", function () {
 
