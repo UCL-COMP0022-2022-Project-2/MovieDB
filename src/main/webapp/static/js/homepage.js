@@ -107,6 +107,7 @@ function printSelectPage(){
 //This is the button to get all movies
 $("#getAllPosts").on("click", function() {
     getMovieCount("", "", "", "")
+    showPageSelectButton();
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
@@ -118,7 +119,6 @@ $("#getAllPosts").on("click", function() {
             deleteOld();
             deletePageItem();
             printItem(resp);
-            showPageSelectButton();
         }
     })
 });
@@ -369,7 +369,7 @@ $("#searchByName").on("click", function () {
 function deleteOld(){
     $(".itemRow").remove();
 }
-// a funtion to delete old separation pages blocks
+// a function to delete old separation pages blocks
 function deletePageItem(){
     $(".pageContent").remove();
 }
