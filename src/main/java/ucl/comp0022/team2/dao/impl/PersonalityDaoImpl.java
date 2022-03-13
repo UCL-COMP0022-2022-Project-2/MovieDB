@@ -3,24 +3,24 @@ package ucl.comp0022.team2.dao.impl;
 import org.springframework.stereotype.Repository;
 import ucl.comp0022.team2.dao.interfaces.PersonalityDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
-import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 
 @Repository
 public class PersonalityDaoImpl implements PersonalityDao {
-    HashMap<String, double[]> genreMap = new HashMap<>();
 
     //Hashmap<String, List<Double>> example:  <Drama, [1, 2.35, 4, 1, 6, 4]>
     // (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of users)
 
     //read all personality and process, store in hashmap
-    public void initGenrePersonality(){
+    @Override
+    public HashMap<String, double[]> initGenrePersonality(HashMap<String, double[]> genreMap){
         try {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
@@ -56,9 +56,11 @@ public class PersonalityDaoImpl implements PersonalityDao {
                 double weight =(rating - 3) / 2;
 
                 //for every genre
-                String[] subSentences = genres.split("|");
+                String[] subSentences = genres.split("\\|");
                 for (String sub : subSentences) {
-                    //create new genre
+//                    System.out.println("sub\n"+ sub);
+
+                    //create new genre if there is no such genre
                     if(!genreMap.containsKey(sub)){
                         double[] list = {0, 0, 0, 0, 0, 0};
                         genreMap.put(sub,list);
@@ -73,7 +75,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
                         list[3] += conscientiousness * weight;
                         list[4] += extraversion * weight;
                         list[5] += 1;
-                        System.out.println("weight > 0"+list);
+//                        System.out.println("weight > 0\n"+list[0]+"\n"+list[5]);
                         genreMap.put(sub,list);
 
                     }
@@ -84,7 +86,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
                         list[3] += 7 + conscientiousness * weight;
                         list[4] += 7 + extraversion * weight;
                         list[5] += 1;
-                        System.out.println("weight < 0"+list);
+//                        System.out.println("weight < 0"+list);
                         genreMap.put(sub,list);
 
                     }
@@ -97,15 +99,16 @@ public class PersonalityDaoImpl implements PersonalityDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        System.out.printf(String.valueOf(genreMap));
 
-
+        return (genreMap);
     }
 
     @Override
-    public List<Double> getMoviePersonality(int movieIdParam) {
+    public double[] getMoviePersonality(int movieIdParam,HashMap<String, double[]> genreMap) {
+        //result: (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of genres)
+        double[] result = {0, 0, 0, 0, 0, 0};
 
-
-        Movie movie = new Movie();
         try {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
@@ -125,11 +128,33 @@ public class PersonalityDaoImpl implements PersonalityDao {
                 String genres = rs.getString("genres");
                 int year = rs.getInt("year");
 
-                movie.setMovieId(movieId);
-                movie.setTitle(title);
-                if(!genres.equals("NULL")) movie.setGenres(genres);
-                movie.setYear(year);
+//                System.out.printf("genres:\n" +genres);
+                //read the genres for this movie
+                String[] subSentences = genres.split("\\|");
+
+                //get data of the genres about the movie
+                for (String sub : subSentences) {
+
+                    double[] list = genreMap.get(sub);
+
+//                    System.out.println("sub\n"+ sub);
+
+                    //add genre data to result
+                    for(int i = 0; i < 6; i++){
+                        result[i] += list[i];
+//                        System.out.println("result "+ i +" "+ result[i] );
+                    }
+
+                }
+
+                //taking average
+                for(int i = 0; i < 5; i++){
+                    result[i] = result[i] / result[5];
+                }
+//
+
             }
+
 
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
@@ -138,13 +163,17 @@ public class PersonalityDaoImpl implements PersonalityDao {
         }
 
 
-        return null;
+        return result;
     }
 
     public static void main(String[] args) {
-        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
-//        System.out.println(new ucl.comp0022.team2.dao.impl.SearchingReportDaoImpl().getAverageScore(1));
-//        System.out.println(new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().getMoviePersonality(1));
+        HashMap<String, double[]> genreMap = new HashMap<>();
+        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality(genreMap);
+
+        System.out.println(Arrays.toString(new PersonalityDaoImpl().getMoviePersonality(1, genreMap)));
+//        for(int i = 0; i < 5; i++){
+//            System.out.println(a[i]);
+//        }
     }
 
 
