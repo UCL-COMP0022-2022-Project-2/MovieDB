@@ -99,7 +99,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        System.out.printf(String.valueOf(genreMap));
+        System.out.printf(String.valueOf(genreMap));
 
         return (genreMap);
     }
@@ -137,12 +137,12 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
                     double[] list = genreMap.get(sub);
 
-//                    System.out.println("sub\n"+ sub);
+                    System.out.println("sub\n"+ sub);
 
                     //add genre data to result
                     for(int i = 0; i < 6; i++){
                         result[i] += list[i];
-//                        System.out.println("result "+ i +" "+ result[i] );
+                        System.out.println("result "+ i +" "+ result[i] );
                     }
 
                 }
