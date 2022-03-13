@@ -49,6 +49,9 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
                 double rating = rs.getDouble("rating");
 
+                //rating 1-5
+                //personality (openness) 1-7
+
                 //calculate the weight of the user
                 //e.g. Rating:5 -> weight: 1;  it will positively affect the parameter (openness + 7)
                 //Rating:1 -> weight: -1;  it will positively affect the parameter (openness + 1)
@@ -69,22 +72,22 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
                     //remap (-1 ~ 1)*personality to 1-7
                     if(weight > 0){
-                        list[0] += openness * weight;
-                        list[1] += agreeableness * weight;
-                        list[2] += emotional_stability * weight;
-                        list[3] += conscientiousness * weight;
-                        list[4] += extraversion * weight;
+                        list[0] += (openness - 3) * weight + 3;     //(openness - 3) + 3 means make the value not cross the mid-point
+                        list[1] += (agreeableness - 3) * weight + 3;
+                        list[2] += (emotional_stability - 3) * weight + 3;
+                        list[3] += (conscientiousness - 3) * weight + 3;
+                        list[4] += (extraversion - 3) * weight + 3;
                         list[5] += 1;
 //                        System.out.println("weight > 0\n"+list[0]+"\n"+list[5]);
                         genreMap.put(sub,list);
 
                     }
                     else if(weight < 0){
-                        list[0] += 7 + openness * weight;
-                        list[1] += 7 + agreeableness * weight;
-                        list[2] += 7 + emotional_stability * weight;
-                        list[3] += 7 + conscientiousness * weight;
-                        list[4] += 7 + extraversion * weight;
+                        list[0] += 7 + (openness - 3) * weight + 3;
+                        list[1] += 7 + (agreeableness - 3) * weight + 3;
+                        list[2] += 7 + (emotional_stability - 3) * weight + 3;
+                        list[3] += 7 + (conscientiousness - 3) * weight + 3;
+                        list[4] += 7 + (extraversion - 3) * weight + 3;
                         list[5] += 1;
 //                        System.out.println("weight < 0"+list);
                         genreMap.put(sub,list);
