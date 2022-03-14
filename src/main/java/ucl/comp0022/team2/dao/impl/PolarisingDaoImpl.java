@@ -15,27 +15,41 @@ import java.util.List;
 public class PolarisingDaoImpl implements PolarisingDao {
 
     @Override
-    public List<HashMap<Integer, Double>> getPolarisingMovieList() {
-        List<HashMap<Integer, Double>> list = new ArrayList<>();
+    public List<Movie> getPolarisingMovieList() {
+        List<Movie> list = new ArrayList<>();
         try {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
 
             // Writing sql and parameters...
-            String sql = "SELECT (COUNT(IF (r.rating > 4, r.movieId, null)) + COUNT(IF (r.rating < 2, r.movieId, null))) " +
-                    "/ COUNT(r.movieId) AS score, m.movieId FROM movies AS m\n" +
-                    "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
-                    "GROUP BY m.movieId ORDER BY score DESC;";
+            String sql = "SELECT m.movieID as movieID,m.title as title,m.genres as genres,"+
+            "m.year as year,sc.score as score, sc.avg_rating as avg_rating\n"+
+            "FROM movies AS m, ratings AS r\n" +
+            "(SELECT var(rating) as score, movieID\n"+
+            "FROM ratings\n"+
+            "GROUP BY movieID) as sc\n"+
+            "WHERE sc.movieID = m.movieID\n"+
+            "and m.movieID = r.movieID\n"+
+            "ORDER BY score DESC;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
             while(rs.next()) {
-                HashMap<Integer, Double> map = new HashMap<>();
-                Integer movieId = rs.getInt("movieId");
+                Movie movie = new Movie();
                 Double score = rs.getDouble("score");
-                map.put(movieId,score);
-                list.add(map);
+                int movieId = rs.getInt("movieId");
+                String title = rs.getString("title");
+                String genres = rs.getString("genres");
+                Double rating = rs.getDouble("rating");
+                int year = rs.getInt("year");
+                movie.setMovieId(movieId);
+                movie.setTitle(title);
+                if(!genres.equals("NULL")) movie.setGenres(genres);
+                movie.setYear(year);
+                movie.setRating(rating);
+                list.add(movie);
             }
+            
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
