@@ -10,29 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 公式如下：
+ *
  * 　　weighted rank (WR) = (v ÷ (v+m)) × R + (m ÷ (v+m)) × C
- * 　　其中：
- * 　　R = average for the movie (mean) = (Rating) （是用普通的方法计算出的平均分）
- * 　　v = number of votes for the movie = (votes) （投票人数，需要注意的是，只有经常投票者才会被计算在内，这个下面详细解释）
- * 　　m = minimum votes required to be listed in the top 250 (currently 1250) （进入imdb top 250需要的最小票数，只有三两个人投票的电影就算得满分也没用的）
- * 　　C = the mean vote across the whole report (currently 6.9) （目前所有电影的平均得分）
- *    本次计算 m 取250，可调整，C = allMoviesAvg
+ * 　
+ * 　　R = average for the movie (mean) = (Rating)
+ * 　　v = number of votes for the movie = (votes)
+ * 　　m = minimum votes required to be listed in the top 250 (currently 1250)
+ * 　　C = the mean vote across the whole report (currently 6.9)
+ *    m=250 ,C = allMoviesAvg
  */
 public class PredictionDaoImpl implements PredictionDao {
     @Override
     public List<HashMap<Integer, Double>> getForecastMovieList() {
         // minimum votes required to be listed
         int minimum = 250;
-        // 电影评论超过10才计算
         int minRatingCount = 10;
         List<HashMap<Integer, Double>> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            // 先计算目前所有电影的平均得分
             String sql = "SELECT AVG(rating) avg FROM ratings;";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
-            // 目前所有电影的平均得分
             double allMoviesAvg = 0d;
             while(rs.next()) {
                 allMoviesAvg = rs.getDouble("avg");

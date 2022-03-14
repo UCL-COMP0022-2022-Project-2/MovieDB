@@ -3,6 +3,7 @@ package ucl.comp0022.team2.dao.impl;
 import org.springframework.stereotype.Repository;
 import ucl.comp0022.team2.dao.interfaces.PopularDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
+import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
