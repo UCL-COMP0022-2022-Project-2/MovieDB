@@ -23,10 +23,11 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link"
-                   href="http://localhost:8080/MovieDB_war_exploded/popular.html">Most Popular Movies</a>
+                   href="${pageContext.request.contextPath}/popular.html">Most Popular Movies</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Most Polarizing Movies</a>
+                <a class="nav-link"
+                   href="${pageContext.request.contextPath}/polarizing.html">Most Polarizing Movies</a>
             </li>
         </ul>
 
@@ -209,7 +210,7 @@
                     </a>
                 </li>
                 <li class="page-item" id = "finalPage">
-                    <a class="page-link text-dark" href="javascript:void(0)">Return to the End</a
+                    <a class="page-link text-dark" href="javascript:void(0)">Return to the End</a>
                 </li>
             </ul>
         </nav>
