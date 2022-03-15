@@ -27,5 +27,8 @@ public class MainController {
         return "popular";
     }
 
-
+    @RequestMapping("/polarizing.html")
+    public String polarizing(){
+        return "polarizing";
+    }
 }
