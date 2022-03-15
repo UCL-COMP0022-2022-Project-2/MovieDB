@@ -76,8 +76,16 @@
 
         <hr>
     </div>
-
-
+    <div>
+        <p>Example 8:get the most polarizing & popular movies, first 50 entries</p>
+        <button class="btn btn-dark" id="ahhhh">
+            getPolarizing
+        </button>
+        <hr>
+        <button class="btn btn-dark" id="bhhhh">
+            getPopluar
+        </button>
+    </div>
 
 
 </div>

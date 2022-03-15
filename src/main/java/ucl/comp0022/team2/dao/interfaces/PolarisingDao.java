@@ -5,5 +5,5 @@ import java.util.List;
 import ucl.comp0022.team2.model.Movie;
 
 public interface PolarisingDao {
-    List<Movie> getPolarisingMovieList();
+    List<Movie> getPolarisingMovieList(String limit);
 }

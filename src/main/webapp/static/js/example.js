@@ -95,3 +95,23 @@ $("#getMovieCount").on("click", function () {
 $("#newGetReport").on("click", function () {
     alert("please wait, it takes long time to load");
 });
+$("#ahhhh").on("click", function () {
+    $.ajax({
+        url: contextPath + "/getPolarizingMovies/" + "0" + "/" + "50" + ".do",
+        success(resp){
+            for(var i = 0; i < resp.length; i++){
+                console.log(resp[i])
+            }
+        }
+    })
+});
+$("#bhhhh").on("click", function () {
+    $.ajax({
+        url: contextPath + "/getPopularMovies/" + "0" + "/" + "50" + ".do",
+        success(resp){
+            for(var i = 0; i < resp.length; i++){
+                console.log(resp[i])
+            }
+        }
+    })
+});

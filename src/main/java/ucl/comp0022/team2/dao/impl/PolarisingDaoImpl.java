@@ -15,7 +15,7 @@ import java.util.List;
 public class PolarisingDaoImpl implements PolarisingDao {
 
     @Override
-    public List<Movie> getPolarisingMovieList() {
+    public List<Movie> getPolarisingMovieList(String limit) {
         List<Movie> list = new ArrayList<>();
         try {
             // Connection to the database...
@@ -30,7 +30,8 @@ public class PolarisingDaoImpl implements PolarisingDao {
                     "GROUP BY movieID) as sc\n"+
                     "WHERE sc.movieID = m.movieID\n"+
                     "and m.movieID = r.movieID\n"+
-                    "ORDER BY score DESC;";
+                    "ORDER BY score DESC\n"+
+                    "LIMIT " + limit +";";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
@@ -59,6 +60,6 @@ public class PolarisingDaoImpl implements PolarisingDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PolarisingDaoImpl().getPolarisingMovieList());
+        System.out.println(new PolarisingDaoImpl().getPolarisingMovieList("100, 50"));
     }
 }
