@@ -16,7 +16,22 @@
 </head>
 <body>
 <input id="contextPath" type="hidden" value=${pageContext.request.contextPath}/>
+<div class = "container-fluid">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
 
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="http://localhost:8080/MovieDB_war_exploded/popular.html">Most Popular Movies</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Most Polarizing Movies</a>
+            </li>
+        </ul>
+
+    </nav>
+</div>
 <div class="container">
     <div id = "header">
         <div class = "row" id = "caption">
@@ -64,7 +79,8 @@
             <div class = "col-3 mt-2">
                 <div class="input-group">
                     <span class="input-group-text">Published Year</span>
-                    <input class="form-control" type = "number" placeholder="YYYY" min = "1902" max = "2018" id = "yearNum">
+                    <input class="form-control" type = "number" placeholder="YYYY"
+                           min = "1902" max = "2018" id = "yearNum">
                 </div>
             </div>
             <div class = "col-3 mt-2">
@@ -115,7 +131,8 @@
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item dropdown" id = "titleNav">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role = "button" data-bs-toggle = "dropdown">Title</a>
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                           role = "button" data-bs-toggle = "dropdown">Title</a>
                         <ul class = "dropdown-menu">
                             <a class="dropdown-item" id ="titleAsc" href = "javascript:void(0)">from A to Z</a>
 
@@ -123,7 +140,8 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown" id = "ratingNav">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role = "button" data-bs-toggle = "dropdown">Rating</a>
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                           role = "button" data-bs-toggle = "dropdown">Rating</a>
                         <ul class = "dropdown-menu">
                             <a class="dropdown-item" id ="ratingAsc" href = "javascript:void(0)">from low to high</a>
 
@@ -131,7 +149,8 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown" id = "yearNav">
-                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role = "button" data-bs-toggle = "dropdown">Year</a>
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                           role = "button" data-bs-toggle = "dropdown">Year</a>
 
                         <ul class = "dropdown-menu">
                             <a class="dropdown-item" id ="yearAsc" href = "javascript:void(0)">from past to present</a>
@@ -175,7 +194,9 @@
     <div id = "footer" class="mt-5">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <li class="page-item" id = "firstPage"><a class="page-link text-dark" href="javascript:void(0)">Return to the Beginning</a></li>
+                <li class="page-item" id = "firstPage">
+                    <a class="page-link text-dark" href="javascript:void(0)">Return to the Beginning</a>
+                </li>
                 <li class="page-item" id = "previousTenPages">
                     <a class="page-link text-dark" href="javascript:void(0)" aria-label="Previous">
                         <span aria-hidden="true">&laquo</span>
@@ -187,7 +208,9 @@
                         <span aria-hidden="true">&raquo</span>
                     </a>
                 </li>
-                <li class="page-item" id = "finalPage"><a class="page-link text-dark" href="javascript:void(0)">Return to the End</a></li>
+                <li class="page-item" id = "finalPage">
+                    <a class="page-link text-dark" href="javascript:void(0)">Return to the End</a
+                </li>
             </ul>
         </nav>
     </div>
