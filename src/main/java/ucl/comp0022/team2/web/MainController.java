@@ -22,5 +22,10 @@ public class MainController {
         return "homepage";
     }
 
+    @RequestMapping("/popular.html")
+    public String popular(){
+        return "popular";
+    }
+
 
 }
