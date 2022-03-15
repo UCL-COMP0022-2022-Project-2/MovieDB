@@ -6,6 +6,6 @@ import ucl.comp0022.team2.model.Movie;
 
 public interface PopularDao {
     List<Movie> getPopularMovieAvgList();
-    List<HashMap<Integer, Double>> getPopularMovieTagsList();
-    List<HashMap<Integer, Double>> getPopularMovieRatingsList();
+    List<Movie> getPopularMovieTagsList();
+    List<Movie> getPopularMovieRatingsList();
 }

@@ -23,24 +23,23 @@ public class PolarisingDaoImpl implements PolarisingDao {
 
             // Writing sql and parameters...
             String sql = "SELECT m.movieID as movieID,m.title as title,m.genres as genres,"+
-            "m.year as year,sc.score as score, sc.avg_rating as avg_rating\n"+
-            "FROM movies AS m, ratings AS r\n" +
-            "(SELECT var(rating) as score, movieID\n"+
-            "FROM ratings\n"+
-            "GROUP BY movieID) as sc\n"+
-            "WHERE sc.movieID = m.movieID\n"+
-            "and m.movieID = r.movieID\n"+
-            "ORDER BY score DESC;";
+                    "m.year as year,sc.score as score, sc.avg_rating as avg_rating\n"+
+                    "FROM movies AS m, ratings AS r,\n" +
+                    "(SELECT IFNULL(VAR_POP(r.rating), 0) AS score, movieID,IFNULL(AVG(r.rating),0) AS  avg_rating\n"+
+                    "FROM ratings AS r\n"+
+                    "GROUP BY movieID) as sc\n"+
+                    "WHERE sc.movieID = m.movieID\n"+
+                    "and m.movieID = r.movieID\n"+
+                    "ORDER BY score DESC;";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
             while(rs.next()) {
                 Movie movie = new Movie();
-                Double score = rs.getDouble("score");
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
-                Double rating = rs.getDouble("rating");
+                Double rating = rs.getDouble("avg_rating");
                 int year = rs.getInt("year");
                 movie.setMovieId(movieId);
                 movie.setTitle(title);
