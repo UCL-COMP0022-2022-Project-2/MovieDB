@@ -13,6 +13,8 @@ var compareOrder = "";
 var inWhichDecade;
 // set All global variables to blank
 
+window.onload = allPost;
+
 //This is an information block which inform user the page number and the sort method
 function inform(){
     $("#information").remove();
@@ -105,7 +107,7 @@ function printSelectPage(){
     })
 }
 //This is the button to get all movies
-$("#getAllPosts").on("click", function() {
+function allPost(){
     getMovieCount("", "", "", "")
     showPageSelectButton();
     $.ajax({
@@ -121,7 +123,8 @@ $("#getAllPosts").on("click", function() {
             printItem(resp);
         }
     })
-});
+};
+$("#getAllPosts").on("click", allPost);
 
 //This is the function to pass variables when choosing separation pages and get the count of required movies
 function getMovieCount(cTitle, cRating, cYear, cGenre){

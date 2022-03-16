@@ -15,11 +15,32 @@
     <title>Most Popular Movies</title>
 </head>
 <body>
+<div class = "container-fluid">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+
+        <ul class="navbar-nav ms-5 ps-5">
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/homepage.html">Homepage</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/popular.html">Most Popular Movies</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/polarizing.html">Most Polarizing Movies</a>
+            </li>
+        </ul>
+
+    </nav>
+</div>
+
 <div class="container">
 
     <div id = "header">
         <div class = "row" id = "caption">
-            <h1 class = "display-1 text-center">Top 50 Most Popular Movies</h1>
+            <h1 class = "display-1 text-center" id = "title">Top 50 Most Popular Movies</h1>
         </div>
     </div>
 

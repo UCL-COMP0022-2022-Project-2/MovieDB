@@ -1,6 +1,11 @@
-var contextPath = $("#contextPath").val();
-
 window.onload = getPopular;
+
+function changeHeader(number){
+    $("#title").remove();
+    var newTitle = '<h1 class = "display-1 text-center" id = "title">Top ' + number + ' Most Popular Movies</h1>'
+    $("#caption").append(newTitle);
+}
+
 
 function printPopularItem(resp){
     let i;
@@ -68,12 +73,16 @@ $("#submit").on("click", function(){
         alert("You have not entered any selection, the page will reload, please re-enter");
         location.reload();
     }else if(num >= 10000){
+        changeHeader(num)
         num = "-1";
+    } else {
+        changeHeader(num);
     }
 
     $.ajax({
         url: "/MovieDB_war_exploded/getPopularMovies/" + "0" + "/" + num + ".do",
         success(resp){
+
             deleteOld()
             printPopularItem(resp)
         }
