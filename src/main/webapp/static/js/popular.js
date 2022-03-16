@@ -50,10 +50,33 @@ function printPopularItem(resp){
 }
 function getPopular(){
     $.ajax({
-        url: contextPath + "/getPopularMovies/" + "0" + "/" + "50" + ".do",
+        url: "/MovieDB_war_exploded/getPopularMovies/" + "0" + "/" + "50" + ".do",
         success(resp){
-            console.log(resp)
             printPopularItem(resp)
         }
     })
 }
+
+function deleteOld(){
+    $(".itemRow").remove();
+}
+
+$("#submit").on("click", function(){
+    var num = $("#wantNum").val();
+
+    if(num === ""){
+        alert("You have not entered any selection, the page will reload, please re-enter");
+        location.reload();
+    }else if(num >= 10000){
+        num = "-1";
+    }
+
+    $.ajax({
+        url: "/MovieDB_war_exploded/getPopularMovies/" + "0" + "/" + num + ".do",
+        success(resp){
+            deleteOld()
+            printPopularItem(resp)
+        }
+    })
+})
+

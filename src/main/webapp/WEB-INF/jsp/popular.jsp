@@ -12,30 +12,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/popular.css">
     <link href="${pageContext.request.contextPath}/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <title>Title</title>
     <title>Most Popular Movies</title>
 </head>
 <body>
-<h1>Top 50 Most Popular Movies</h1>
-<div id = "content">
-    <div class = "row mx-2" id = "tableHead">
-        <div class = "col-4 ps-5">
-            <h3>Title</h3>
-        </div>
-        <div class = "col-2 ps-4">
-            <h3>Rating</h3>
-        </div>
-        <div class = "col-2 ps-4">
-            <h3>Year</h3>
-        </div>
-        <div class = "col-4">
-            <h3>Genre</h3>
+<div class="container">
+
+    <div id = "header">
+        <div class = "row" id = "caption">
+            <h1 class = "display-1 text-center">Top 50 Most Popular Movies</h1>
         </div>
     </div>
+
+    <div id = "input" class = "mb-5 d-flex justify-content-end">
+        <label for = "wantNum" class="form-label fst-italic fw-light">Still Want More?
+            You can enter the top number of the most popular movies you want to see in the box:</label>
+        <div class = input-group>
+            <input class="form-control-sm border-1" list="wantNums" name="wantNumber" id="wantNum"
+                   type = "number" max = "10000" min = "0" placeholder="Top">
+
+            <datalist id="wantNums">
+                <option value="10">
+                <option value="30">
+                <option value="50">
+                <option value="100">
+            </datalist>
+
+            <button class = "btn btn-secondary" id = "submit" type = "submit">Submit</button>
+        </div>
+    </div>
+
+    <div id = "content">
+        <div class = "row mx-2" id = "tableHead">
+            <div class = "col-4 ps-5">
+                <h3>Title</h3>
+            </div>
+            <div class = "col-2 ps-4">
+                <h3>Rating</h3>
+            </div>
+            <div class = "col-2 ps-4">
+                <h3>Year</h3>
+            </div>
+            <div class = "col-4">
+                <h3>Genre</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id = "noContent" class="alert alert-primary">
+        <strong>The movie you are looking for does not exist, please check again!</strong>
+    </div>
 </div>
-<div id = "noContent" class="alert alert-primary">
-    <strong>The movie you are looking for does not exist, please check again!</strong>
-</div>
+
 <script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popular.js"></script>
