@@ -1,5 +1,5 @@
 .title{
-    color: #002fa7;
+    color: #2F4F4F;
     text-decoration: none;
 }
 
@@ -8,6 +8,7 @@
 }
 
 #content a:hover {
+    color: #002fa7;
     text-decoration: underline;
 }
 

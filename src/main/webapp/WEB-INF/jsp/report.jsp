@@ -58,6 +58,16 @@
     </c:forEach>
     </div>
 </div>
+<div class = "container-fluid mt-5">
+    <footer class="text-center text-white" style="background-color: #f1f1f1;">
+        <div class="text-center text-dark p-3">
+            © 2022 Copyright:
+            <a class="text-dark" href="${pageContext.request.contextPath}/homepage.html">Movie DB</a>
+             &
+            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">Github</a>
+        </div>
+    </footer>
+</div>
 <script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/report.js"></script>
