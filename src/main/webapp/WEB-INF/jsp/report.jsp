@@ -23,13 +23,12 @@
         <div id = "caption">
             <h1 class = "display-3 text-center">User Rating Report</h1>
             <div class="row text-center infoLine">
-                <div class="col-6 pt-2 mt-3 ps-5"><p id = "pMovieId" class="h5">Movie: ${movieName}</p></div>
-                <!--
-                <div class="display-5">Movie Id: ${movieId}</div>
-                <div class="display-5">Movie Name: ${movieName}</div>
-                <div class="display-5">Movie Rating: ${movieRating}</div>
-                -->
-                <div class="col-6 pt-2 mt-3 pe-5"><p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p></div>
+                <div class="col-6 pt-2 mt-3 ps-5">
+                    <p id = "pMovieId" class="h5">Movie: ${movieName}</p>
+                </div>
+                <div class="col-6 pt-2 mt-3 pe-5">
+                    <p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p>
+                </div>
             </div>
         </div>
     </div>

@@ -2,8 +2,11 @@
     color: #002fa7;
     text-decoration: none;
 }
+#movieDBNavigation a:hover{
+    text-decoration: underline;
+}
 
-a:hover {
+#content a:hover {
     text-decoration: underline;
 }
 

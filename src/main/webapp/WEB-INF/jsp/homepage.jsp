@@ -19,7 +19,9 @@
 <div class = "container-fluid">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
 
-        <ul class="navbar-nav ms-5 ps-5">
+        <a class="navbar-brand ps-2 fw-bold" disabled>Movie DB</a>
+
+        <ul class="navbar-nav" id = "movieDBNavigation">
             <li class="nav-item mx-2">
                 <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/homepage.html">Homepage</a>

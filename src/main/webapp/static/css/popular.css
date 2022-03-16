@@ -3,7 +3,11 @@
     text-decoration: none;
 }
 
-a:hover {
+#movieDBNavigation a:hover{
+    text-decoration: underline;
+}
+
+#content a:hover {
     text-decoration: underline;
 }
 

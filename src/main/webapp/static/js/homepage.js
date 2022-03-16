@@ -21,7 +21,7 @@ function inform(){
     $(".pageInfoFooter").remove();
 
     var orderString = "";
-    var sortString = "";
+    var sortString = "no specific";
 
     if(compareOrder === "asc"){
         if(compareValue === "title"){
@@ -47,7 +47,9 @@ function inform(){
         }
     }
 
-    var info = "<div class = 'row alert alert-primary mx-1 mb-3 pt-3'  id = 'information'><i class = 'text-body'>" +
+    var info =
+        "<div class = 'row mx-1 fw-light text-end' id = 'information'>" +
+        "<i class = 'text-body'>" +
         "Sorted By <u>" + sortString + "</u> <u>" + orderString +
         "</u>, Page <u>" + currentPage + "</u></i></div>";
     $("#tableHead").before(info);
