@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/report.css">
     <link href="${pageContext.request.contextPath}/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <title>Title</title>
+    <title>User Rating Report</title>
 </head>
 <body>
 

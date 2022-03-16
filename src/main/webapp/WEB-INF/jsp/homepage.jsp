@@ -19,14 +19,17 @@
 <div class = "container-fluid">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
 
-        <!-- Links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link"
+        <ul class="navbar-nav ms-5 ps-5">
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/homepage.html">Homepage</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/popular.html">Most Popular Movies</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link"
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/polarizing.html">Most Polarizing Movies</a>
             </li>
         </ul>
