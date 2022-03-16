@@ -19,8 +19,11 @@ public class PersonalityDaoImpl implements PersonalityDao {
     // (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of users)
 
     //read all personality and process, store in hashmap
+    //output hashmap to database
     @Override
-    public HashMap<String, double[]> initGenrePersonality(HashMap<String, double[]> genreMap){
+    public void initGenrePersonality(){
+        HashMap<String,double[]> genreMap = new HashMap<>();
+
         try {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
@@ -29,11 +32,10 @@ public class PersonalityDaoImpl implements PersonalityDao {
             String sql = "SELECT p.userId,r.movie_id,m.genres,r.rating,p.openness, p.agreeableness, p. emotional_stability, p.conscientiousness,p.extraversion " +
                     "FROM personality_rating r LEFT OUTER JOIN  personality p  ON p.userId = r.userId " +
                     "LEFT OUTER JOIN movies m ON m.movieId = r.movie_id " +
-                    "WHERE r.movie_id = 1 ";
+                    "WHERE m.genres IS NOT NULL";
             //join user personality and the rating they give, and gain the genres of the movie
 
             List<Integer> param = new ArrayList<>();
-
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, param);
             // Reading, analysing and saving the results...
@@ -49,13 +51,25 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
                 double rating = rs.getDouble("rating");
 
-                //rating 1-5
-                //personality (openness) 1-7
+//                                System.out.println(genres);
+
+
+/*              Explain the algorithm:
+                Domain of value:
+                rating: 1-5    midpoint:3
+                personality (e.g. openness): 1-7    midpoint: 4
+
+                First calculate the weight
+                Rating:5 -> weight: 1;  it will positively affect the parameter (e.g. openness + 7)
+                Rating:1 -> weight: -1;  it will negatively affect the parameter (e.g. openness + 1)
+                Rating:3 -> weight: 0;  Not affect the parameter
+                The positive and negative is compare to its midpoint so there is some step to remap the change of
+                score to the right domain(not cross the mid-point)
+                 (e.g. make sure openness 7 will only positively affect the score which the result will not be under 4)
+                */
+
 
                 //calculate the weight of the user
-                //e.g. Rating:5 -> weight: 1;  it will positively affect the parameter (openness + 7)
-                //Rating:1 -> weight: -1;  it will positively affect the parameter (openness + 1)
-                //Rating:3 -> weight: 0;  Not affect the parameter
                 double weight =(rating - 3) / 2;
 
                 //for every genre
@@ -97,20 +111,45 @@ public class PersonalityDaoImpl implements PersonalityDao {
                 }
             }
 
+
+
+            //write into database
+
+            //for every genre in hashmap
+            for (String key : genreMap.keySet()) {
+                double[] list = genreMap.get(key);
+                List<Double> temp_param = new ArrayList<>();
+
+                //taking average
+                for(int i = 0; i < 5; i++){
+                    temp_param.add(list[i] / list[5]);
+                }
+
+                //insert if not exist
+                sql = "\n" +
+                        "INSERT INTO genre_personality(genre, openness, agreeableness, emotional_stability, conscientiousness, extraversion)  SELECT \""+key+"\",?,?,?,?,? "+
+                        "WHERE NOT EXISTS(SELECT genre FROM genre_personality WHERE genre =  \""+key+"\")";
+
+                // Executing queries...
+                int line = MySQLHelper.executeUpdate(conn, sql, temp_param);
+//                System.out.println(line);
+
+            }
+
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.printf(String.valueOf(genreMap));
+//        System.out.printf(String.valueOf(genreMap));
 
-        return (genreMap);
     }
 
     @Override
-    public double[] getMoviePersonality(int movieIdParam,HashMap<String, double[]> genreMap) {
+    public double[] getMoviePersonality(int movieIdParam) {
+        HashMap<String,double[]> genreMap = new HashMap<>();
         //result: (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of genres)
-        double[] result = {0, 0, 0, 0, 0, 0};
+        double[] result = {0, 0, 0, 0, 0};
 
         try {
             // Connection to the database...
@@ -126,36 +165,60 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
             // Reading, analysing and saving the results...
             while(rs.next()) {
-                int movieId = rs.getInt("movieId");
-                String title = rs.getString("title");
                 String genres = rs.getString("genres");
-                int year = rs.getInt("year");
 
-//                System.out.printf("genres:\n" +genres);
+
+//                System.out.println("genres:\n" +genres);
+
                 //read the genres for this movie
                 String[] subSentences = genres.split("\\|");
 
+                for (String sub : subSentences) {
+//                    System.out.println(sub);
+                    sql = "SELECT * FROM genre_personality WHERE genre = ?;";
+                    List<String> param_genre = new ArrayList<>();
+                    param_genre.add(sub);
+
+                    // Executing queries...
+                    ResultSet rs_genre = MySQLHelper.executingQuery(conn, sql, param_genre);
+//                    System.out.println(param_genre);
+                    while(rs_genre.next()) {
+
+                        //get score
+                        double openness = rs_genre.getDouble("openness");
+                        double agreeableness = rs_genre.getDouble("agreeableness");
+                        double emotional_stability = rs_genre.getDouble("emotional_stability");
+                        double conscientiousness = rs_genre.getDouble("conscientiousness");
+                        double extraversion = rs_genre.getDouble("extraversion");
+                        double[] list = {openness, agreeableness, emotional_stability, conscientiousness, extraversion};
+                        genreMap.put(sub,list);
+
+                    }
+                }
+
+
+
+
+                int num_genre = 0;
                 //get data of the genres about the movie
                 for (String sub : subSentences) {
 
                     double[] list = genreMap.get(sub);
 
-                    System.out.println("sub\n"+ sub);
+//                    System.out.println("sub\n"+ sub);
 
                     //add genre data to result
-                    for(int i = 0; i < 6; i++){
+                    for(int i = 0; i < list.length; i++){
                         result[i] += list[i];
-                        System.out.println("result "+ i +" "+ result[i] );
+//                        System.out.println("result "+ i +" "+ result[i] );
                     }
-
+                    num_genre += 1;
                 }
 
                 //taking average
-                for(int i = 0; i < 5; i++){
-                    result[i] = result[i] / result[5];
+                for(int i = 0; i < result.length; i++){
+                    result[i] = result[i] / num_genre;
                 }
-//
-
             }
 
 
@@ -170,13 +233,8 @@ public class PersonalityDaoImpl implements PersonalityDao {
     }
 
     public static void main(String[] args) {
-        HashMap<String, double[]> genreMap = new HashMap<>();
-        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality(genreMap);
-
-        System.out.println(Arrays.toString(new PersonalityDaoImpl().getMoviePersonality(1, genreMap)));
-//        for(int i = 0; i < 5; i++){
-//            System.out.println(a[i]);
-//        }
+//        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
+        System.out.println(Arrays.toString(new PersonalityDaoImpl().getMoviePersonality(1)));
     }
 
 
