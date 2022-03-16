@@ -43,7 +43,7 @@ function printPopularItem(resp){
     var titleHref;
 
     for(i = 0; i < resp.length; i++) {
-        titles[i].innerHTML = resp[i]["title"];
+        titles[i].innerHTML = i + 1 + ". " + resp[i]["title"];
         ratings[i].innerHTML = resp[i]["rating"];
         years[i].innerHTML = resp[i]["year"];
         genres[i].innerHTML = resp[i]["genres"];
