@@ -26,12 +26,12 @@ public class Case3ServiceImpl implements Case3Service {
 
     @Override
     public List<Movie> getPopularMoviesByTags(String limit) {
-        return null;
+        return popularDao.getPopularMovieTagsList(limit);
     }
 
     @Override
     public List<Movie> getPopularMoviesByRating(String limit) {
-        return null;
+        return popularDao.getPopularMovieRatingsList(limit);
     }
 
     @Autowired
