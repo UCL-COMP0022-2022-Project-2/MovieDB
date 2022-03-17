@@ -23,13 +23,12 @@
         <div id = "caption">
             <h1 class = "display-3 text-center">User Rating Report</h1>
             <div class="row text-center infoLine">
-                <div class="col-6 pt-2 mt-3 ps-5"><p id = "pMovieId" class="h5">Movie: ${movieName}</p></div>
-                <!--
-                <div class="display-5">Movie Id: ${movieId}</div>
-                <div class="display-5">Movie Name: ${movieName}</div>
-                <div class="display-5">Movie Rating: ${movieRating}</div>
-                -->
-                <div class="col-6 pt-2 mt-3 pe-5"><p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p></div>
+                <div class="col-6 pt-2 mt-3 ps-5">
+                    <p id = "pMovieId" class="h5">Movie: ${movieName}</p>
+                </div>
+                <div class="col-6 pt-2 mt-3 pe-5">
+                    <p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -58,6 +57,16 @@
         </div>
     </c:forEach>
     </div>
+</div>
+<div class = "container-fluid mt-5">
+    <footer class="text-center text-white" style="background-color: #f1f1f1;">
+        <div class="text-center text-dark p-3">
+            © 2022 Copyright:
+            <a class="text-dark" href="${pageContext.request.contextPath}/homepage.html">Movie DB</a>
+             &
+            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">Github</a>
+        </div>
+    </footer>
 </div>
 <script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap/bootstrap.min.js"></script>

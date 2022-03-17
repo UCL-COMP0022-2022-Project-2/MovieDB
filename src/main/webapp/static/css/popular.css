@@ -1,9 +1,14 @@
 .title{
-    color: #002fa7;
+    color: #2F4F4F;
     text-decoration: none;
 }
 
-a:hover {
+#movieDBNavigation a:hover{
+    text-decoration: underline;
+}
+
+#content a:hover {
+    color: #002fa7;
     text-decoration: underline;
 }
 

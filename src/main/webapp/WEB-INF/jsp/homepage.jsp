@@ -19,7 +19,9 @@
 <div class = "container-fluid">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
 
-        <ul class="navbar-nav ms-5 ps-5">
+        <a class="navbar-brand ps-2 fw-bold" disabled>Movie DB</a>
+
+        <ul class="navbar-nav" id = "movieDBNavigation">
             <li class="nav-item mx-2">
                 <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/homepage.html">Homepage</a>
@@ -218,7 +220,17 @@
             </ul>
         </nav>
     </div>
+</div>
 
+<div class = "container-fluid mt-5">
+    <footer class="text-center text-white" style="background-color: #F1F1F1;">
+        <div class="text-center text-dark p-3">
+            © 2022 Copyright:
+            <a class="text-dark" href="${pageContext.request.contextPath}/homepage.html">Movie DB</a>
+             &
+            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">Github</a>
+        </div>
+    </footer>
 </div>
 
 
