@@ -15,9 +15,21 @@ public class Case3Controller {
     private Case3Service case3Service;
 
     @ResponseBody
-    @RequestMapping("getPopularMovies/{limitStart}/{limitLength}.do")
-    public List<Movie> getPopularMovies(@PathVariable String limitStart, @PathVariable String limitLength){
+    @RequestMapping("getPopularMoviesByAvgRating/{limitStart}/{limitLength}.do")
+    public List<Movie> getPopularMoviesByAvgRating(@PathVariable String limitStart, @PathVariable String limitLength){
         return case3Service.getPopularMoviesAverage(limitStart + ", " + limitLength);
+    }
+
+    @ResponseBody
+    @RequestMapping("getPopularMoviesByCountRating/{limitStart}/{limitLength}.do")
+    public List<Movie> getPopularMoviesByCountRating(@PathVariable String limitStart, @PathVariable String limitLength){
+        return case3Service.getPopularMoviesByRating(limitStart + ", " + limitLength);
+    }
+
+    @ResponseBody
+    @RequestMapping("getPopularMoviesByCountTags/{limitStart}/{limitLength}.do")
+    public List<Movie> getPopularMoviesByCountTags(@PathVariable String limitStart, @PathVariable String limitLength){
+        return case3Service.getPopularMoviesByTags(limitStart + ", " + limitLength);
     }
 
     @ResponseBody
