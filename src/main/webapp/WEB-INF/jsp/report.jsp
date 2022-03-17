@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top pt-3 pb-2 border">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top pt-3 pb-2 border bg-white">
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav">
                     <div class = "nav-item text-dark h3" id = "userId">UserId</div>

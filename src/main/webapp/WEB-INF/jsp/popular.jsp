@@ -34,11 +34,11 @@
                     </a>
 
                     <a class="dropdown-item" href = "javascript:void(0)" id = "CountRatings">
-                        Sort By Numbers of User's Ratings
+                        Sort By Numbers of Users' Ratings
                     </a>
 
                     <a class="dropdown-item" href = "javascript:void(0)" id = "CountTags">
-                        Sort By Numbers of User's Tags
+                        Sort By Numbers of Users' Tags
                     </a>
                 </ul>
             </li>

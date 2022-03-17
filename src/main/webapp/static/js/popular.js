@@ -115,7 +115,7 @@ $("#CountRatings").on("click", function(){
 
 $("#CountTags").on("click", function(){
     sortString = "CountTags"
-    $("#sortMethod").text("Most Popular Movie By the Number of User's Tags")
+    $("#sortMethod").text("Most Popular Movie By the Number of Users' Tags")
     $.ajax({
         url: "/MovieDB_war_exploded/getPopularMoviesByCountTags/" + "0" + "/" + "50" + ".do",
         success(resp){
