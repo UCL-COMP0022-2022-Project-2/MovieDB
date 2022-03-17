@@ -25,9 +25,20 @@
                 <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/homepage.html">Homepage</a>
             </li>
-            <li class="nav-item mx-2">
-                <a class="nav-link text-black"
-                   href="${pageContext.request.contextPath}/popular.html">Most Popular Movies</a>
+            <li class="nav-item dropdown mx-2">
+                <a class="nav-link dropdown-toggle text-black" href="javascript:void(0)"
+                   role = "button" data-bs-toggle = "dropdown">Most Popular Movies</a>
+                <ul class = "dropdown-menu">
+                    <a class="dropdown-item" href = "javascript:void(0)" id = "AvgRating">Sort By Average Rating</a>
+
+                    <a class="dropdown-item" href = "javascript:void(0)" id = "CountRatings">
+                        Sort By Numbers of User's Ratings
+                    </a>
+
+                    <a class="dropdown-item" href = "javascript:void(0)" id = "CountTags">
+                        Sort By Numbers of User's Tags
+                    </a>
+                </ul>
             </li>
             <li class="nav-item mx-2">
                 <a class="nav-link text-black"
