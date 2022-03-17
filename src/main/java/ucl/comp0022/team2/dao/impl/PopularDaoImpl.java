@@ -23,7 +23,7 @@ public class PopularDaoImpl implements PopularDao {
             Connection conn = MySQLHelper.getConnection();
             // Writing sql and parameters...
             String sql = "SELECT IFNULL(AVG(r.rating), 0) AS score, m.movieId, m.title,m.genres,m.year\n"+
-					"FROM movies m\n" +
+                    "FROM movies m\n" +
                     "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
                     "GROUP BY m.movieId ORDER BY score DESC\n" +
                     "LIMIT " + limit + ";";
@@ -52,21 +52,21 @@ public class PopularDaoImpl implements PopularDao {
         return list;
     }
 
-    //TODO: FIX SQL
     @Override
     public List<Movie> getPopularMovieTagsList(String limit) {
         List<Movie> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            String sql = "SELECT COUNT(t.movieId) AS score, m.movieId, m.title,m.genres,m.year,m.rating\n" +
-					"FROM movies m\n"+
-                    "LEFT JOIN tags AS t ON m.movieId = t.movieId\n" +
-                    "GROUP BY m.movieId ORDER BY score DESC\n" +
-                    "LIMIT " + limit + ";";
+            String sql = "SELECT COUNT(t.movieId) AS score, m.movieId, m.title,m.genres,m.year ,IFNULL(AVG(r.rating),0) AS  avg_rating\n" +
+                    "FROM movies m, ratings r, tags t\n"+
+                    "where m.movieId = t.movieId\n" +
+                    "and m.movieId = r.movieid\n"+
+                    "GROUP BY m.movieId ORDER BY score DESC\n"+
+                    "LIMIT "+ limit +";";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 Movie movie = new Movie();
-                Double rating = rs.getDouble("rating");
+                Double rating = rs.getDouble("avg_rating");
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
@@ -86,20 +86,20 @@ public class PopularDaoImpl implements PopularDao {
         return list;
     }
 
-    //TODO: FIX SQL
     @Override
     public List<Movie> getPopularMovieRatingsList(String limit) {
         List<Movie> list = new ArrayList<>();
         try {
             Connection conn = MySQLHelper.getConnection();
-            String sql = "SELECT COUNT(r.movieId) AS score, m.movieId, m.title,m.genres,m.year,m.rating\n" +
-					"FROM movies m\n" +
+            String sql = "SELECT COUNT(r.movieId) AS score, m.movieId, m.title,m.genres,m.year,IFNULL(AVG(r.rating),0) AS  avg_rating\n" +
+                    "FROM movies m\n" +
                     "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
-                    "GROUP BY m.movieId ORDER BY score DESC;";
+                    "GROUP BY m.movieId ORDER BY score DESC\n"+
+                    "LIMIT "+ limit +";";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 Movie movie = new Movie();
-                Double rating = rs.getDouble("rating");
+                Double rating = rs.getDouble("avg_rating");
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
@@ -118,6 +118,6 @@ public class PopularDaoImpl implements PopularDao {
         return list;
     }
     public static void main(String[] args) {
-        System.out.println(new PopularDaoImpl().getPopularMovieAvgList("200, 50"));
+        System.out.println(new PopularDaoImpl().getPopularMovieTagsList("0, 50"));
     }
 }

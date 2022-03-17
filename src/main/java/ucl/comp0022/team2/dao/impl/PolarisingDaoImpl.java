@@ -22,16 +22,11 @@ public class PolarisingDaoImpl implements PolarisingDao {
             Connection conn = MySQLHelper.getConnection();
 
             // Writing sql and parameters...
-            String sql = "SELECT m.movieID as movieID,m.title as title,m.genres as genres,"+
-                    "m.year as year,sc.score as score, sc.avg_rating as avg_rating\n"+
-                    "FROM movies AS m, ratings AS r,\n" +
-                    "(SELECT IFNULL(VAR_POP(r.rating), 0) AS score, movieID,IFNULL(AVG(r.rating),0) AS  avg_rating\n"+
-                    "FROM ratings AS r\n"+
-                    "GROUP BY movieID) as sc\n"+
-                    "WHERE sc.movieID = m.movieID\n"+
-                    "and m.movieID = r.movieID\n"+
-                    "ORDER BY score DESC\n"+
-                    "LIMIT " + limit +";";
+            String sql = "select movies.movieId, movies.title, movies.genres, movies.year, AVG(rating) as avg_rating\n" +
+                    "from movies left join ratings r on movies.movieId = r.movieId\n" +
+                    "group by movies.movieId\n" +
+                    "order by VARIANCE(rating) desc\n" +
+                    "limit " + limit + ";";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
@@ -60,6 +55,6 @@ public class PolarisingDaoImpl implements PolarisingDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PolarisingDaoImpl().getPolarisingMovieList("100, 50"));
+        System.out.println(new PolarisingDaoImpl().getPolarisingMovieList("0, 50"));
     }
 }
