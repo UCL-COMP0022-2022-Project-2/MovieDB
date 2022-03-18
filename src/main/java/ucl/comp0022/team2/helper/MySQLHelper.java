@@ -1,6 +1,7 @@
 package ucl.comp0022.team2.helper;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class MySQLHelper {
@@ -81,5 +82,39 @@ public class MySQLHelper {
             e.printStackTrace();
         }
         return line;
+    }
+
+    /**
+     * Executing MySQL Update(s)
+     * @param conn MySQL database connection object
+     * @param sql sql need to be executed
+     * @param param a list of parameter(s) to replace '?' in sql
+     * @return number of revised line(s)
+     */
+    public static int executeMultipleRowUpdate(Connection conn, String sql, List<List<Object>> param) {
+        int[] result = null;
+        try {
+            conn.setAutoCommit(false);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            for(List list:param){
+                for(int i = 0; i < list.size(); i++){
+                    ps.setObject(i+1, list.get(i));
+                }
+                ps.addBatch();
+            }
+            result = ps.executeBatch();
+            conn.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            try{
+                conn.rollback();
+            } catch (Exception e1){
+                e1.printStackTrace();
+            }
+            finally {
+                closeConnection(conn);
+            }
+        }
+        return result == null?0:Arrays.stream(result).sum();
     }
 }
