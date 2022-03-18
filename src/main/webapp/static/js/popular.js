@@ -1,4 +1,5 @@
 window.onload = getPopular;
+var sortString = "AvgRating";
 
 function changeHeader(number){
     $("#title").remove();
@@ -55,7 +56,7 @@ function printPopularItem(resp){
 }
 function getPopular(){
     $.ajax({
-        url: "/MovieDB_war_exploded/getPopularMovies/" + "0" + "/" + "50" + ".do",
+        url: "/MovieDB_war_exploded/getPopularMoviesByAvgRating/" + "0" + "/" + "50" + ".do",
         success(resp){
             printPopularItem(resp)
         }
@@ -80,12 +81,48 @@ $("#submit").on("click", function(){
     }
 
     $.ajax({
-        url: "/MovieDB_war_exploded/getPopularMovies/" + "0" + "/" + num + ".do",
+        url: "/MovieDB_war_exploded/getPopularMoviesBy" + sortString + "/" + "0" + "/" + num + ".do",
         success(resp){
-
             deleteOld()
             printPopularItem(resp)
         }
     })
 })
+
+$("#AvgRating").on("click", function(){
+    sortString = "AvgRating"
+    $("#sortMethod").text("Most Popular Movie By Average Rating")
+    $.ajax({
+        url: "/MovieDB_war_exploded/getPopularMoviesByAvgRating/" + "0" + "/" + "50" + ".do",
+        success(resp){
+            deleteOld()
+            printPopularItem(resp)
+        }
+    })
+})
+$("#CountRatings").on("click", function(){
+    sortString = "CountRating"
+    $("#sortMethod").text("Most Popular Movie By the Number of Users' Ratings")
+    $.ajax({
+        url: "/MovieDB_war_exploded/getPopularMoviesByCountRating/" + "0" + "/" + "50" + ".do",
+        success(resp){
+            console.log(resp)
+            deleteOld()
+            printPopularItem(resp)
+        }
+    })
+})
+
+$("#CountTags").on("click", function(){
+    sortString = "CountTags"
+    $("#sortMethod").text("Most Popular Movie By the Number of Users' Tags")
+    $.ajax({
+        url: "/MovieDB_war_exploded/getPopularMoviesByCountTags/" + "0" + "/" + "50" + ".do",
+        success(resp){
+            deleteOld()
+            printPopularItem(resp)
+        }
+    })
+})
+
 
