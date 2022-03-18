@@ -75,7 +75,7 @@ create table personality
 create table personality_rating
 (
     userId   char(200)   not null,
-    movie_id int         not null,
+    movieId  int         not null,
     rating   float(2, 1) not null,
     datetime timestamp   null,
     constraint personality_rating_userId_fk
@@ -84,11 +84,9 @@ create table personality_rating
 
 create table predicted_rating
 (
-    movieId int          not null
+    movieId int unsigned not null
         primary key,
-    rating  double(3, 2) null,
-    constraint predicted_rating_ibfk_1
-        foreign key (movieId) references movies (movieId)
+    rating  double(3, 2) null
 );
 
 create table ratings
@@ -103,8 +101,7 @@ create table ratings
 
 create table tag_personality
 (
-    tag                 varchar(100) not null
-        primary key,
+    tag                 varchar(100) null,
     openness            double(3, 2) null,
     agreeableness       double(3, 2) null,
     emotional_stability double(3, 2) null,
@@ -122,3 +119,6 @@ create table tags
         foreign key (movieId) references movies (movieId)
 );
 
+alter table predicted_rating MODIFY movieId INT;
+alter table predicted_rating add CONSTRAINT foreign key (movieId) references movies(movieId);
+alter table tag_personality add CONSTRAINT primary key (tag);
