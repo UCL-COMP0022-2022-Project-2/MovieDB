@@ -18,3 +18,12 @@ function averageRatingCount(){
     $("#pAverageRating").append(ratingResult.toFixed(1));
 };
 */
+$("#predictButton").on("click", function (){
+    var movieId = $("#movieId").text();
+    $.ajax({
+        url: "/MovieDB_war_exploded/getPredictedScoreByMovieId/" + movieId + ".do",
+        success(resp){
+            $("#predictRating").text(resp)
+        }
+    })
+})

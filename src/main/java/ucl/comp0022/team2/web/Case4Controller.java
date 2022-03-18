@@ -12,7 +12,7 @@ public class Case4Controller {
 
     private Case4Service case4Service;
 
-    @RequestMapping("getPredictedScoreByMovieId/{movieId}")
+    @RequestMapping("getPredictedScoreByMovieId/{movieId}.do")
     @ResponseBody
     public double getPredictedScoreByMovieId(@PathVariable Integer movieId){
         return case4Service.getPredictedScoreByMovieId(movieId);

@@ -30,6 +30,21 @@
                     <p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p>
                 </div>
             </div>
+
+            <div class="text-center pt-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
+                     alt="pic" class = "img-fluid">
+
+            </div>
+            <div class = "row mt-3">
+                <div class = "col-6 text-end">
+                    <button class = "btn btn-light border" id = "predictButton">Predict Rating</button>
+                </div>
+                <div class = "col-6">
+                    <p id = "predictRating" class = "h5 pt-2"></p>
+                    <p id = "movieId" class="visually-hidden">${movieId}</p>
+                </div>
+            </div>
         </div>
     </div>
 
