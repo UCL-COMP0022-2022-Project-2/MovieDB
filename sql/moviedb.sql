@@ -21,18 +21,6 @@ create table movies
     year    smallint      not null
 );
 
-create table links
-(
-    movieId int not null
-        primary key,
-    imdbId  int not null,
-    tmdbId  int not null,
-    constraint links_imdbId_uindex
-        unique (imdbId),
-    constraint links_movies_movieId_fk
-        foreign key (movieId) references movies (movieId)
-);
-
 create table personality
 (
     userId              varchar(200) not null
@@ -90,6 +78,3 @@ create table tags
         foreign key (movieId) references movies (movieId)
 );
 
-alter table predicted_rating MODIFY movieId INT;
-alter table predicted_rating add CONSTRAINT foreign key (movieId) references movies(movieId);
-alter table tag_personality add CONSTRAINT primary key (tag);
