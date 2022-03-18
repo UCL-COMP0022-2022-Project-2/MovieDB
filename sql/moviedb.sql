@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS moviedb;
 USE moviedb;
 create table genre_personality
 (
-    genre               char(200)   not null
+    genre               varchar(200)   not null
         primary key,
     openness            float(2, 1) not null,
     agreeableness       float(2, 1) not null,
@@ -74,7 +74,7 @@ create table personality
 
 create table personality_rating
 (
-    userId   char(200)   not null,
+    userId   varchar(200)   not null,
     movie_id int         not null,
     rating   float(2, 1) not null,
     datetime timestamp   null,
