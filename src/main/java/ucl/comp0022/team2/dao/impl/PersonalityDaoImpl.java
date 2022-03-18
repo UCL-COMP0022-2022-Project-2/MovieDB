@@ -29,9 +29,9 @@ public class PersonalityDaoImpl implements PersonalityDao {
             Connection conn = MySQLHelper.getConnection();
 
             // Writing sql and parameters...
-            String sql = "SELECT p.userId,r.movie_id,m.genres,r.rating,p.openness, p.agreeableness, p. emotional_stability, p.conscientiousness,p.extraversion " +
+            String sql = "SELECT p.userId,r.movieId,m.genres,r.rating,p.openness, p.agreeableness, p. emotional_stability, p.conscientiousness,p.extraversion " +
                     "FROM personality_rating r LEFT OUTER JOIN  personality p  ON p.userId = r.userId " +
-                    "LEFT OUTER JOIN movies m ON m.movieId = r.movie_id " +
+                    "LEFT OUTER JOIN movies m ON m.movieId = r.movieId " +
                     "WHERE m.genres IS NOT NULL";
             //join user personality and the rating they give, and gain the genres of the movie
 
