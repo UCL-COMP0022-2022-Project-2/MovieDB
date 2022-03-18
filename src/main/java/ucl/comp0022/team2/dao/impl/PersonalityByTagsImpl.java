@@ -30,8 +30,7 @@ public class PersonalityByTagsImpl implements PersonalityByTagsDao {
                     "(select pr.movieId, p.openness, p.agreeableness, p.emotional_stability, p.conscientiousness, p.extraversion,  pr.rating\n" +
                     "from personality_rating pr join personality p on pr.userId = p.userId\n" +
                     "order by movieId) as p_pr\n" +
-                    "on new_tags.movieId = p_pr.movieId\n" +
-                    "order by movieId\n";
+                    "on new_tags.movieId = p_pr.movieId\n";
             ResultSet resultSet = MySQLHelper.executingQuery(conn,calculateSql,null);
             Map<String, Personality> hashMap = new HashMap<>();
             while(resultSet.next()) {
