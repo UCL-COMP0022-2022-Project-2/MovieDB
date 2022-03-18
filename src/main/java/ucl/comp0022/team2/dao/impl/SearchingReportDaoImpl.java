@@ -84,8 +84,6 @@ public class SearchingReportDaoImpl implements SearchingReportDao {
                 Date tagTimestamp = rs.getDate("t.timestamp");
                 Date ratingTimestamp = rs.getDate("r.timestamp");
 
-                //这里有一个问题：如果一个人只给tag不评分，那他有可能就没有r.userID,不过好像目前数据里面没有这个问题
-
                 report.setUserId(userID);
                 report.setRating(rating);
                 report.setTags(tag);
