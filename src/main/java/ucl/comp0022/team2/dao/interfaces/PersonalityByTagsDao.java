@@ -3,8 +3,9 @@ package ucl.comp0022.team2.dao.interfaces;
 import ucl.comp0022.team2.model.Personality;
 
 import java.util.HashMap;
+import java.util.List;
 
-public interface PredictionByTagsDao {
+public interface PersonalityByTagsDao {
     /**
      * Insert relevant values. Invoke if new data have been inserted.
      * @return whether initiated successfully
@@ -17,5 +18,12 @@ public interface PredictionByTagsDao {
      * @return the HashMap, key being the tag and value being the personality
      */
     HashMap<String, Personality> getPersonalitiesByTags(String[] tags);
+
+    /**
+     * get the tags by initial letter, # for numbers and special characters
+     * @param capital the initial letter
+     * @return a list of tags
+     */
+    List<String> getTagsByInitialLetter(char capital);
 
 }

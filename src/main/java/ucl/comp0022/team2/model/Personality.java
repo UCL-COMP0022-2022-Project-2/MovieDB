@@ -6,6 +6,7 @@ public class Personality {
     private double emotional_stability;
     private double conscientiousness;
     private double extraversion;
+    private int count = 0;
 
     public Personality(double openness, double agreeableness, double emotional_stability, double conscientiousness, double extraversion) {
         this.openness = openness;
@@ -13,6 +14,30 @@ public class Personality {
         this.emotional_stability = emotional_stability;
         this.conscientiousness = conscientiousness;
         this.extraversion = extraversion;
+    }
+
+    public void addOpenness(double value){
+        this.openness += value;
+    }
+
+    public void addAgreeAbleness(double value){
+        this.agreeableness += value;
+    }
+
+    public void addEmotionalStability(double value){
+        this.emotional_stability += value;
+    }
+
+    public void addConscientiousness(double value){
+        this.conscientiousness += value;
+    }
+
+    public void addExtraversion(double value){
+        this.extraversion += value;
+    }
+
+    public void countAddOne(){
+        this.count += 1;
     }
 
     public double getOpenness() {
@@ -53,5 +78,22 @@ public class Personality {
 
     public void setExtraversion(double extraversion) {
         this.extraversion = extraversion;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Personality{" +
+                "openness=" + openness +
+                ", agreeableness=" + agreeableness +
+                ", emotional_stability=" + emotional_stability +
+                ", conscientiousness=" + conscientiousness +
+                ", extraversion=" + extraversion +
+                ", count=" + count +
+                '}';
+    }
+
+    public int getCount() {
+        return count;
     }
 }

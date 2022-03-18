@@ -106,7 +106,7 @@ public class PredictionDaoImpl implements PredictionDao {
 
     public static void main(String[] args) {
 //        System.out.println(new PredictionDaoImpl().getForecastMovieList());
-        System.out.println(new PredictionDaoImpl().getPredictionScoreById(15));
+        System.out.println(new PredictionDaoImpl().initialize());
     }
 
 }
