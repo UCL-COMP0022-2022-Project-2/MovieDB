@@ -84,9 +84,11 @@ create table personality_rating
 
 create table predicted_rating
 (
-    movieId int unsigned not null
+    movieId int          not null
         primary key,
-    rating  double(3, 2) null
+    rating  double(3, 2) null,
+    constraint predicted_rating_ibfk_1
+        foreign key (movieId) references movies (movieId)
 );
 
 create table ratings
@@ -101,7 +103,8 @@ create table ratings
 
 create table tag_personality
 (
-    tag                 varchar(100) null,
+    tag                 varchar(100) not null
+        primary key,
     openness            double(3, 2) null,
     agreeableness       double(3, 2) null,
     emotional_stability double(3, 2) null,

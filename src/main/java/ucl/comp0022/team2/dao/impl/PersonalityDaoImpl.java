@@ -233,7 +233,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
     }
 
     public static void main(String[] args) {
-//        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
+        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
         System.out.println(Arrays.toString(new PersonalityDaoImpl().getMoviePersonality(1)));
     }
 
