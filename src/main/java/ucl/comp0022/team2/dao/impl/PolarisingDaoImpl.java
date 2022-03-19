@@ -7,6 +7,7 @@ import ucl.comp0022.team2.model.Movie;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class PolarisingDaoImpl implements PolarisingDao {
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
-                Double rating = rs.getDouble("avg_rating");
+                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
                 int year = rs.getInt("year");
                 movie.setMovieId(movieId);
                 movie.setTitle(title);
