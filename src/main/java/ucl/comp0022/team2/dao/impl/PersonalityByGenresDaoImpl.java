@@ -1,19 +1,18 @@
 package ucl.comp0022.team2.dao.impl;
 
 import org.springframework.stereotype.Repository;
-import ucl.comp0022.team2.dao.interfaces.PersonalityDao;
+import ucl.comp0022.team2.dao.interfaces.PersonalityByGenresDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
 import ucl.comp0022.team2.model.Personality;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 
 @Repository
-public class PersonalityDaoImpl implements PersonalityDao {
+public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
 
     //Hashmap<String, List<Double>> example:  <Drama, [1, 2.35, 4, 1, 6, 4]>
     // (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of users)
@@ -246,7 +245,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         ArrayList<String> test = new ArrayList<String>();
         test.add("Adventure");
         test.add("Action");
-        System.out.println(new PersonalityDaoImpl().getMoviePersonality(test));
+        System.out.println(new PersonalityByGenresDaoImpl().getMoviePersonality(test));
     }
 
 

@@ -101,9 +101,10 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
                     map.put(tag, personality);
             }
             }
-        MySQLHelper.closeConnection(connection);
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            MySQLHelper.closeConnection(connection);
         }
         return map;
     }

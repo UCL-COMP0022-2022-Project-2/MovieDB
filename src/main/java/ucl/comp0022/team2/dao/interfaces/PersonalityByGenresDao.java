@@ -5,7 +5,7 @@ import ucl.comp0022.team2.model.Personality;
 import java.util.HashMap;
 import java.util.List;
 
-public interface PersonalityDao {
+public interface PersonalityByGenresDao {
     void initGenrePersonality();
     HashMap<String, Personality> getMoviePersonality(List<String> tags);
 }
