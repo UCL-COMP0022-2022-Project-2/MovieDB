@@ -87,9 +87,10 @@ public class PersonalityByTagsImpl implements PersonalityByTagsDao {
         Connection connection = null;
         HashMap<String, Personality> map = new HashMap<>(tags.size());
         try{
+            connection = MySQLHelper.getConnection();
             for(String tag: tags){
                 Personality personality = new Personality();
-                connection = MySQLHelper.getConnection();
+
                 String sql = "select openness, agreeableness, emotional_stability, conscientiousness, extraversion from tag_personality where tag = ?";
                 ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, Collections.singletonList(tag));
                 if(resultSet.next()){
@@ -99,8 +100,9 @@ public class PersonalityByTagsImpl implements PersonalityByTagsDao {
                     personality.setConscientiousness(resultSet.getDouble("conscientiousness"));
                     personality.setExtraversion(resultSet.getDouble("extraversion"));
                     map.put(tag, personality);
-                }
             }
+            }
+        MySQLHelper.closeConnection(connection);
         }catch (Exception e){
             e.printStackTrace();
         }
