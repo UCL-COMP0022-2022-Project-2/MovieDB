@@ -14,9 +14,14 @@ import java.util.List;
 public class Case6ServiceImpl implements Case6Service {
 
     private PersonalityByTagsDao personalityByTagsDao;
+    private boolean isInitialized = false;
 
     @Override
     public List<String> getTagsByFirstLetter(char letter) {
+        if(!isInitialized){
+            personalityByTagsDao.initialize();
+            isInitialized = true;
+        }
         return personalityByTagsDao.getTagsByInitialLetter(letter);
     }
 
