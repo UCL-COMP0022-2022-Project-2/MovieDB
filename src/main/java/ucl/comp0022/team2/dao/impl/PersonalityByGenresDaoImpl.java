@@ -27,6 +27,10 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
 
+            //clear existing data
+            String deleteSql = "delete from genre_personality where true";
+            MySQLHelper.executeUpdate(conn, deleteSql, null);
+
             // Writing sql and parameters...
             String sql = "SELECT p.userId,r.movieId,m.genres,r.rating,p.openness, p.agreeableness, p. emotional_stability, p.conscientiousness,p.extraversion " +
                     "FROM personality_rating r LEFT OUTER JOIN  personality p  ON p.userId = r.userId " +
@@ -133,9 +137,7 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                     temp_param.add(list[i] / list[5]);
 //                    System.out.println(key+list[5]);
                 }
-                //clear existing data
-                String deleteSql = "delete from tag_personality where true";
-                MySQLHelper.executeUpdate(conn, deleteSql, null);
+
                 //insert if not exist
                 sql = "\n" +
                         "INSERT INTO genre_personality(genre, openness, agreeableness, emotional_stability, conscientiousness, extraversion)  SELECT \""+key+"\",?,?,?,?,? "+

@@ -5,11 +5,11 @@ create table genre_personality
 (
     genre               varchar(200) not null
         primary key,
-    openness            float(2, 1)  not null,
-    agreeableness       float(2, 1)  not null,
-    emotional_stability float(2, 1)  not null,
-    conscientiousness   float(2, 1)  not null,
-    extraversion        float(2, 1)  not null
+    openness            float(3, 2)  not null,
+    agreeableness       float(3, 2)  not null,
+    emotional_stability float(3, 2)  not null,
+    conscientiousness   float(3, 2)  not null,
+    extraversion        float(3, 2)  not null
 );
 
 create table movies
