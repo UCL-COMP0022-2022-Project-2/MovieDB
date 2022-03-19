@@ -51,6 +51,14 @@
 
     </nav>
 </div>
+
+<div class = "container">
+    <div id = "header">
+        <div class = "row" id = "caption">
+            <h1 class = "display-5" id = "title">See What Kind of People Will Prefer What Kind of Movies</h1>
+        </div>
+    </div>
+</div>
 <div class = "container-fluid mt-5">
     <footer class="text-center text-white" style="background-color: #f1f1f1;">
         <div class="text-center text-dark p-3">

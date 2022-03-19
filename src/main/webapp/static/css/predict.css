@@ -1,3 +1,11 @@
+#caption{
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+
+
+
 #movieDBNavigation .nav-link:hover{
     text-decoration: underline;
 }
