@@ -16,7 +16,7 @@ import java.util.List;
 public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
 
     @Override
-    public void initGenrePersonality() {
+    public void initialize() {
         HashMap<String, double[]> genreMap = new HashMap<>();
         try {
             // Connection to the database...
@@ -89,11 +89,7 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
         HashMap<String, double[]> genreMap = new HashMap<>();
         HashMap<String, Personality> result = new HashMap<>(genres.size());
         //result: (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of genres)
-
         try {
-
-//                System.out.println("genres:\n" +genres);
-
             //read the genres for this movie
             Connection conn = MySQLHelper.getConnection();
             for (String sub : genres) {
@@ -129,56 +125,92 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
 
                 }
             }
-            MySQLHelper.closeConnection(conn);
-
             double[] tempResult = {0, 0, 0, 0, 0};
             //sum of genres
             StringBuilder sb = new StringBuilder();
-
-
             int num_genre = genres.size();
-//            System.out.println(genres.size());
             for (String sub : genres) {
-
                 double[] list = genreMap.get(sub);
-
                 //add genre data to result
                 for (int i = 0; i < 5; i++) {
                     tempResult[i] += list[i];
-//                        System.out.println("result "+ i +" "+ tempResult[i] );
                 }
                 sb.append(sub).append(",");
-
             }
             //delete the last comma
             sb.delete(sb.length() - 1, sb.length());
-
-
             //taking average
             for (int i = 0; i < 5; i++) {
                 tempResult[i] = tempResult[i] / num_genre;
             }
             Personality personality = new Personality();
-
             personality.setOpenness(tempResult[0]);
             personality.setAgreeableness(tempResult[1]);
             personality.setEmotional_stability(tempResult[2]);
             personality.setConscientiousness(tempResult[3]);
             personality.setExtraversion(tempResult[4]);
             result.put(sb.toString(), personality);
-
             // Close the connection to release resources...
-
+            MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
+    }
 
+    @Override
+    public Personality getAllGenresAveragePersonality() {
+        Connection connection = null;
+        Personality personality = new Personality();
+        try {
+            connection = MySQLHelper.getConnection();
+            String sql = "select avg(openness) as avg_openness,avg(agreeableness) as avg_agreeableness,avg(emotional_stability) as avg_emotional_stability,\n" +
+                    "       avg(conscientiousness) as avg_conscientiousness,avg(extraversion) as avg_extraversion\n" +
+                    "from genre_personality";
+            ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, null);
+            if (resultSet.next()) {
+                double openness = resultSet.getDouble("avg_openness");
+                personality.setOpenness(Math.round(openness*100)/100.0);
+                double agreeableness = resultSet.getDouble("avg_agreeableness");
+                personality.setAgreeableness(Math.round(agreeableness*100)/100.0);
+                double emotional_stability = resultSet.getDouble("avg_emotional_stability");
+                personality.setEmotional_stability(Math.round(emotional_stability*100)/100.0);
+                double conscientiousness = resultSet.getDouble("avg_conscientiousness");
+                personality.setConscientiousness(Math.round(conscientiousness*100)/100.0);
+                double extraversion = resultSet.getDouble("avg_extraversion");
+                personality.setExtraversion(Math.round(extraversion*100)/100.0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            MySQLHelper.closeConnection(connection);
+        }
+        return personality;
+    }
 
+    @Override
+    public List<String> getAllGenres() {
+        Connection connection = null;
+        List<String> result = new ArrayList<>();
+        try {
+            connection = MySQLHelper.getConnection();
+            String sql = "select genre from genre_personality where genre != 'NULL'";
+            ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, null);
+            while (resultSet.next()) {
+                String tag = resultSet.getString(1);
+                result.add(tag);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            MySQLHelper.closeConnection(connection);
+        }
         return result;
     }
 
     public static void main(String[] args) {
-        new ucl.comp0022.team2.dao.impl.PersonalityByGenresDaoImpl().initGenrePersonality();
+//        System.out.println(new PersonalityByGenresDaoImpl().getAllGenres());
+//        System.out.println(new PersonalityByGenresDaoImpl().getAllGenresAveragePersonality());
 //        ArrayList<String> test = new ArrayList<String>();
 //        test.add("Adventure");
 //        test.add("Action");

@@ -28,6 +28,12 @@ public class Case6Controller {
         return case6Service.getPersonalitiesByTags(tags);
     }
 
+    @RequestMapping("getTotalTagsAverageRatings.do")
+    @ResponseBody
+    public Personality getTotalTagsAverageRatings(){
+        return case6Service.getAllTagsAveragePersonality();
+    }
+
     @Autowired
     public void setCase6Service(Case6Service case6Service) {
         this.case6Service = case6Service;

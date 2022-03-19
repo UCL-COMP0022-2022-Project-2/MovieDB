@@ -13,6 +13,13 @@ public interface PersonalityByTagsDao {
     boolean initialize();
 
     /**
+     * get the tags by initial letter, # for numbers and special characters
+     * @param capital the initial letter
+     * @return a list of tags
+     */
+    List<String> getTagsByInitialLetter(char capital);
+
+    /**
      * get the personality by tags
      * @param list the tags of a movie
      * @return the HashMap, key being the tag and value being the personality
@@ -20,10 +27,10 @@ public interface PersonalityByTagsDao {
     HashMap<String, Personality> getPersonalitiesByTags(List<String> list);
 
     /**
-     * get the tags by initial letter, # for numbers and special characters
-     * @param capital the initial letter
-     * @return a list of tags
+     * get the average personality for all tags
+     * @return the average personality
      */
-    List<String> getTagsByInitialLetter(char capital);
+    Personality getAllTagsAveragePersonality();
+
 
 }

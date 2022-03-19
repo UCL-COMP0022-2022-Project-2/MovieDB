@@ -17,9 +17,14 @@ public class Case6ServiceImpl implements Case6Service {
     private boolean isInitialized = false;
 
     @Override
+    public void initialize() {
+        personalityByTagsDao.initialize();
+    }
+//TODO: remove the initialize below
+    @Override
     public List<String> getTagsByFirstLetter(char letter) {
         if(!isInitialized){
-            personalityByTagsDao.initialize();
+            initialize();
             isInitialized = true;
         }
         return personalityByTagsDao.getTagsByInitialLetter(letter);
@@ -29,6 +34,11 @@ public class Case6ServiceImpl implements Case6Service {
     public HashMap<String, Personality> getPersonalitiesByTags(String[] tags) {
         ArrayList<String> list = (ArrayList<String>) Arrays.asList(tags);
         return personalityByTagsDao.getPersonalitiesByTags(list);
+    }
+
+    @Override
+    public Personality getAllTagsAveragePersonality() {
+        return personalityByTagsDao.getAllTagsAveragePersonality();
     }
 
     @Autowired

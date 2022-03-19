@@ -8,6 +8,7 @@ import ucl.comp0022.team2.model.Personality;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.*;
+
 @Repository
 public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
     @Override
@@ -29,9 +30,9 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
                     "from personality_rating pr join personality p on pr.userId = p.userId\n" +
                     "order by movieId) as p_pr\n" +
                     "on new_tags.movieId = p_pr.movieId\n";
-            ResultSet resultSet = MySQLHelper.executingQuery(conn,calculateSql,null);
+            ResultSet resultSet = MySQLHelper.executingQuery(conn, calculateSql, null);
             Map<String, Personality> hashMap = new HashMap<>();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 String tags = resultSet.getString("tags");
                 double openness = resultSet.getDouble("openness");
                 double agreeableness = resultSet.getDouble("agreeableness");
@@ -40,10 +41,10 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
                 double extraversion = resultSet.getDouble("extraversion");
                 double rating = resultSet.getDouble("rating");
                 String[] animalsArray = tags.split(",");
-                for(String tag: animalsArray){
+                for (String tag : animalsArray) {
                     tag = tag.toUpperCase();
-                    if(!hashMap.containsKey(tag)){
-                        hashMap.put(tag, new Personality(0,0,0,0,0));
+                    if (!hashMap.containsKey(tag)) {
+                        hashMap.put(tag, new Personality(0, 0, 0, 0, 0));
                     }
                     Personality curPersonality = hashMap.get(tag);
                     curPersonality.addOpenness((rating - 2.75) * (openness - 4));
@@ -57,23 +58,23 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
             //after the HashMap has been constructed, insert the values into the table.
             String insertSql = "insert into tag_personality values(?,?,?,?,?,?)";
             List<List<Object>> resultList = new ArrayList<>();
-            for(Map.Entry<String, Personality> entry: hashMap.entrySet()){
+            for (Map.Entry<String, Personality> entry : hashMap.entrySet()) {
                 List<Object> curList = new ArrayList<>(6);
                 curList.add(entry.getKey());
                 Personality curPersonality = entry.getValue();
                 int curPersonalityCount = curPersonality.getCount();
-                curList.add(curPersonality.getOpenness()/curPersonalityCount);
-                curList.add(curPersonality.getAgreeableness()/curPersonalityCount);
-                curList.add(curPersonality.getEmotional_stability()/curPersonalityCount);
-                curList.add(curPersonality.getConscientiousness()/curPersonalityCount);
-                curList.add(curPersonality.getExtraversion()/curPersonalityCount);
+                curList.add(curPersonality.getOpenness() / curPersonalityCount);
+                curList.add(curPersonality.getAgreeableness() / curPersonalityCount);
+                curList.add(curPersonality.getEmotional_stability() / curPersonalityCount);
+                curList.add(curPersonality.getConscientiousness() / curPersonalityCount);
+                curList.add(curPersonality.getExtraversion() / curPersonalityCount);
                 resultList.add(curList);
             }
-            int rowsAffected =  MySQLHelper.executeMultipleRowUpdate(conn, insertSql, resultList);
-            if(rowsAffected > 0){
+            int rowsAffected = MySQLHelper.executeMultipleRowUpdate(conn, insertSql, resultList);
+            if (rowsAffected > 0) {
                 return true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             MySQLHelper.closeConnection(conn);
@@ -83,50 +84,106 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
 
     @Override
     public HashMap<String, Personality> getPersonalitiesByTags(List<String> tags) {
+        int count = tags.size();
         Connection connection = null;
-        HashMap<String, Personality> map = new HashMap<>(tags.size());
-        try{
+        HashMap<String, Personality> map = new HashMap<>(count);
+        //an array to store the sum of personalities
+        double[] sumPersonality = new double[]{0, 0, 0, 0, 0};
+        try {
             connection = MySQLHelper.getConnection();
-            for(String tag: tags){
+            for (String tag : tags) {
                 Personality personality = new Personality();
 
                 String sql = "select openness, agreeableness, emotional_stability, conscientiousness, extraversion from tag_personality where tag = ?";
                 ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, Collections.singletonList(tag));
-                if(resultSet.next()){
-                    personality.setOpenness(resultSet.getDouble("openness"));
-                    personality.setAgreeableness(resultSet.getDouble("agreeableness"));
-                    personality.setEmotional_stability(resultSet.getDouble("emotional_stability"));
-                    personality.setConscientiousness(resultSet.getDouble("conscientiousness"));
-                    personality.setExtraversion(resultSet.getDouble("extraversion"));
+                if (resultSet.next()) {
+                    double currentOpenness = resultSet.getDouble("openness");
+                    personality.setOpenness(currentOpenness);
+                    sumPersonality[0] += currentOpenness;
+
+                    double currentAgreeableness = resultSet.getDouble("agreeableness");
+                    personality.setAgreeableness(currentAgreeableness);
+                    sumPersonality[1] += currentAgreeableness;
+
+                    double currentEmotional_stability = resultSet.getDouble("emotional_stability");
+                    personality.setEmotional_stability(currentEmotional_stability);
+                    sumPersonality[2] += currentEmotional_stability;
+
+                    double currentConscientiousness = resultSet.getDouble("conscientiousness");
+                    personality.setConscientiousness(currentConscientiousness);
+                    sumPersonality[3] += currentConscientiousness;
+
+                    double currentExtraversion = resultSet.getDouble("extraversion");
+                    personality.setExtraversion(currentExtraversion);
+                    sumPersonality[4] += currentExtraversion;
+
                     map.put(tag, personality);
+                }
+                //create a new personality to store the average value of  tags' personalities
+                Personality averagePersonality = new Personality();
+                averagePersonality.setOpenness(sumPersonality[0]/count);
+                averagePersonality.setAgreeableness(sumPersonality[1]/count);
+                averagePersonality.setEmotional_stability(sumPersonality[2]/count);
+                averagePersonality.setConscientiousness(sumPersonality[3]/count);
+                averagePersonality.setExtraversion(sumPersonality[4]/count);
+                map.put("average", averagePersonality);
             }
-            }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             MySQLHelper.closeConnection(connection);
         }
         return map;
     }
 
     @Override
+    public Personality getAllTagsAveragePersonality() {
+        Connection connection = null;
+        Personality personality = new Personality();
+        try {
+            connection = MySQLHelper.getConnection();
+            String sql = "select avg(openness) as avg_openness,avg(agreeableness) as avg_agreeableness,avg(emotional_stability) as avg_emotional_stability,\n" +
+                    "       avg(conscientiousness) as avg_conscientiousness,avg(extraversion) as avg_extraversion\n" +
+                    "from tag_personality";
+            ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, null);
+            if (resultSet.next()) {
+                double openness = resultSet.getDouble("avg_openness");
+                personality.setOpenness(Math.round(openness*100)/100.0);
+                double agreeableness = resultSet.getDouble("avg_agreeableness");
+                personality.setAgreeableness(Math.round(agreeableness*100)/100.0);
+                double emotional_stability = resultSet.getDouble("avg_emotional_stability");
+                personality.setEmotional_stability(Math.round(emotional_stability*100)/100.0);
+                double conscientiousness = resultSet.getDouble("avg_conscientiousness");
+                personality.setConscientiousness(Math.round(conscientiousness*100)/100.0);
+                double extraversion = resultSet.getDouble("avg_extraversion");
+                personality.setExtraversion(Math.round(extraversion*100)/100.0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            MySQLHelper.closeConnection(connection);
+        }
+        return personality;
+    }
+
+    @Override
     public List<String> getTagsByInitialLetter(char capital) {
         Connection connection = null;
         List<String> result = new ArrayList<>();
-        try{
+        try {
             connection = MySQLHelper.getConnection();
             String sql = "";
-            if(capital == '#'){
+            if (capital == '#') {
                 sql = "select tag from tag_personality where tag not regexp '^[A-Z].';";
-            }else {
-                sql = "select tag from tag_personality where tag like '"+ capital + "%'";
+            } else {
+                sql = "select tag from tag_personality where tag like '" + capital + "%'";
             }
             ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, null);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String tag = resultSet.getString(1);
                 result.add(tag);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             MySQLHelper.closeConnection(connection);
@@ -135,8 +192,8 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PersonalityByTagsDaoImpl().initialize());
+//        System.out.println(new PersonalityByTagsDaoImpl().initialize());
 //        System.out.println(new PersonalityByTagsImpl().getTagsByInitialLetter('a'));
-//        System.out.println(new PersonalityByTagsImpl().getPersonalitiesByTags(new PersonalityByTagsImpl().getTagsByInitialLetter('a')));
+//        System.out.println(new PersonalityByTagsImpl().getPersonalitiesByGenres(new PersonalityByTagsImpl().getTagsByInitialLetter('a')));
     }
 }
