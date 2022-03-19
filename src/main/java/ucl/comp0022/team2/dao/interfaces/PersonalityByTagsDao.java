@@ -17,7 +17,7 @@ public interface PersonalityByTagsDao {
      * @param tags the tags of a movie
      * @return the HashMap, key being the tag and value being the personality
      */
-    HashMap<String, Personality> getPersonalitiesByTags(String[] tags);
+    HashMap<String, Personality> getPersonalitiesByTags(List<String> list);
 
     /**
      * get the tags by initial letter, # for numbers and special characters

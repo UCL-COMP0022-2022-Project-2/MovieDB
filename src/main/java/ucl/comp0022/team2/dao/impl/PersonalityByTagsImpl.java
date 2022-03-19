@@ -1,16 +1,15 @@
 package ucl.comp0022.team2.dao.impl;
 
+import org.springframework.stereotype.Repository;
 import ucl.comp0022.team2.dao.interfaces.PersonalityByTagsDao;
 import ucl.comp0022.team2.helper.MySQLHelper;
 import ucl.comp0022.team2.model.Personality;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.sql.SQLOutput;
+import java.util.*;
+@Repository
 public class PersonalityByTagsImpl implements PersonalityByTagsDao {
     @Override
     public boolean initialize() {
@@ -84,12 +83,28 @@ public class PersonalityByTagsImpl implements PersonalityByTagsDao {
     }
 
     @Override
-    public HashMap<String, Personality> getPersonalitiesByTags(String[] tags) {
+    public HashMap<String, Personality> getPersonalitiesByTags(List<String> tags) {
         Connection connection = null;
-        for(String tag: tags){
-            String sql = "";
+        HashMap<String, Personality> map = new HashMap<>(tags.size());
+        try{
+            for(String tag: tags){
+                Personality personality = new Personality();
+                connection = MySQLHelper.getConnection();
+                String sql = "select openness, agreeableness, emotional_stability, conscientiousness, extraversion from tag_personality where tag = ?";
+                ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, Collections.singletonList(tag));
+                if(resultSet.next()){
+                    personality.setOpenness(resultSet.getDouble("openness"));
+                    personality.setAgreeableness(resultSet.getDouble("agreeableness"));
+                    personality.setEmotional_stability(resultSet.getDouble("emotional_stability"));
+                    personality.setConscientiousness(resultSet.getDouble("conscientiousness"));
+                    personality.setExtraversion(resultSet.getDouble("extraversion"));
+                    map.put(tag, personality);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return null;
+        return map;
     }
 
     @Override
@@ -120,5 +135,6 @@ public class PersonalityByTagsImpl implements PersonalityByTagsDao {
     public static void main(String[] args) {
         System.out.println(new PersonalityByTagsImpl().initialize());
 //        System.out.println(new PersonalityByTagsImpl().getTagsByInitialLetter('a'));
+//        System.out.println(new PersonalityByTagsImpl().getPersonalitiesByTags(new PersonalityByTagsImpl().getTagsByInitialLetter('a')));
     }
 }

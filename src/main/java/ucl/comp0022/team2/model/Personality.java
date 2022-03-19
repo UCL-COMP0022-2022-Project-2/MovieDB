@@ -16,6 +16,9 @@ public class Personality {
         this.extraversion = extraversion;
     }
 
+    public Personality() {
+    }
+
     public void addOpenness(double value){
         this.openness += value;
     }
