@@ -104,6 +104,7 @@ public class MySQLHelper {
             }
             result = ps.executeBatch();
             conn.commit();
+            conn.setAutoCommit(true);
         } catch (Exception e) {
             e.printStackTrace();
             try{
@@ -112,6 +113,7 @@ public class MySQLHelper {
                 e1.printStackTrace();
             }
             finally {
+
                 closeConnection(conn);
             }
         }
