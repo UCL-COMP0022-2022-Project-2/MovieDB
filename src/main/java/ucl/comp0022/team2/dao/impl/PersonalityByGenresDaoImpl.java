@@ -147,9 +147,9 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
     }
 
     @Override
-    public HashMap<String, Personality> getMoviePersonality(List<String> tags) {
+    public HashMap<String, Personality> getMoviePersonality(List<String> genres) {
         HashMap<String,double[]> genreMap = new HashMap<>();
-        HashMap<String, Personality> result = new HashMap<>(tags.size());
+        HashMap<String, Personality> result = new HashMap<>(genres.size());
         //result: (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of genres)
 
         try {
@@ -158,7 +158,7 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
 
                 //read the genres for this movie
                 Connection conn = MySQLHelper.getConnection();
-                for (String sub : tags) {
+                for (String sub : genres) {
 //                    System.out.println(sub);
 
 
@@ -194,13 +194,13 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
             MySQLHelper.closeConnection(conn);
 
             double[] tempResult = {0, 0, 0, 0, 0};
-            //sum of tags
+            //sum of genres
             StringBuilder sb = new StringBuilder();
 
 
-            int num_genre = tags.size();
-//            System.out.println(tags.size());
-            for (String sub : tags) {
+            int num_genre = genres.size();
+//            System.out.println(genres.size());
+            for (String sub : genres) {
 
                 double[] list = genreMap.get(sub);
 
@@ -241,11 +241,11 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
     }
 
     public static void main(String[] args) {
-//        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
-        ArrayList<String> test = new ArrayList<String>();
-        test.add("Adventure");
-        test.add("Action");
-        System.out.println(new PersonalityByGenresDaoImpl().getMoviePersonality(test));
+        new ucl.comp0022.team2.dao.impl.PersonalityByGenresDaoImpl().initGenrePersonality();
+//        ArrayList<String> test = new ArrayList<String>();
+//        test.add("Adventure");
+//        test.add("Action");
+//        System.out.println(new PersonalityByGenresDaoImpl().getMoviePersonality(test));
     }
 
 
