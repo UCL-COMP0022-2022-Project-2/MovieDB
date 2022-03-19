@@ -56,7 +56,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
 /*              Explain the algorithm:
                 Domain of value:
-                rating: 1-5    midpoint:3
+                rating: 0.5-5    midpoint:2.75
                 personality (e.g. openness): 1-7    midpoint: 4
 
                 First calculate the weight
@@ -70,7 +70,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
 
                 //calculate the weight of the user
-                double weight =(rating - 3) / 2;
+                double weight =(rating - 2.75) / 2.25;
 
                 //for every genre
                 String[] subSentences = genres.split("\\|");
@@ -200,15 +200,15 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
 
             int num_genre = tags.size();
-
+//            System.out.println(tags.size());
             for (String sub : tags) {
 
                 double[] list = genreMap.get(sub);
 
                 //add genre data to result
-                for(int i = 0; i < list.length; i++){
+                for(int i = 0; i < 5; i++){
                     tempResult[i] += list[i];
-    //                        System.out.println("result "+ i +" "+ result[i] );
+//                        System.out.println("result "+ i +" "+ tempResult[i] );
                 }
                 sb.append(sub+",");
 
@@ -224,11 +224,11 @@ public class PersonalityDaoImpl implements PersonalityDao {
             }
             Personality personality = new Personality();
 
-            personality.setOpenness(tempResult[0] / num_genre);
-            personality.setAgreeableness(tempResult[1] / num_genre);
-            personality.setEmotional_stability(tempResult[2] / num_genre);
-            personality.setConscientiousness(tempResult[3] / num_genre);
-            personality.setExtraversion(tempResult[4] / num_genre);
+            personality.setOpenness(tempResult[0]);
+            personality.setAgreeableness(tempResult[1]);
+            personality.setEmotional_stability(tempResult[2]);
+            personality.setConscientiousness(tempResult[3]);
+            personality.setExtraversion(tempResult[4]);
             result.put(sb.toString(), personality);
 
             // Close the connection to release resources...
@@ -242,7 +242,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
     }
 
     public static void main(String[] args) {
-        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
+//        new ucl.comp0022.team2.dao.impl.PersonalityDaoImpl().initGenrePersonality();
         ArrayList<String> test = new ArrayList<String>();
         test.add("Adventure");
         test.add("Action");
