@@ -7,10 +7,9 @@ import ucl.comp0022.team2.model.Personality;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLOutput;
 import java.util.*;
 @Repository
-public class PersonalityByTagsImpl implements PersonalityByTagsDao {
+public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
     @Override
     public boolean initialize() {
         Connection conn = null;
@@ -133,7 +132,7 @@ public class PersonalityByTagsImpl implements PersonalityByTagsDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PersonalityByTagsImpl().initialize());
+        System.out.println(new PersonalityByTagsDaoImpl().initialize());
 //        System.out.println(new PersonalityByTagsImpl().getTagsByInitialLetter('a'));
 //        System.out.println(new PersonalityByTagsImpl().getPersonalitiesByTags(new PersonalityByTagsImpl().getTagsByInitialLetter('a')));
     }
