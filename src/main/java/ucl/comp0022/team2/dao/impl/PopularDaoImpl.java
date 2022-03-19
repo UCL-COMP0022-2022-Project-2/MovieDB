@@ -22,17 +22,17 @@ public class PopularDaoImpl implements PopularDao {
             // Connection to the database...
             Connection conn = MySQLHelper.getConnection();
             // Writing sql and parameters...
-            String sql = "SELECT IFNULL(AVG(r.rating), 0) AS score, m.movieId, m.title,m.genres,m.year\n"+
+            String sql = "SELECT IFNULL(AVG(r.rating), 0) AS avg_rating, m.movieId, m.title,m.genres,m.year\n"+
                     "FROM movies m\n" +
                     "LEFT JOIN ratings AS r ON m.movieId = r.movieId\n" +
-                    "GROUP BY m.movieId ORDER BY score DESC\n" +
+                    "GROUP BY m.movieId ORDER BY avg_rating DESC\n" +
                     "LIMIT " + limit + ";";
             // Executing queries...
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             // Reading, analysing and saving the results...
             while(rs.next()) {
                 Movie movie = new Movie();
-                Double score = rs.getDouble("score");
+                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
@@ -41,7 +41,7 @@ public class PopularDaoImpl implements PopularDao {
                 movie.setTitle(title);
                 if(!genres.equals("NULL")) movie.setGenres(genres);
                 movie.setYear(year);
-                movie.setRating(score);
+                movie.setRating(rating);
                 list.add(movie);
             }
             // Close the connection to release resources...
@@ -66,7 +66,7 @@ public class PopularDaoImpl implements PopularDao {
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 Movie movie = new Movie();
-                Double rating = rs.getDouble("avg_rating");
+                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
@@ -99,7 +99,7 @@ public class PopularDaoImpl implements PopularDao {
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 Movie movie = new Movie();
-                Double rating = rs.getDouble("avg_rating");
+                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
