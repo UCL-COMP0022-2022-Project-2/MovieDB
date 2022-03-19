@@ -3,11 +3,27 @@ package ucl.comp0022.team2.helper;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
+import java.beans.PropertyVetoException;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class MySQLHelper {
-    private static final String url = "jdbc:mysql://127.0.0.1:3306/moviedb"; //172.17.0.2
-    private static final String username = "root";
-    private static final String password = "comp0022team2";
+    private static final ComboPooledDataSource dataSource = new ComboPooledDataSource();
+
+    public static ComboPooledDataSource getDataSource() {
+        try {
+            dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
+            dataSource.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/moviedb");
+            dataSource.setUser("root");
+            dataSource.setPassword("comp0022team2");
+            dataSource.setInitialPoolSize(10);
+            dataSource.setMaxPoolSize(1000);
+            dataSource.setMinPoolSize(10);
+            dataSource.setMaxStatements(200);
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
+        return dataSource;
+    }
 
     /**
      * Getting MySQL database connection
@@ -16,8 +32,7 @@ public class MySQLHelper {
     public static Connection getConnection() {
         Connection conn = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(url, username, password);
+            conn = getDataSource().getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
