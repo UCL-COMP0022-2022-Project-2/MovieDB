@@ -34,6 +34,10 @@
                 <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/polarizing.html">Most Polarizing Movies</a>
             </li>
+            <li class = "nav-item mx-2">
+                <a class = "nav-link text-black"
+                   href = "${pageContext.request.contextPath}/predict.html">Predict Who Will Like the Movie</a>
+            </li>
         </ul>
 
     </nav>

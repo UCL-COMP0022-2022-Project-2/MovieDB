@@ -31,4 +31,9 @@ public class MainController {
     public String polarizing(){
         return "polarizing";
     }
+
+    @RequestMapping("/predict.html")
+    public String predict(){
+        return "predict";
+    }
 }
