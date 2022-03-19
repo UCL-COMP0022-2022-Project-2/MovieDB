@@ -68,8 +68,8 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                 */
 
 
-                //calculate the weight of the user
-                double weight =(rating - 2.75) / 2.25;
+//                //calculate the weight of the user
+//                double weight =(rating - 2.75) / 2.25;
 
                 //for every genre
                 String[] subSentences = genres.split("\\|");
@@ -82,31 +82,40 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                         genreMap.put(sub,list);
                     }
                     double[] list = genreMap.get(sub);
-
-                    //remap (-1 ~ 1)*personality to 1-7
-                    if(weight > 0){
-                        list[0] += (openness - 3) * weight + 3;     //(openness - 3) + 3 means make the value not cross the mid-point
-                        list[1] += (agreeableness - 3) * weight + 3;
-                        list[2] += (emotional_stability - 3) * weight + 3;
-                        list[3] += (conscientiousness - 3) * weight + 3;
-                        list[4] += (extraversion - 3) * weight + 3;
+                        list[0] += (rating - 2.75) * (openness - 4);
+                        list[1] += (rating - 2.75) * (agreeableness - 4);
+                        list[2] += (rating - 2.75) * (emotional_stability - 4);
+                        list[3] += (rating - 2.75) * (conscientiousness - 4);
+                        list[4] += (rating - 2.75) * (extraversion - 4);
                         list[5] += 1;
-//                        System.out.println("weight > 0\n"+list[0]+"\n"+list[5]);
-                        genreMap.put(sub,list);
+                    genreMap.put(sub,list);
+//                    System.out.println((rating - 2.75) * (openness - 4));
+//                    System.out.println("openness\n"+list[0]+"\n"+list[5]);
 
-                    }
-                    else if(weight < 0){
-                        list[0] += 7 + (openness - 3) * weight + 3;
-                        list[1] += 7 + (agreeableness - 3) * weight + 3;
-                        list[2] += 7 + (emotional_stability - 3) * weight + 3;
-                        list[3] += 7 + (conscientiousness - 3) * weight + 3;
-                        list[4] += 7 + (extraversion - 3) * weight + 3;
-                        list[5] += 1;
-//                        System.out.println("weight < 0"+list);
-                        genreMap.put(sub,list);
-
-                    }
-                    //weight = 0 ignored (not affect the parameter)
+//                    //remap (-1 ~ 1)*personality to 1-7
+//                    if(weight > 0){
+//                        list[0] += (openness - 3) * weight + 3;     //(openness - 3) + 3 means make the value not cross the mid-point
+//                        list[1] += (agreeableness - 3) * weight + 3;
+//                        list[2] += (emotional_stability - 3) * weight + 3;
+//                        list[3] += (conscientiousness - 3) * weight + 3;
+//                        list[4] += (extraversion - 3) * weight + 3;
+//                        list[5] += 1;
+////                        System.out.println("weight > 0\n"+list[0]+"\n"+list[5]);
+//                        genreMap.put(sub,list);
+//
+//                    }
+//                    else if(weight < 0){
+//                        list[0] += 7 + (openness - 3) * weight + 3;
+//                        list[1] += 7 + (agreeableness - 3) * weight + 3;
+//                        list[2] += 7 + (emotional_stability - 3) * weight + 3;
+//                        list[3] += 7 + (conscientiousness - 3) * weight + 3;
+//                        list[4] += 7 + (extraversion - 3) * weight + 3;
+//                        list[5] += 1;
+////                        System.out.println("weight < 0"+list);
+//                        genreMap.put(sub,list);
+//
+//                    }
+//                    //weight = 0 ignored (not affect the parameter)
                 }
             }
 
@@ -122,6 +131,7 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                 //taking average
                 for(int i = 0; i < 5; i++){
                     temp_param.add(list[i] / list[5]);
+//                    System.out.println(key+list[5]);
                 }
                 //clear existing data
                 String deleteSql = "delete from tag_personality where true";
