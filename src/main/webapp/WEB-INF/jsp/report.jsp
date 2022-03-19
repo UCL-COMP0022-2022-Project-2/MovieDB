@@ -16,6 +16,28 @@
     <title>User Rating Report</title>
 </head>
 <body>
+<div class = "container-fluid">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
+
+        <a class="navbar-brand ps-2 fw-bold" disabled>Movie DB</a>
+
+        <ul class="navbar-nav" id = "movieDBNavigation">
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/homepage.html">Homepage</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/popular.html">Most Popular Movies</a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-black"
+                   href="${pageContext.request.contextPath}/polarizing.html">Most Polarizing Movies</a>
+            </li>
+        </ul>
+
+    </nav>
+</div>
 
 <div class = "container">
 
@@ -77,9 +99,7 @@
     <footer class="text-center text-white" style="background-color: #f1f1f1;">
         <div class="text-center text-dark p-3">
             © 2022 Copyright:
-            <a class="text-dark" href="${pageContext.request.contextPath}/homepage.html">Movie DB</a>
-             &
-            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">Github</a>
+            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">COMP0022 Team2 MovieDB</a>
         </div>
     </footer>
 </div>

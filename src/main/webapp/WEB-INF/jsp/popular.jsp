@@ -102,9 +102,7 @@
     <footer class="text-center text-white" style="background-color: #f1f1f1;">
         <div class="text-center text-dark p-3">
             © 2022 Copyright:
-            <a class="text-dark" href="${pageContext.request.contextPath}/homepage.html">Movie DB</a>
-             &
-            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">Github</a>
+            <a class="text-dark" href="https://github.com/UCL-COMP0022-2022-Project-2/MovieDB">COMP0022 Team2 MovieDB</a>
         </div>
     </footer>
 </div>
