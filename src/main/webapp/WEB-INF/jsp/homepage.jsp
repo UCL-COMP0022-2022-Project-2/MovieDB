@@ -56,7 +56,7 @@
                 <span class="input-group-text">Title</span>
                 <input class="form-control"
                        type="text"
-                       placeholder="Please Enter the Full or Incomplete Title Name"
+                       placeholder="Please Enter the Title Name of the Movie"
                        id = "searchBar">
             </div>
         </div>
