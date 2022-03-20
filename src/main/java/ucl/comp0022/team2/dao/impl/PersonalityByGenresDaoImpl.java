@@ -18,9 +18,10 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
     @Override
     public void initialize() {
         HashMap<String, double[]> genreMap = new HashMap<>();
+        Connection conn = null;
         try {
             // Connection to the database...
-            Connection conn = MySQLHelper.getConnection();
+            conn = MySQLHelper.getConnection();
             //clear existing data
             String deleteSql = "delete from genre_personality where true";
             MySQLHelper.executeUpdate(conn, deleteSql, null);
@@ -75,29 +76,27 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                 // Executing queries...
                 MySQLHelper.executeUpdate(conn, sql, temp_param);
             }
-            // Close the connection to release resources...
-            MySQLHelper.closeConnection(conn);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            MySQLHelper.closeConnection(conn);
         }
-
-
     }
 
     @Override
     public HashMap<String, Personality> getMoviePersonality(List<String> genres) {
-        HashMap<String, double[]> genreMap = new HashMap<>();
-        HashMap<String, Personality> result = new HashMap<>(genres.size());
-        //result: (openness, agreeableness, emotional_stability, conscientiousness, extraversion, the num of genres)
+        int count = genres.size();
+        HashMap<String, Personality> result = new HashMap<>(count);
+        Connection conn = null;
         try {
             //read the genres for this movie
-            Connection conn = MySQLHelper.getConnection();
+            conn = MySQLHelper.getConnection();
+            double[] tempResult = {0, 0, 0, 0, 0};
             for (String sub : genres) {
                 sub = sub.trim();
                 String sql = "SELECT * FROM genre_personality WHERE genre = ?;";
                 List<String> param_genre = new ArrayList<>();
                 param_genre.add(sub);
-
                 // Executing queries...
                 ResultSet rs_genre = MySQLHelper.executingQuery(conn, sql, param_genre);
 //                    System.out.println(param_genre);
@@ -105,53 +104,35 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                     Personality personality = new Personality();
                     //get score and put seperated tag result in returning list
                     double openness = rs_genre.getDouble("openness");
+                    tempResult[0] += openness;
                     double agreeableness = rs_genre.getDouble("agreeableness");
+                    tempResult[1] += agreeableness;
                     double emotional_stability = rs_genre.getDouble("emotional_stability");
+                    tempResult[2] += emotional_stability;
                     double conscientiousness = rs_genre.getDouble("conscientiousness");
+                    tempResult[3] += conscientiousness;
                     double extraversion = rs_genre.getDouble("extraversion");
-
-
+                    tempResult[4] += extraversion;
                     personality.setOpenness(openness);
                     personality.setAgreeableness(agreeableness);
                     personality.setEmotional_stability(emotional_stability);
                     personality.setConscientiousness(conscientiousness);
                     personality.setExtraversion(extraversion);
-                    //put single tag output
                     result.put(sub, personality);
-                    double[] list = {openness, agreeableness, emotional_stability, conscientiousness, extraversion};
-                    genreMap.put(sub, list);
+                }
+            }
 
-                }
-            }
-            double[] tempResult = {0, 0, 0, 0, 0};
-            //sum of genres
-            StringBuilder sb = new StringBuilder();
-            int num_genre = genres.size();
-            for (String sub : genres) {
-                double[] list = genreMap.get(sub);
-                //add genre data to result
-                for (int i = 0; i < 5; i++) {
-                    tempResult[i] += list[i];
-                }
-                sb.append(sub).append(",");
-            }
-            //delete the last comma
-            sb.delete(sb.length() - 1, sb.length());
-            //taking average
-            for (int i = 0; i < 5; i++) {
-                tempResult[i] = tempResult[i] / num_genre;
-            }
             Personality personality = new Personality();
-            personality.setOpenness(Math.round(tempResult[0]*100)/100.0);
-            personality.setAgreeableness(Math.round(tempResult[1]*100)/100.0);
-            personality.setEmotional_stability(Math.round(tempResult[2]*100)/100.0);
-            personality.setConscientiousness(Math.round(tempResult[3]*100)/100.0);
-            personality.setExtraversion(Math.round(tempResult[4]*100)/100.0);
-            result.put(sb.toString(), personality);
-            // Close the connection to release resources...
-            MySQLHelper.closeConnection(conn);
+            personality.setOpenness(Math.round((tempResult[0]/count)*100)/100.0);
+            personality.setAgreeableness(Math.round((tempResult[1]/count)*100)/100.0);
+            personality.setEmotional_stability(Math.round((tempResult[2]/count)*100)/100.0);
+            personality.setConscientiousness(Math.round((tempResult[3]/count)*100)/100.0);
+            personality.setExtraversion(Math.round((tempResult[4]/count)*100)/100.0);
+            result.put("theTotalAverage", personality);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            MySQLHelper.closeConnection(conn);
         }
         return result;
     }

@@ -131,7 +131,7 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
                 averagePersonality.setConscientiousness(Math.round(conscientiousness*100)/100.0);
                 double extraversion = sumPersonality[4]/count;
                 averagePersonality.setExtraversion(Math.round(extraversion*100)/100.0);
-                map.put("average", averagePersonality);
+                map.put("theTotalAverage", averagePersonality);
             }
         } catch (Exception e) {
             e.printStackTrace();
