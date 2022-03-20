@@ -98,3 +98,8 @@
 #movieDBNavigation .nav-link:hover{
     text-decoration: underline;
 }
+#predictBox:hover{
+    background-color: rgba(127, 137, 161, 0.25);
+    cursor: pointer;
+    text-decoration: underline;
+}

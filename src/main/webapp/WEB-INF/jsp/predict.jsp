@@ -37,11 +37,11 @@
                 <a class="nav-link dropdown-toggle text-black" href="javascript:void(0)"
                    role = "button" data-bs-toggle = "dropdown">Predict Who Will Like the Movie</a>
                 <ul class = "dropdown-menu">
-                    <a class="dropdown-item" href = "javascript:void(0)">
+                    <a class="dropdown-item" href = "javascript:void(0)" id = "tagLink">
                         Based on Tags
                     </a>
 
-                    <a class="dropdown-item" href = "javascript:void(0)">
+                    <a class="dropdown-item" href = "javascript:void(0)" id = "genreLink">
                         Based on Genres
                     </a>
 
@@ -60,12 +60,19 @@
     </div>
 
     <div class = "row d-flex align-items-center border border-4 ">
-        <div class = "col-11 row" id = "tagBox"></div>
+        <div class = "col-11 row" id = "box"></div>
         <div class = "col-1 text-end">
-            <button class="btn btn-light" id = "submit">Submit</button>
+            <button class="btn btn-light m-1" id = "tagSubmit">Submit</button>
+            <button class="btn btn-light m-1" id = "genreSubmit">Submit</button>
+            <button class = "btn btn-light m-1" id = "clear">Clear</button>
         </div>
     </div>
     <br>
+
+    <div id = "genreContent" class="mt-2 bg-light p-4">
+        <p class="h5 py-2">Select Preferred Movie Genres</p>
+        <div class="row text-center mt-3" id = "genres"></div>
+    </div>
 
     <div id = "content" class="mt-2 bg-light p-4">
         <p class="h5 py-2">Select Preferred Movie Tags By Choosing First Letters</p>

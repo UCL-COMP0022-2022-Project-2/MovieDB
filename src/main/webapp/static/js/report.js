@@ -1,24 +1,11 @@
-/*window.onload = averageRatingCount;
-function averageRatingCount(){
-    var domain = document.location.pathname;
-    var movieIdStart = domain.indexOf("ById/") + 5;
-    var movieIdEnd = domain.indexOf(".do");
-    var movieId = domain.slice(movieIdStart,movieIdEnd)
-    $("#pMovieId").append(movieId);
-
-    var ratingStrings = $(".ratingString");
-    var ratingSum = 0;
-    var ratingCount = ratingStrings.length;
-    var ratingResult;
-    for (var i = 0; i < ratingStrings.length; i++){
-        var ratingNum = parseFloat(ratingStrings[i].innerHTML);
-        ratingSum = ratingSum + ratingNum;
-    }
-    ratingResult = ratingSum / ratingCount;
-    $("#pAverageRating").append(ratingResult.toFixed(1));
-};
-*/
-$("#predictButton").on("click", function (){
+window.onload = initial
+function initial(){
+    $(".ratingLine").hide()
+    $("#close").hide()
+}
+$("#predictBox").on("click", function (){
+    $(".ratingLine").show()
+    $("#close").show()
     var movieId = $("#movieId").text();
     $.ajax({
         url: "/MovieDB_war_exploded/getPredictedScoreByMovieId/" + movieId + ".do",

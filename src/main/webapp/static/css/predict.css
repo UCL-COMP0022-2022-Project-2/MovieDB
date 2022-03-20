@@ -7,7 +7,7 @@
     cursor: pointer;
     text-decoration: underline;
 }
-.tag:hover, .tagInBox:hover{
+.tag:hover, .tagInBox:hover, .genre:hover, .genreInBox:hover{
     background-color: rgba(127, 137, 161, 0.25);
     cursor: pointer;
     text-decoration: underline;

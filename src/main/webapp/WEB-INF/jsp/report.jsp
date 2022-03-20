@@ -34,6 +34,10 @@
                 <a class="nav-link text-black"
                    href="${pageContext.request.contextPath}/polarizing.html">Most Polarizing Movies</a>
             </li>
+            <li class = "nav-item mx-2">
+                <a class = "nav-link text-black"
+                   href = "${pageContext.request.contextPath}/predict.html">Predict Who Will Like the Movie</a>
+            </li>
         </ul>
 
     </nav>
@@ -53,20 +57,29 @@
                 </div>
             </div>
 
-            <div class="text-center pt-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
-                     alt="pic" class = "img-fluid">
+            <div class="border border-3 p-4 bg-light mt-3" id = "predictBox">
+                <div class = "row">
+                    <div class="col  p-4">
+                        <p class = "h4">Predict Rating for this Movie</p>
+                    </div>
+                </div>
 
-            </div>
-            <div class = "row mt-3">
-                <div class = "col-6 text-end">
-                    <button class = "btn btn-light border" id = "predictButton">Predict Rating</button>
+                <div class = "row mt-3 mb-3 ratingLine">
+                    <div class="col-3 ps-5">
+                        <i class = "h5 pt-2">Predict Rating: </i>
+                    </div>
+                    <div class = "col-1">
+                        <i id = "predictRating" class = "h5 pt-2"></i>
+                        <p id = "movieId" class="visually-hidden">${movieId}</p>
+                    </div>
                 </div>
-                <div class = "col-6">
-                    <p id = "predictRating" class = "h5 pt-2"></p>
-                    <p id = "movieId" class="visually-hidden">${movieId}</p>
+                <div class="text-center pt-3 ratingLine" >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
+                         alt="pic" class = "img-fluid">
                 </div>
             </div>
+
+
         </div>
     </div>
 
