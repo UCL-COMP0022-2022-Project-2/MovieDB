@@ -58,6 +58,50 @@
             <h1 class = "display-5" id = "title">See What Kind of People Will Prefer What Kind of Movies</h1>
         </div>
     </div>
+
+    <div class = "row d-flex align-items-center border border-4 ">
+        <div class = "col-11 row" id = "tagBox"></div>
+        <div class = "col-1 text-end">
+            <button class="btn btn-light" id = "submit">Submit</button>
+        </div>
+    </div>
+    <br>
+
+    <div id = "content" class="mt-2 bg-light p-4">
+        <p class="h5 py-2">Select Preferred Movie Tags By Choosing First Letters</p>
+        <div class="row text-center mb-5 bg-white">
+            <div class = "letter border col" id = "A">A</div>
+            <div class = "letter border col" id = "B">B</div>
+            <div class = "letter border col" id = "C">C</div>
+            <div class = "letter border col" id = "D">D</div>
+            <div class = "letter border col" id = "E">E</div>
+            <div class = "letter border col" id = "F">F</div>
+            <div class = "letter border col" id = "G">G</div>
+            <div class = "letter border col" id = "H">H</div>
+            <div class = "letter border col" id = "I">I</div>
+            <div class = "letter border col" id = "J">J</div>
+            <div class = "letter border col" id = "K">K</div>
+            <div class = "letter border col" id = "L">L</div>
+            <div class = "letter border col" id = "M">M</div>
+            <div class = "letter border col" id = "N">N</div>
+            <div class = "letter border col" id = "O">O</div>
+            <div class = "letter border col" id = "P">P</div>
+            <div class = "letter border col" id = "Q">Q</div>
+            <div class = "letter border col" id = "R">R</div>
+            <div class = "letter border col" id = "S">S</div>
+            <div class = "letter border col" id = "T">T</div>
+            <div class = "letter border col" id = "U">U</div>
+            <div class = "letter border col" id = "V">V</div>
+            <div class = "letter border col" id = "W">W</div>
+            <div class = "letter border col" id = "X">X</div>
+            <div class = "letter border col" id = "Y">Y</div>
+            <div class = "letter border col" id = "Z">Z</div>
+            <div class = "letter border col" id = "#">#</div>
+
+        </div>
+
+        <div class="row text-center mt-3" id = "tags"></div>
+    </div>
 </div>
 <div class = "container-fluid mt-5">
     <footer class="text-center text-white" style="background-color: #f1f1f1;">
