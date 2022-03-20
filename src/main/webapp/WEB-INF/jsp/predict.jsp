@@ -111,6 +111,12 @@
         <div class="row text-center mt-3" id = "tags"></div>
     </div>
 </div>
+<div class="container" id="charts">
+
+</div>
+<div class="container" id="reports">
+
+</div>
 <div class = "container-fluid mt-5">
     <footer class="text-center text-white" style="background-color: #f1f1f1;">
         <div class="text-center text-dark p-3">
@@ -123,6 +129,7 @@
 
 <script src="${pageContext.request.contextPath}/jquery/jquery.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="${pageContext.request.contextPath}/js/predict.js"></script>
 </body>
 </html>
