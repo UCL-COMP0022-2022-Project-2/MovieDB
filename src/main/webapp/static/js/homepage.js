@@ -272,7 +272,7 @@ function printItem(resp){
         "<div class = 'col-2 itemCol yearCol pe-3 ps-4 pt-3'></div>" +
         "<div class = 'col-4 itemCol genresCol px-3 pt-3 pe-3'></div>");
 
-    $(".titleCol").append("<a class = 'title'></a>");
+    $(".titleCol").append("<a class = 'title' target=‘_blank’ rel=‘noopener noreferrer’></a>");
     $(".ratingCol").append("<p class = 'rating'></p>");
     $(".yearCol").append("<p class = 'year'></p>");
     $(".genresCol").append("<p class = 'genres'></p>");

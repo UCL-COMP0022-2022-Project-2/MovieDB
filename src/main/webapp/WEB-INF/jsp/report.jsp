@@ -50,40 +50,47 @@
             <h1 class = "display-3 text-center">User Rating Report</h1>
             <div class="row text-center infoLine">
                 <div class="col-6 pt-2 mt-3 ps-5">
-                    <p id = "pMovieId" class="h5">Movie: ${movieName}</p>
+                    <p id = "pMovieId" class="h5 fw-light">Movie: ${movieName}</p>
                 </div>
                 <div class="col-6 pt-2 mt-3 pe-5">
-                    <p id = "pAverageRating" class="h5">Average Rating: ${movieRating}</p>
+                    <p id = "pAverageRating" class="h5 fw-light">Average Rating: ${movieRating}</p>
+                </div>
+            </div>
+        </div>
+        <div class="border border-3 p-4 my-4" id = "predictBox">
+            <div class = "row">
+                <div class="col  ps-5 py-2">
+                    <p class = "h5">Predict Rating for this Movie</p>
+                </div>
+                <div class = "col py-2 text-end" id = "downTriangle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                    </svg>
+                </div>
+                <div class="col py-2 text-end" id = "upTriangle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                    </svg>
                 </div>
             </div>
 
-            <div class="border border-3 p-4 bg-light mt-3" id = "predictBox">
-                <div class = "row">
-                    <div class="col  p-4">
-                        <p class = "h4">Predict Rating for this Movie</p>
-                    </div>
+            <div class = "row mt-3 mb-3 ratingLine">
+                <div class="col-2 ps-5">
+                    <i class = "h5 pt-2">Predict Rating: </i>
                 </div>
-
-                <div class = "row mt-3 mb-3 ratingLine">
-                    <div class="col-3 ps-5">
-                        <i class = "h5 pt-2">Predict Rating: </i>
-                    </div>
-                    <div class = "col-1">
-                        <i id = "predictRating" class = "h5 pt-2"></i>
-                        <p id = "movieId" class="visually-hidden">${movieId}</p>
-                    </div>
-                </div>
-                <div class="text-center pt-3 ratingLine" >
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
-                         alt="pic" class = "img-fluid">
+                <div class = "col-1">
+                    <i id = "predictRating" class = "h5 pt-2"></i>
+                    <p id = "movieId" class="visually-hidden">${movieId}</p>
                 </div>
             </div>
-
-
+            <div class="text-center pt-3 ratingLine" >
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
+                     alt="pic" class = "img-fluid">
+            </div>
         </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top pt-3 pb-2 border bg-white">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top pt-3 pb-2 bg-white">
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav">
                     <div class = "nav-item text-dark h3" id = "userId">UserId</div>
