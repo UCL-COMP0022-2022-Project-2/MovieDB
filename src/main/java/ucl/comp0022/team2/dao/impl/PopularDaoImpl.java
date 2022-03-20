@@ -60,7 +60,7 @@ public class PopularDaoImpl implements PopularDao {
             String sql = "SELECT COUNT(t.movieId) AS score, m.movieId, m.title,m.genres,m.year ,IFNULL(AVG(r.rating),0) AS  avg_rating\n" +
                     "FROM movies m, ratings r, tags t\n"+
                     "where m.movieId = t.movieId\n" +
-                    "and m.movieId = r.movieid\n"+
+                    "and m.movieId = r.movieId\n"+
                     "GROUP BY m.movieId ORDER BY score DESC\n"+
                     "LIMIT "+ limit +";";
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
