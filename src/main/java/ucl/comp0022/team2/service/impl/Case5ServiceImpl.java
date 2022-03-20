@@ -15,7 +15,7 @@ import java.util.List;
 public class Case5ServiceImpl implements Case5Service {
 
     private PersonalityByGenresDao personalityByGenresDao;
-    private boolean isInitialized = true;
+    private boolean isInitialized = false;
 
     @Override
     public void initialize() {
