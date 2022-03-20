@@ -36,7 +36,7 @@ public class PolarisingDaoImpl implements PolarisingDao {
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
-                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
+                double rating = Double.parseDouble(new DecimalFormat("######0.00").format(rs.getDouble("avg_rating")));
                 int year = rs.getInt("year");
                 movie.setMovieId(movieId);
                 movie.setTitle(title);

@@ -92,12 +92,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--redis dependencies-->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>3.2.0</version>
-        </dependency>
+        <!--c3p0 dependencies-->
 
         <dependency>
             <groupId>com.mchange</groupId>
@@ -123,10 +118,6 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.35</version>
         </dependency>
-
-
-
-
 
     </dependencies>
 

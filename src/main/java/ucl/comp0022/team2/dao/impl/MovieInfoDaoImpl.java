@@ -246,7 +246,7 @@ public class MovieInfoDaoImpl implements MovieInfoDao {
 
                 movie.setMovieId(movieId);
                 movie.setTitle(title);
-                movie.setRating(Double.parseDouble(new DecimalFormat("######0.0").format(avg)));
+                movie.setRating(Double.parseDouble(new DecimalFormat("######0.00").format(avg)));
                 if(!genres.equals("NULL")) movie.setGenres(genres);
                 movie.setYear(year);
                 movieList.add(movie);

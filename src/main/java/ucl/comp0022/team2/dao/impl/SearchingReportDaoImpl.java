@@ -63,20 +63,6 @@ public class SearchingReportDaoImpl implements SearchingReportDao {
             // Reading, analysing and saving the results...
             while(rs.next()) {
                 Report report = new Report();
-
-//                //check if it has rating userID
-//                rs.getInt("r.userID");
-//                System.out.println(rs.wasNull());
-//
-//                int userID = 0;
-//
-
-//                if(!rs.wasNull()){
-//                userID = rs.getInt("r.userID");
-//                }else if(rs.wasNull()){
-//                    userID = rs.getInt("t.userID");
-//                }
-//
                 int userID = rs.getInt("r.userID");
                 double rating = rs.getDouble("rating");
                 String tag = rs.getString("tag");

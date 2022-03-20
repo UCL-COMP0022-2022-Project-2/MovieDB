@@ -32,7 +32,7 @@ public class PopularDaoImpl implements PopularDao {
             // Reading, analysing and saving the results...
             while(rs.next()) {
                 Movie movie = new Movie();
-                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
+                double rating = Double.parseDouble(new DecimalFormat("######0.00").format(rs.getDouble("avg_rating")));
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
@@ -66,7 +66,7 @@ public class PopularDaoImpl implements PopularDao {
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 Movie movie = new Movie();
-                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
+                double rating = Double.parseDouble(new DecimalFormat("######0.00").format(rs.getDouble("avg_rating")));
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
@@ -99,7 +99,7 @@ public class PopularDaoImpl implements PopularDao {
             ResultSet rs = MySQLHelper.executingQuery(conn, sql, null);
             while(rs.next()) {
                 Movie movie = new Movie();
-                double rating = Double.parseDouble(new DecimalFormat("######0.0").format(rs.getDouble("avg_rating")));
+                double rating = Double.parseDouble(new DecimalFormat("######0.00").format(rs.getDouble("avg_rating")));
                 int movieId = rs.getInt("movieId");
                 String title = rs.getString("title");
                 String genres = rs.getString("genres");
