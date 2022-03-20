@@ -15,19 +15,18 @@ import java.util.List;
 public class Case5ServiceImpl implements Case5Service {
 
     private PersonalityByGenresDao personalityByGenresDao;
-    private boolean isInitialized = false;
+    private boolean isInitialized = true;
 
     @Override
     public void initialize() {
-        personalityByGenresDao.initialize();
-    }
-//todo remove the initialize below
-    @Override
-    public List<String> getAllGenres() {
         if(!isInitialized){
-            initialize();
+            personalityByGenresDao.initialize();
             isInitialized = true;
         }
+    }
+
+    @Override
+    public List<String> getAllGenres() {
         return personalityByGenresDao.getAllGenres();
     }
 

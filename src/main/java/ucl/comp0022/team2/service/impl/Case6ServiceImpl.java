@@ -14,26 +14,24 @@ import java.util.List;
 public class Case6ServiceImpl implements Case6Service {
 
     private PersonalityByTagsDao personalityByTagsDao;
-    private boolean isInitialized = false;
+    private boolean isInitialized = true;
 
     @Override
     public void initialize() {
-        personalityByTagsDao.initialize();
-    }
-//TODO: remove the initialize below
-    @Override
-    public List<String> getTagsByFirstLetter(char letter) {
         if(!isInitialized){
-            initialize();
+            personalityByTagsDao.initialize();
             isInitialized = true;
         }
+    }
+
+    @Override
+    public List<String> getTagsByFirstLetter(char letter) {
         return personalityByTagsDao.getTagsByInitialLetter(letter);
     }
 
     @Override
     public HashMap<String, Personality> getPersonalitiesByTags(String[] tags) {
-        ArrayList<String> list = (ArrayList<String>) Arrays.asList(tags);
-        return personalityByTagsDao.getPersonalitiesByTags(list);
+        return personalityByTagsDao.getPersonalitiesByTags( Arrays.asList(tags));
     }
 
     @Override

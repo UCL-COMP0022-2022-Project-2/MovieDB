@@ -1,5 +1,6 @@
 window.onload = getPolarizing;
 
+
 function changeHeader(number){
     $("#title").remove();
     var newTitle = '<h1 class = "display-1 text-center" id = "title">Top ' + number + ' Most Polarzing Movies</h1>'

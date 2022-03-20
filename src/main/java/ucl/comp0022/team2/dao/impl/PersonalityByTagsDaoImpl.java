@@ -92,8 +92,8 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
         try {
             connection = MySQLHelper.getConnection();
             for (String tag : tags) {
+                tag = tag.trim();
                 Personality personality = new Personality();
-
                 String sql = "select openness, agreeableness, emotional_stability, conscientiousness, extraversion from tag_personality where tag = ?";
                 ResultSet resultSet = MySQLHelper.executingQuery(connection, sql, Collections.singletonList(tag));
                 if (resultSet.next()) {
@@ -121,11 +121,16 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
                 }
                 //create a new personality to store the average value of  tags' personalities
                 Personality averagePersonality = new Personality();
-                averagePersonality.setOpenness(sumPersonality[0]/count);
-                averagePersonality.setAgreeableness(sumPersonality[1]/count);
-                averagePersonality.setEmotional_stability(sumPersonality[2]/count);
-                averagePersonality.setConscientiousness(sumPersonality[3]/count);
-                averagePersonality.setExtraversion(sumPersonality[4]/count);
+                double openness = sumPersonality[0]/count;
+                averagePersonality.setOpenness(Math.round(openness*100)/100.0);
+                double agreeableness = sumPersonality[1]/count;
+                averagePersonality.setAgreeableness(Math.round(agreeableness*100)/100.0);
+                double emotional_stability = sumPersonality[2]/count;
+                averagePersonality.setEmotional_stability(Math.round(emotional_stability*100)/100.0);
+                double conscientiousness = sumPersonality[3]/count;
+                averagePersonality.setConscientiousness(Math.round(conscientiousness*100)/100.0);
+                double extraversion = sumPersonality[4]/count;
+                averagePersonality.setExtraversion(Math.round(extraversion*100)/100.0);
                 map.put("average", averagePersonality);
             }
         } catch (Exception e) {
@@ -193,7 +198,9 @@ public class PersonalityByTagsDaoImpl implements PersonalityByTagsDao {
 
     public static void main(String[] args) {
 //        System.out.println(new PersonalityByTagsDaoImpl().initialize());
-//        System.out.println(new PersonalityByTagsImpl().getTagsByInitialLetter('a'));
-//        System.out.println(new PersonalityByTagsImpl().getPersonalitiesByGenres(new PersonalityByTagsImpl().getTagsByInitialLetter('a')));
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("QUIRKY");
+        arrayList.add("QUOTABLE");
+        System.out.println(new PersonalityByTagsDaoImpl().getPersonalitiesByTags(arrayList));
     }
 }

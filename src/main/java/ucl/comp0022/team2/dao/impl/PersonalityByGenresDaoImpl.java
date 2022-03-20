@@ -93,9 +93,7 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
             //read the genres for this movie
             Connection conn = MySQLHelper.getConnection();
             for (String sub : genres) {
-//                    System.out.println(sub);
-
-
+                sub = sub.trim();
                 String sql = "SELECT * FROM genre_personality WHERE genre = ?;";
                 List<String> param_genre = new ArrayList<>();
                 param_genre.add(sub);
@@ -144,11 +142,11 @@ public class PersonalityByGenresDaoImpl implements PersonalityByGenresDao {
                 tempResult[i] = tempResult[i] / num_genre;
             }
             Personality personality = new Personality();
-            personality.setOpenness(tempResult[0]);
-            personality.setAgreeableness(tempResult[1]);
-            personality.setEmotional_stability(tempResult[2]);
-            personality.setConscientiousness(tempResult[3]);
-            personality.setExtraversion(tempResult[4]);
+            personality.setOpenness(Math.round(tempResult[0]*100)/100.0);
+            personality.setAgreeableness(Math.round(tempResult[1]*100)/100.0);
+            personality.setEmotional_stability(Math.round(tempResult[2]*100)/100.0);
+            personality.setConscientiousness(Math.round(tempResult[3]*100)/100.0);
+            personality.setExtraversion(Math.round(tempResult[4]*100)/100.0);
             result.put(sb.toString(), personality);
             // Close the connection to release resources...
             MySQLHelper.closeConnection(conn);

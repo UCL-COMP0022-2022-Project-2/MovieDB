@@ -17,19 +17,20 @@ public class Case5Controller {
 
     private Case5Service case5Service;
 
-    @RequestMapping("getAllGenres.do")
+    @RequestMapping("/getAllGenres.do")
     @ResponseBody
     public List<String> getAllGenres(){
+        case5Service.initialize();
         return case5Service.getAllGenres();
     }
 
-    @RequestMapping("getRatingsByGenres.do")
+    @RequestMapping("/getRatingsByGenres.do")
     @ResponseBody
     public HashMap<String, Personality> getRatingsByGenres(String[] genres){
         return case5Service.getPersonalitiesByGenres(genres);
     }
 
-    @RequestMapping("getTotalGenresAverageRatings.do")
+    @RequestMapping("/getTotalGenresAverageRatings.do")
     @ResponseBody
     public Personality getTotalGenresAverageRatings(){
         return case5Service.getAllGenresAveragePersonality();

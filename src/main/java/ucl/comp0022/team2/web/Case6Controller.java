@@ -16,19 +16,32 @@ public class Case6Controller {
 
     private Case6Service case6Service;
 
-    @RequestMapping("getTagsByInitialLetter/{letter}.do")
+    @RequestMapping("/getTagsInitialize.do")
+    @ResponseBody
+    public void getTagsInitialize(){
+        case6Service.initialize();
+    }
+
+    @RequestMapping("/getTagsByInitialLetter/{letter}.do")
     @ResponseBody
     public List<String> getTagsByInitialLetter(@PathVariable char letter){
         return case6Service.getTagsByFirstLetter(letter);
     }
 
-    @RequestMapping("getRatingsByTags.do")
+    @RequestMapping("/getTagsByInitialLetter/")
+    @ResponseBody
+    public List<String> getTagsByInitialLetterSpecial(){
+        return case6Service.getTagsByFirstLetter('#');
+    }
+
+
+    @RequestMapping("/getRatingsByTags.do")
     @ResponseBody
     public HashMap<String, Personality> getRatingsByTags(String[] tags){
         return case6Service.getPersonalitiesByTags(tags);
     }
 
-    @RequestMapping("getTotalTagsAverageRatings.do")
+    @RequestMapping("/getTotalTagsAverageRatings.do")
     @ResponseBody
     public Personality getTotalTagsAverageRatings(){
         return case6Service.getAllTagsAveragePersonality();

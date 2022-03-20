@@ -1,4 +1,5 @@
 window.onload = initial;
+var contextPath = $("#contextPath").val();
 
 function initial(){
     $("#genreContent").hide()
@@ -12,6 +13,9 @@ $("#tagLink").on("click", function(){
     $("#content").show()
     $("#tagSubmit").show()
     $("#genreSubmit").hide()
+    $.ajax({
+        url: contextPath + "/getTagsInitialize.do"
+    })
     clearAll()
 })
 
@@ -22,7 +26,7 @@ $("#genreLink").on("click", function(){
     $("#genreSubmit").show()
     clearAll()
     $.ajax({
-        url: "/MovieDB_war_exploded/getAllGenres.do",
+        url: contextPath + "/getAllGenres.do",
         success(resp){
             $(".genre").remove()
             printGenres(resp)
@@ -32,7 +36,7 @@ $("#genreLink").on("click", function(){
 
 $(".letter").on("click", function(){
     $.ajax({
-        url: "getTagsByInitialLetter/" + this.innerHTML + ".do",
+        url: contextPath + "/getTagsByInitialLetter/" + this.innerHTML + ".do",
         success(resp){
             $(".tag").remove()
             printTags(resp)
@@ -91,12 +95,11 @@ $("#tagSubmit").on("click", function(){
     for(var i = 0; i < $(".tagInbox").length; i++){
         tagString[i] = $(".tagInbox").eq(i).text();
     }
-    alert(tagString)
     $.ajax({
-        url:  + "/MovieDB_war_exploded/getPersonalitiesByTags.do",
+        url:  contextPath + "/getRatingsByTags.do",
         traditional: true,
         data:{
-            tagString
+            tags: tagString
         },
         success(resp){
             console.log(resp)
@@ -108,12 +111,11 @@ $("#genreSubmit").on("click", function(){
     for(var i = 0; i < $(".genreInBox").length; i++){
         genreString[i] = $(".genreInBox").eq(i).text();
     }
-    alert(genreString)
     $.ajax({
-        url:  + "/MovieDB_war_exploded/getRatingsByGenres.do",
+        url:  contextPath + "/getRatingsByGenres.do",
         traditional: true,
         data:{
-            genreString
+            genres: genreString
         },
         success(resp){
             console.log(resp)

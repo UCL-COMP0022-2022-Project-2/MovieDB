@@ -15,6 +15,7 @@
     <title>Predict Who Will Like the Movie</title>
 </head>
 <body>
+<input id="contextPath" type="hidden" value=${pageContext.request.contextPath}/>
 <div class = "container-fluid">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
 

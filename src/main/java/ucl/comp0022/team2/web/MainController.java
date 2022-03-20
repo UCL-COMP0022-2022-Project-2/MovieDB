@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 
-    //The default page to open. Now set to example.jsp
+    //The default page to open. Now set to homepage.jsp
     @RequestMapping("/")
     public String defaultPage(){
-        return "example";
+        return "homepage";
     }
 
     @RequestMapping("/example.html")

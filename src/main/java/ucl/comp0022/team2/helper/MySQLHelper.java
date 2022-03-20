@@ -18,7 +18,8 @@ public class MySQLHelper {
             dataSource.setInitialPoolSize(10);
             dataSource.setMaxPoolSize(1000);
             dataSource.setMinPoolSize(10);
-            dataSource.setMaxStatements(200);
+//            dataSource.setMaxStatements(200);
+            dataSource.setMaxStatements(0);
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
