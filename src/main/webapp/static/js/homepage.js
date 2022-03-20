@@ -98,6 +98,7 @@ function printSelectPage(){
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
+        async:false,
         data: {
             selectParams: [title, ratingString, genreType, yearNum],
             sortParams: [compareValue, compareOrder, limit]
@@ -115,6 +116,7 @@ function allPost(){
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
+        async:false,
         data:{
             selectParams: ["", "", "", ""],
             sortParams: ["","","0,50"]
@@ -133,6 +135,7 @@ function getMovieCount(cTitle, cRating, cYear, cGenre){
     $.ajax({
         url: contextPath + "/getMoviesCount.do",
         traditional: true,
+        async:false,
         data:{
             selectParams: [cTitle, cRating, cYear, cGenre],
             sortParams: ["", "", ""]
@@ -358,6 +361,7 @@ $("#searchByName").on("click", function () {
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
+        async: false,
         data:{
             selectParams: [title, ratingString, genreType, yearNum],
             sortParams: [compareValue,compareOrder,limit]
@@ -394,6 +398,7 @@ $("#titleAsc").on("click", function () {
     $.ajax({
             url: contextPath + "/getRequiredMovies.do",
             traditional: true,
+            async:false,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
                 sortParams: [compareValue, compareOrder, limit]
@@ -419,6 +424,7 @@ $("#titleDesc").on("click", function () {
     $.ajax({
             url: contextPath + "/getRequiredMovies.do",
             traditional: true,
+            async:false,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
                 sortParams: ["title", "desc", limit]
@@ -444,6 +450,7 @@ $("#ratingAsc").on("click", function () {
     $.ajax({
             url: contextPath + "/getRequiredMovies.do",
             traditional: true,
+            async:false,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
                 sortParams: [compareValue, compareOrder, limit]
@@ -469,6 +476,7 @@ $("#ratingDesc").on("click", function () {
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
+        async:false,
         data:{
             selectParams: [title, ratingString, genreType, yearNum],
             sortParams: [compareValue, compareOrder, limit]
@@ -493,6 +501,7 @@ $("#yearAsc").on("click", function () {
     $.ajax({
             url: contextPath + "/getRequiredMovies.do",
             traditional: true,
+            async:false,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
                 sortParams: [compareValue, compareOrder, limit]
@@ -517,6 +526,7 @@ $("#yearDesc").on("click", function () {
     $.ajax({
             url: contextPath + "/getRequiredMovies.do",
             traditional: true,
+            async:false,
             data:{
                 selectParams: [title, ratingString, genreType, yearNum],
                 sortParams: [compareValue, compareOrder, limit]
