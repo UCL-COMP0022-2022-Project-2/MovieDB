@@ -351,6 +351,8 @@ $("#searchByName").on("click", function () {
     }
 
     // pass parameter and get the count
+    inWhichDecade = 0;
+    currentPage = 1;
     getMovieCount(title, ratingString, genreType, yearNum);
     limit = "0,50";
 
