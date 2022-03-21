@@ -76,7 +76,7 @@
 
             <div class = "row mt-3 mb-3 ratingLine">
                 <div class="col-2 ps-5">
-                    <i class = "h5 pt-2">Predict Rating: </i>
+                    <i class = "h5 pt-2">Predicted Rating: </i>
                 </div>
                 <div class = "col-1">
                     <i id = "predictRating" class = "h5 pt-2"></i>
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="text-center pt-3 ratingLine" >
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png"
+                <img src="${pageContext.request.contextPath}/images/algorithm.png"
                      alt="pic" class = "img-fluid">
             </div>
         </div>

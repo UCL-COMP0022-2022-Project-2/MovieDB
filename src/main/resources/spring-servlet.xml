@@ -23,5 +23,7 @@
     <mvc:resources mapping="/jquery/**" location="/static/jquery/"  />
     <mvc:resources mapping="/bootstrap/**" location="/static/bootstrap/"  />
     <mvc:resources mapping="/js/**" location="/static/js/"  />
+    <mvc:resources mapping="/images/**" location="/static/images/"  />
+
 
 </beans>
