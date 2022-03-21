@@ -10,7 +10,7 @@ var currentPage = 1;
 var limit = "";
 var compareValue = "";
 var compareOrder = "";
-var inWhichDecade;
+var inWhichDecade = 1;
 // set All global variables to blank
 
 window.onload = allPost;
@@ -61,6 +61,7 @@ function inform(){
 
 // Separation Pages Function Part
 function showPageSelectButton(){
+    alert("showPageSelectButton")
     if (currentPage == 1){
         $("#firstPage").hide();
     } else{
@@ -89,6 +90,7 @@ function showPageSelectButton(){
 //This is a function used by separation pages to print items
 
 function printSelectPage(){
+    alert("printSelectPage")
     if (currentPage == pageCount){
         limit = (currentPage - 1) * 50 + "," + 50;
     } else {
@@ -110,8 +112,8 @@ function printSelectPage(){
 }
 //This is the button to get all movies
 function allPost(){
+    alert("allPost")
     getMovieCount("", "", "", "")
-    showPageSelectButton();
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
         traditional: true,
@@ -130,6 +132,7 @@ $("#getAllPosts").on("click", allPost);
 
 //This is the function to pass variables when choosing separation pages and get the count of required movies
 function getMovieCount(cTitle, cRating, cYear, cGenre){
+    alert("getMovieCount")
     $.ajax({
         url: contextPath + "/getMoviesCount.do",
         traditional: true,
@@ -159,63 +162,6 @@ function printPageItem(resp){
     // add blocks to HTML
     $("#previousTenPages").after(pageList);
 
-    // This is the event which is for selecting next ten pages button
-    $("#nextTenPages").on("click", function(){
-
-        //divide pages by ten, get the divider for the number of decades and set current page number to 10n+1
-        inWhichDecade = Math.floor(currentPage / 10) + 1;
-        currentPage = inWhichDecade * 10 + 1;
-
-        // only when all page number over 10 and not the last ten items this button would work
-        if(pageCount > 10 && inWhichDecade !== (Math.floor(pageCount / 10))+1) {
-
-            // use print function to print the 10n+1 page
-            printSelectPage();
-
-            // change page separation buttons to the next ten ones
-            $(".pageContent").slice((inWhichDecade - 1) * 10, inWhichDecade * 10).hide();
-            if (inWhichDecade === Math.floor(pageCount) / 10 + 1) {
-                $(".pageContent").slice(inWhichDecade * 10, pageCount).show();
-            } else {
-                $(".pageContent").slice(inWhichDecade * 10, (inWhichDecade + 1) * 10).show();
-            }
-        }
-    })
-
-    // This is similar to the next ten one
-    $("#previousTenPages").on("click", function(){
-        if(currentPage > 10) {
-            inWhichDecade = Math.floor(currentPage / 10) + 1;
-            currentPage = (inWhichDecade-2) * 10 + 1;
-
-            printSelectPage();
-            if (inWhichDecade === Math.floor(pageCount) / 10 + 1) {
-                $(".pageContent").slice((inWhichDecade - 1) * 10, pageCount).hide();
-            } else{
-                $(".pageContent").slice((inWhichDecade - 1) * 10, inWhichDecade * 10).hide();
-            }
-
-            $(".pageContent").slice((inWhichDecade - 2) * 10, (inWhichDecade - 1) * 10).show();
-
-        }
-    })
-
-    // This is the function button to return to the first page and change separation page blocks to the first ten ones
-    $("#firstPage").on("click", function(){
-        currentPage = 1;
-        printSelectPage();
-        $(".pageContent:gt(10)").hide();
-        $(".pageContent:lt(10)").show();
-    })
-    // similar to the previous one
-    $("#finalPage").on("click", function (){
-        currentPage = pageCount;
-        printSelectPage();
-        $(".pageContent").slice((Math.floor(pageCount/10)*10) , pageCount).show();
-        $(".pageContent").slice(0, Math.floor(pageCount/10)*10).hide();
-    })
-
-    // first hide other separation pages blocks other than first ten ones
     if(pageCount > 10){
         $(".pageContent:gt(9)").hide();
     }
@@ -240,6 +186,60 @@ function printPageItem(resp){
         printSelectPage()
     });
 }
+
+$("#nextTenPages").on("click", function(){
+
+    //divide pages by ten, get the divider for the number of decades and set current page number to 10n+1
+    inWhichDecade = Math.floor(currentPage / 10) + 1;
+    currentPage = inWhichDecade * 10 + 1;
+
+    alert("nextTenPages")
+    // only when all page number over 10 and not the last ten items this button would work
+    if(pageCount > 10 && inWhichDecade !== (Math.floor(pageCount / 10))+1) {
+
+        // use print function to print the 10n+1 page
+        printSelectPage();
+
+        // change page separation buttons to the next ten ones
+        $(".pageContent").slice((inWhichDecade - 1) * 10, inWhichDecade * 10).hide();
+        if (inWhichDecade === Math.floor(pageCount) / 10 + 1) {
+            $(".pageContent").slice(inWhichDecade * 10, pageCount).show();
+        } else {
+            $(".pageContent").slice(inWhichDecade * 10, (inWhichDecade + 1) * 10).show();
+        }
+    }
+})
+
+$("#previousTenPages").on("click", function(){
+    if(currentPage > 10) {
+        inWhichDecade = Math.floor(currentPage / 10) + 1;
+        currentPage = (inWhichDecade-2) * 10 + 1;
+
+        printSelectPage();
+        if (inWhichDecade === Math.floor(pageCount) / 10 + 1) {
+            $(".pageContent").slice((inWhichDecade - 1) * 10, pageCount).hide();
+        } else{
+            $(".pageContent").slice((inWhichDecade - 1) * 10, inWhichDecade * 10).hide();
+        }
+
+        $(".pageContent").slice((inWhichDecade - 2) * 10, (inWhichDecade - 1) * 10).show();
+
+    }
+})
+
+$("#firstPage").on("click", function(){
+    currentPage = 1;
+    printSelectPage();
+    $(".pageContent:gt(10)").hide();
+    $(".pageContent:lt(10)").show();
+})
+
+$("#finalPage").on("click", function (){
+    currentPage = pageCount;
+    printSelectPage();
+    $(".pageContent").slice((Math.floor(pageCount/10)*10) , pageCount).show();
+    $(".pageContent").slice(0, Math.floor(pageCount/10)*10).hide();
+})
 // The Selection Function Part
 //The primary function to print the first 50 items after selection
 function printItem(resp){
