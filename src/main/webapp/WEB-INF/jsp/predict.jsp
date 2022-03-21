@@ -36,7 +36,7 @@
             </li>
             <li class="nav-item dropdown mx-2">
                 <a class="nav-link dropdown-toggle text-black" href="javascript:void(0)"
-                   role = "button" data-bs-toggle = "dropdown">Predict Who Will Like the Movie</a>
+                   role = "button" data-bs-toggle = "dropdown" id = "predictType">Predict Who Will Like the Movie</a>
                 <ul class = "dropdown-menu">
                     <a class="dropdown-item" href = "javascript:void(0)" id = "tagLink">
                         Based on Tags

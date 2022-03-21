@@ -7,7 +7,6 @@ function changeHeader(number){
     $("#caption").append(newTitle);
 }
 
-
 function printPopularItem(resp){
     let i;
 

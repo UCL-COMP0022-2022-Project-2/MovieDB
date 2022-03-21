@@ -15,6 +15,7 @@ function initial() {
 }
 
 $("#tagLink").on("click", function () {
+    $("#predictType").text("Predict Who Will Like the Movie Based on Tags")
     $("#genreContent").hide()
     $("#content").show()
     $("#tagSubmit").show()
@@ -26,6 +27,7 @@ $("#tagLink").on("click", function () {
 })
 
 $("#genreLink").on("click", function () {
+    $("#predictType").text("Predict Who Will Like the Movie Based on Genres")
     $("#genreContent").show()
     $("#content").hide()
     $("#tagSubmit").hide()
