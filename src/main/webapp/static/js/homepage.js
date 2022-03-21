@@ -61,7 +61,6 @@ function inform(){
 
 // Separation Pages Function Part
 function showPageSelectButton(){
-    alert("showPageSelectButton")
     if (currentPage == 1){
         $("#firstPage").hide();
     } else{
@@ -90,7 +89,6 @@ function showPageSelectButton(){
 //This is a function used by separation pages to print items
 
 function printSelectPage(){
-    alert("printSelectPage")
     if (currentPage == pageCount){
         limit = (currentPage - 1) * 50 + "," + 50;
     } else {
@@ -112,7 +110,6 @@ function printSelectPage(){
 }
 //This is the button to get all movies
 function allPost(){
-    alert("allPost")
     getMovieCount("", "", "", "")
     $.ajax({
         url: contextPath + "/getRequiredMovies.do",
@@ -132,7 +129,6 @@ $("#getAllPosts").on("click", allPost);
 
 //This is the function to pass variables when choosing separation pages and get the count of required movies
 function getMovieCount(cTitle, cRating, cYear, cGenre){
-    alert("getMovieCount")
     $.ajax({
         url: contextPath + "/getMoviesCount.do",
         traditional: true,
@@ -193,7 +189,6 @@ $("#nextTenPages").on("click", function(){
     inWhichDecade = Math.floor(currentPage / 10) + 1;
     currentPage = inWhichDecade * 10 + 1;
 
-    alert("nextTenPages")
     // only when all page number over 10 and not the last ten items this button would work
     if(pageCount > 10 && inWhichDecade !== (Math.floor(pageCount / 10))+1) {
 
@@ -292,10 +287,6 @@ function printItem(resp){
     }
 
 }
-// This is also a check function
-/*$("#check").on("click", function (){
-    alert("title: " + title + "rating: " + ratingString + "year: " + yearNum + "genre: " + genreType);
-});*/
 
 // Main selection event to pass parameter
 $("#searchByName").on("click", function () {
@@ -532,10 +523,3 @@ $("#yearDesc").on("click", function () {
     )
 })
 
-/*
-$(".title").on("click", function () {
-    alert(this.id);
-    alert("please wait, it takes long time to load");
-});
-
- */
