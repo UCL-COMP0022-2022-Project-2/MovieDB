@@ -16,6 +16,12 @@
     padding-top: 1%;
     padding-bottom: 1%;
 }
+.tag{
+    background-color: white;
+}
+.genre{
+    background-color: white;
+}
 #movieDBNavigation .nav-link:hover{
     text-decoration: underline;
 }
