@@ -262,7 +262,7 @@ function displayReport(tagsOrGenres){
         "conscientiousness: " + resultsAverageScoreArray[3] + ", " +
         "extraversion: " + resultsAverageScoreArray[4]);
     var line5 = $("<h2></h2>").text("So, the movies with selected " + tagsOrGenres +
-        " is going to be rated positively (higher than the median score 2.75) by people who are");
+        " is going to be rated higher than the median rating (2.75) by people who are");
     var line6 =  $("<h4 ></h4>").text(positiveRatedPersonalities.join(", "));
     var line7 = $("<h2></h2>").text("The average personality score of all " + tagsOrGenres + " is:");
     var line8 = $("<h4 ></h4>").text("openness: " + totalAverageScoreArray[0] + ", " +
