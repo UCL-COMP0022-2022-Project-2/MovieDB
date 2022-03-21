@@ -63,9 +63,9 @@
     <div class = "row d-flex align-items-center border border-4 ">
         <div class = "col-11 row" id = "box"></div>
         <div class = "col-1 text-end">
-            <button class="btn btn-light m-1" id = "tagSubmit">Submit</button>
-            <button class="btn btn-light m-1" id = "genreSubmit">Submit</button>
-            <button class = "btn btn-light m-1" id = "clear">Clear</button>
+            <button class="btn btn-light m-1 border" id = "tagSubmit">Submit</button>
+            <button class="btn btn-light m-1 border" id = "genreSubmit">Submit</button>
+            <button class = "btn btn-light m-1 border" id = "clear">Clear</button>
         </div>
     </div>
     <br>
